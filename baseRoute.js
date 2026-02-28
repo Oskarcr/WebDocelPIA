@@ -14,6 +14,6 @@ router.get("/", (req, res) => {
     res.send("si");
 });
 
-router.get("/test", (req, res) => res.send("Hola Mundo"));
+router.get("/test", (req, res) => res.send("Hola desde branch"));
 
 module.exports = router;
