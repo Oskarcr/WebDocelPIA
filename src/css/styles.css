@@ -1,0 +1,27 @@
+* {
+    --primary-color: #754a32;
+    --secondary-color: #ffffff;
+    --padding-small: 5px;
+    font-family: "ZTNatureMedium";
+}
+
+@font-face {
+    font-family: "ZTNatureMedium";
+    src: url("../assets/ZTNatureMedium.ttf");
+}
+
+.header-wrapper {
+    display: flex;
+    position: sticky;
+    top: 0;
+    width: 100vw;
+    height: 100px;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--primary-color);
+}
+
+.header-button {
+    height: 100%;
+    padding: var(--padding-small);
+}
