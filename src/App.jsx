@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
 import mernImage from "./assets/mern.png";
+import { OrderStatus } from '@/DocelCore';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -16,7 +15,7 @@ function App() {
     .then(async res => console.log(await res.text()))
     .catch(err => console.log(err));
   }, []);
-
+  
   return <>
       <img style={{
         width: "100vw",
@@ -25,4 +24,4 @@ function App() {
     </>
 }
 
-export default App
+export default App;
