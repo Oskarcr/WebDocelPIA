@@ -1,11 +1,11 @@
-import Furniture from "./pages/Furniture.jsx";
 import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import Shopping from "./pages/Shopping.jsx";
 
 const Pages = {
     Login,
-    Furniture,
+    Shopping,
     Home,
     NotFound
 };
