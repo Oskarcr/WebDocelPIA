@@ -1,4 +1,8 @@
 * {
+    font-family: "ZTNatureMedium";
+}
+
+body {
     --primary-color: #754a32;
     --secondary-color: #ffffff;
     --font-medium: 32px;
@@ -7,7 +11,52 @@
     --padding-larger: 30px;
     --gap-medium: 10px;
     --gap-larger: 30px;
-    font-family: "ZTNatureMedium";
+    --input-background-color: red;
+    --input-border-color: red;
+    --input-active-border-color: red;
+    --input-placeholder-color: red;
+    --text-color-primary: red;
+    --text-color-secondary: red;
+    --button-background-color: red;
+    --button-active-color: red; 
+    --box-size: 50px;
+    --box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+}
+
+input {
+    height: var(--box-size);
+    font-size: 1.1rem;
+    box-sizing: border-box;
+    background-color: var(--input-background-color);
+    border: solid 3px;
+    border-color: var(--input-border-color);
+    transition: border-color 0.1s ease;
+    color: var(--text-color-primary);
+    padding: 10px;
+}
+
+input::placeholder {
+    color: var(--input-placeholder-color);
+}
+
+input:focus {
+    border-color: var(--input-active-border-color);
+}
+
+button {
+    height: var(--box-size);
+    font-size: 1.1rem;
+    background-color: var(--button-background-color);
+    transition: background-color 0.1s ease;
+}
+
+button:active {
+    background-color: var(--button-active-color);
+}
+
+#root {
+    width: 100vw;
+    height: 100vh;
 }
 
 @font-face {
