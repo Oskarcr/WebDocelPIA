@@ -1,13 +1,15 @@
 import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import ProductDetails from "./pages/ProductDetails.jsx";
 import Shopping from "./pages/Shopping.jsx";
 
 const Pages = {
     Login,
     Shopping,
     Home,
-    NotFound
+    NotFound,
+    ProductDetails
 };
 
 Object.freeze(Pages);
