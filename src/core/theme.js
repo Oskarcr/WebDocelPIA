@@ -7,7 +7,7 @@ const Theme = {
     PRIMARY: "#754a32",
 
     /**
-     * Es un color que apya al `PRIMARY`, ideal para botones
+     * Es un color que apoya al `PRIMARY`, ideal para botones
      * extras / tono de ayuda.
      * @readonly
      */
