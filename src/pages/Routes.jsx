@@ -1,17 +1,16 @@
-import NotFound from "./NotFound.jsx"
+import { Pages } from "@/DocelCore";
 import App from "../App.jsx";
-import Home from "./Home.jsx";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import Furniture from "./Furniture.jsx";
 
 export default function AppRoutes() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/not_found" element= {<NotFound/>} />
+                <Route path="/not_found" element= {<Pages.NotFound/>} />
                 <Route path="/template" element={<App />} />
-                <Route path="/" element= {<Home />} />
-                <Route path="/furniture" element={<Furniture/>} />
+                <Route path="/" element= {<Pages.Home />} />
+                <Route path="/furniture" element={<Pages.Furniture/>} />
+                <Route path="/login" element={<Pages.Login/>}/>
             </Routes>
         </BrowserRouter>
     )

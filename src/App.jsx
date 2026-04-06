@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import mernImage from "./assets/mern.png";
-import { OrderStatus } from '@/DocelCore';
 
 function App() {
   const [count, setCount] = useState(0)
