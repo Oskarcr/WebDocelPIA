@@ -1,20 +1,18 @@
-import { Theme } from "@/DocelCore";
-import ButtonHeader from "../components/ButtonHeader";
+import { Components, Theme } from "@/DocelCore";
 import "../css/styles.css";
 import { Link as RouterLink } from "react-router-dom";
-import ShoppingItem from "../components/ShoppingItem";
 
 const shoppingItems = [
-    {index: 0, name: "Aparador bonito", price:1000, src: "furniture/sideboard.png"},
-    {index: 1, name: "Aparador mediano", price:1200, src: "furniture/sideboard2.png"},
-    {index: 2, name: "Cajonera mediana", price:2500, src: "furniture/chest.png"},
-    {index: 3, name: "Armario mediano", price:2800, src: "furniture/closet.png"},
-    {index: 4, name: "Base de cama familiar", price:4800, src: "furniture/bed_base.png"},
-    {index: 5, name: "Silla bonita", price:800, src: "furniture/chair.png"}
+    {path: "/login", name: "Aparador bonito", price:1000, src: "furniture/sideboard.png"},
+    {path: "/login", name: "Aparador mediano", price:1200, src: "furniture/sideboard2.png"},
+    {path: "/login", name: "Cajonera mediana", price:2500, src: "furniture/chest.png"},
+    {path: "/login", name: "Armario mediano", price:2800, src: "furniture/closet.png"},
+    {path: "/login", name: "Base de cama familiar", price:4800, src: "furniture/bed_base.png"},
+    {path: "/login", name: "Silla bonita", price:800, src: "furniture/chair.png"}
 ];
 
 const children = shoppingItems.map((item) => {
-    return <ShoppingItem key={item.index} src={item.src} name={item.name} price={item.price}></ShoppingItem>
+    return <Components.ShoppingItem ShoppingItem path={item.path} src={item.src} name={item.name} price={item.price} />
 });
 
 export default function Shopping() {
@@ -26,16 +24,16 @@ export default function Shopping() {
                 </div>
                 <div className="buttons-wrapper">
                     <RouterLink to="/" className="link-button">
-                        <ButtonHeader className="header-button" name={"INICIO"}></ButtonHeader>
+                        <Components.ButtonHeader className="header-button" name={"INICIO"}/>
                     </RouterLink>
                     <RouterLink to="/not_found" className="link-button">
-                        <ButtonHeader className="header-button" name={"PEDIDOS"}></ButtonHeader>
+                        <Components.ButtonHeader className="header-button" name={"PEDIDOS"}/>
                     </RouterLink>
                     <RouterLink to="/shopping" className="link-button">
-                        <ButtonHeader className="header-button" name={"MUEBLES"}></ButtonHeader>
+                        <Components.ButtonHeader className="header-button" name={"MUEBLES"}/>
                     </RouterLink>
                     <RouterLink to="/not_found" className="link-button">
-                        <ButtonHeader className="header-button" name={"PERFIL"}></ButtonHeader>
+                        <Components.ButtonHeader className="header-button" name={"PERFIL"}/>
                     </RouterLink>
                 </div>
             </div>

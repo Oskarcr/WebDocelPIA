@@ -107,15 +107,10 @@ button:active {
     box-sizing: border-box;
 }
 
-.header-button:hover {
-    background-color: #a07258 !important;
-}
-
 #shopping-wrapper {
     display: flex;
     padding: var(--padding-larger);
     height: calc(100% - 100px);
-    background-color: aqua;
     justify-content: flex-start;
     align-items: center;
     gap: var(--gap-larger);
@@ -143,7 +138,7 @@ button:active {
     height: 500px;
     padding: var(--padding-small);
     box-sizing: border-box;
-    box-shadow: 0 0 8px black;
+    box-shadow: var(--box-shadow);
 }
 
 .item-image {

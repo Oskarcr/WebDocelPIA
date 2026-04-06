@@ -1,5 +1,4 @@
-import "../core/theme.js"
-import Theme from "../core/theme.js"
+import { Theme } from "@/DocelCore";
 
 export default function ButtonHeader({className,name}) {
     return (
