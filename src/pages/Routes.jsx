@@ -9,7 +9,7 @@ export default function AppRoutes() {
                 <Route path="/not_found" element= {<Pages.NotFound/>} />
                 <Route path="/template" element={<App />} />
                 <Route path="/" element= {<Pages.Home />} />
-                <Route path="/furniture" element={<Pages.Furniture/>} />
+                <Route path="/shopping" element={<Pages.Shopping/>} />
                 <Route path="/login" element={<Pages.Login/>}/>
             </Routes>
         </BrowserRouter>
