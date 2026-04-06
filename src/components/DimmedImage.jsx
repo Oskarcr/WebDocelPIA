@@ -1,4 +1,3 @@
-
 /**
  * @typedef DimmedImageParams
  * @property {import("react").CSSProperties} style

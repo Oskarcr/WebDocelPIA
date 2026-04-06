@@ -1,9 +1,9 @@
 import { Theme } from "@/DocelCore";
 import { Link as RouterLink } from "react-router-dom";
 
-export default function ShoppingItem({ index = "", name = "", price = "", src = "" }) {
+export default function ShoppingItem({ path = "", name = "", price = "", src = "" }) {
     return (
-        <RouterLink id={index}>
+        <RouterLink to={path}>
             <div className="item-card" style={{
                 backgroundColor: Theme.PRIMARY,
                 color: Theme.TEXT.SECONDARY
