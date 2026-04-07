@@ -10,7 +10,7 @@
  * @param {DimmedImageParams} param0 
  */
 export default function DimmedImage({src = "", style = {}, childStyle = {}, children}) {
-    style.position = "relative";
+    if(!style.position) style.position = "relative";
     style.boxShadow = "var(--box-shadow)";
     Object.assign(childStyle, {
         position: "relative",

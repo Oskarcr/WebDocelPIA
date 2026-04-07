@@ -1,7 +1,9 @@
+import { Components, Theme } from "@/DocelCore";
+
 export default function Home() {
     return (
-        <>
-            <div>Holas</div>
-        </>
+        <Components.Main horizontal>
+            <Components.Column color={Theme.BLACK}/>
+        </Components.Main>
     )
 }
