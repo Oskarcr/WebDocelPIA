@@ -5,9 +5,11 @@
 body {
     --primary-color: #754a32;
     --secondary-color: #ffffff;
+    --font-small: 24px;
     --font-medium: 32px;
     --font-larger: 40px;
     --padding-small: 5px;
+    --padding-medium: 15px;
     --padding-larger: 30px;
     --gap-medium: 10px;
     --gap-larger: 30px;
@@ -18,7 +20,8 @@ body {
     --text-color-primary: red;
     --text-color-secondary: red;
     --button-background-color: red;
-    --button-active-color: red; 
+    --button-active-color: red;
+    --border-medium: 3px;
     --box-size: 50px;
     --box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
 }
@@ -158,12 +161,50 @@ button:active {
     height: calc(100% - 100px);
     justify-content: center;
     align-items: center;
-    box-sizing: border-box;
 }
 
 #product-card {
+    z-index: 2;
     display: flex;
-    aspect-ratio: 16/10;
+    aspect-ratio: 16/9;
     width: 900px;
     background-color: var(--primary-color);
+    box-sizing: border-box;
+    border: var(--border-medium) solid;
+}
+
+.product-image {
+    display: flex;
+    width: 50%;
+    justify-content: center;
+    aspect-ratio: 1/1;
+}
+
+.image {
+    width: 100%;
+    aspect-ratio: 1/1;
+}
+
+.product-information {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.product {
+    height: 70%;
+    padding: var(--padding-medium);
+}
+
+.product-color {
+    margin: 60px 0;
+    min-height: var(--box-size);
+    padding: var(--border-medium);
+    font-size: var(--font-small);
+    border: var(--border-medium) solid;
+    box-sizing: border-box;
+}
+
+.add-product {
+    width: 100%;
 }
