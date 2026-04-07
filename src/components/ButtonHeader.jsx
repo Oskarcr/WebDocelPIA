@@ -1,12 +1,8 @@
 import { Theme } from "@/DocelCore";
 
-export default function ButtonHeader({className,name}) {
-    return (
-        <>
-            <button className={className} style={{
-                color: Theme.TEXT.SECONDARY,
-                backgroundColor: Theme.PRIMARY
-                }}>{name}</button>
-        </>
-    )
+export default function ButtonHeader({name = ""}) {
+    return (<button className="header-button" style={{
+        color: "var(--text-color-secondary)",
+        backgroundColor: "transparent"
+    }}>{name}</button>);
 }
