@@ -3,6 +3,7 @@
 import Home from "../pages/Home.jsx";
 import Login from "../pages/Login.jsx";
 import NotFound from "../pages/NotFound.jsx";
+import ProductDetails from "../pages/ProductDetails.jsx";
 import Shopping from "../pages/Shopping.jsx";
 import Signup from "../pages/Signup.jsx";
 
@@ -15,7 +16,8 @@ const Pages = {
     Login,
     NotFound,
     Shopping,
-    Signup
+    Signup,
+    ProductDetails
 };
 
 Object.freeze(Pages);
