@@ -10,7 +10,7 @@ export default function ProductDetails() {
                 backgroundColor: Theme.BACKGROUND.SURFACE,
                 position: "relative",
             }}>
-                <Components.DimmedImage src="furniture/background.png" childStyle={{
+                <Components.DimmedImage src="furniture/background_product.png" childStyle={{
                     width: "100%",
                     height: "100%"
                 }}
@@ -30,7 +30,7 @@ export default function ProductDetails() {
                             boxSizing: "border-box",
                             width: "65%",
                             height: "50%",
-                            marginInline: "auto" 
+                            marginInline: "auto"
                         }}
                     />
                 </Components.DimmedImage>
@@ -38,19 +38,19 @@ export default function ProductDetails() {
                     <div id="product-card" style={{
                         backgroundColor: Theme.BACKGROUND.MAIN,
                         borderColor: Theme.PRIMARY
-                        }}>
+                    }}>
                         <div className="product-image">
                             <img src="furniture/bed_base.png" className="image"></img>
                         </div>
                         <div className="product-information">
                             <div className="product">
-                                <Components.TextBox content="Mueble de madera bonito" color={Theme.PRIMARY} fontSize="28px"/>
-                                <Components.TextBox content="Precio: 800MXN" color={Theme.PRIMARY} fontSize="28px"/>
-                                <Components.TextBox content="Acabado: Laca" color={Theme.PRIMARY} fontSize="28px"/>
+                                <Components.TextBox content="Mueble de madera bonito" color={Theme.PRIMARY} fontSize="28px" />
+                                <Components.TextBox content="Precio: 800MXN" color={Theme.PRIMARY} fontSize="28px" />
+                                <Components.TextBox content="Acabado: Laca" color={Theme.PRIMARY} fontSize="28px" />
                                 <div className="product-color" style={{
                                     backgroundColor: Theme.BACKGROUND.MAIN,
                                     color: Theme.PRIMARY
-                                    }}>Color</div>
+                                }}>Color</div>
                             </div>
                             <RouterLink>
                                 <button className="add-product">Agregar</button>
