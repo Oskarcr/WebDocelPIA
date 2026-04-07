@@ -12,6 +12,7 @@ export default function AppRoutes() {
                 <Route path="/shopping" element={<Pages.Shopping/>} />
                 <Route path="/login" element={<Pages.Login/>}/>
                 <Route path="/product_details" element={<Pages.ProductDetails/>}/>
+                <Route path="/signup" element={<Pages.Signup/>}/>
             </Routes>
         </BrowserRouter>
     )
