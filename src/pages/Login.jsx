@@ -13,7 +13,7 @@ export default function Login() {
                 display: "flex"
             }} childStyle={{
                 color: Theme.TEXT.SECONDARY,
-                fontSize: "5.2rem",
+                fontSize: "4.6rem",
                 padding: "20px",
                 boxSizing: "border-box",
                 marginBlock: "auto"
@@ -56,6 +56,7 @@ export default function Login() {
                         color={Theme.BLACK}
                         alignment="center" 
                         content="¿No tienes cuenta?"
+                        href="/signup"
                     />
                 </div>
                 <Components.Column style={{

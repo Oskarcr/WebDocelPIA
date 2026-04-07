@@ -4,6 +4,7 @@ import { Theme } from "@/DocelCore";
  * @typedef ColumnParams
  * @property {import("react").CSSProperties} style
  * @property {string | null} color
+ * @property {boolean} horizontal
  */
 
 /**
