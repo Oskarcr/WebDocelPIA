@@ -64,6 +64,7 @@ button:active {
     src: url("../assets/ZTNatureMedium.ttf");
 }
 
+/* Header */
 .header-wrapper {
     display: flex;
     position: sticky;
@@ -107,6 +108,8 @@ button:active {
     box-sizing: border-box;
 }
 
+
+/* Shopping */
 #shopping-wrapper {
     display: flex;
     padding: var(--padding-larger);
@@ -144,4 +147,21 @@ button:active {
 .item-image {
     aspect-ratio: 1/1;
     width: 400px;
+}
+
+/* Product Details */
+#product-wrapper {
+    display: flex;
+    padding: var(--padding-larger);
+    height: calc(100% - 100px);
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+#product-card {
+    display: flex;
+    aspect-ratio: 16/10;
+    width: 900px;
+    background-color: var(--primary-color);
 }
