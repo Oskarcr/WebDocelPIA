@@ -5,6 +5,7 @@ import Login from "../pages/Login.jsx";
 import NotFound from "../pages/NotFound.jsx";
 import ProductDetails from "../pages/ProductDetails.jsx";
 import Shopping from "../pages/Shopping.jsx";
+import Signup from "../pages/Signup.jsx";
 
 /**
  * Es un objeto que tiene todas los componentes
@@ -15,6 +16,7 @@ const Pages = {
     Login,
     NotFound,
     Shopping,
+    Signup,
     ProductDetails
 };
 
