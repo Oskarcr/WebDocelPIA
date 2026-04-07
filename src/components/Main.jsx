@@ -1,6 +1,15 @@
 import { Components, Theme } from "@/DocelCore";
 
-export default function Main({horizontal = false, children}) {
+/**
+ * @typedef MainParams
+ * @property {boolean} horizontal Si se encuentra, el contenido se apilara como `row`, sino `column`.
+ * @property {boolean} inverted Si esta activo, el header estara en el color inverso.
+ */
+
+/**
+ * @param {MainParams} param0 
+ */
+export default function Main({horizontal = false, inverted = false, children}) {
     return (<div style={{
         backgroundColor: Theme.BACKGROUND.MAIN,
         width: "100%",
@@ -9,7 +18,7 @@ export default function Main({horizontal = false, children}) {
         flexDirection: "column",
         overflow: "hidden"
     }}>
-        <Components.Header/>
+        <Components.Header inverted={inverted}/>
         <div style={{
             flex: 1,
             display: "flex",
