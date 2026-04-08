@@ -4,6 +4,7 @@ import Home from "../pages/Home.jsx";
 import Login from "../pages/Login.jsx";
 import NotFound from "../pages/NotFound.jsx";
 import Orders from "../pages/Orders.jsx";
+import OrderDetails from "../pages/OrderDetails.jsx";
 import ProductDetails from "../pages/ProductDetails.jsx";
 import Profile from "../pages/Profile.jsx";
 import Sales from "../pages/Sales.jsx";
@@ -23,7 +24,8 @@ const Pages = {
     ProductDetails,
     Orders,
     Profile,
-    Sales
+    Sales,
+    OrderDetails
 };
 
 Object.freeze(Pages);
