@@ -3,11 +3,7 @@ import { Components, Theme } from "@/DocelCore";
 export default function Login() {
     return(<Components.Main horizontal>
         <Components.Column color={Theme.BLACK}/>
-        <div style={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "row"
-        }}>   
+        <Components.Flex row>   
             <Components.DimmedImage style={{
                 width: "50%",
                 display: "flex"
@@ -23,10 +19,7 @@ export default function Login() {
                 DECORAR <br/> 
                 TU HOGAR
             </Components.DimmedImage>
-            <div style={{
-                flex: 1,
-                display: "flex",
-                flexDirection: "column",
+            <Components.Flex column style={{
                 backgroundColor: Theme.BACKGROUND.MAIN
             }}>
                 <div style={{
@@ -62,8 +55,8 @@ export default function Login() {
                 <Components.Column style={{
                     marginTop: "auto"
                 }} color={Theme.BLACK} horizontal/>
-            </div>
-        </div>
+            </Components.Flex>
+        </Components.Flex>
         <Components.Column color={Theme.ACCENT}/>
     </Components.Main>);
 }

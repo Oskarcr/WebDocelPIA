@@ -1,5 +1,10 @@
 * {
     font-family: "ZTNatureMedium";
+    scrollbar-width: none; 
+}
+
+*::-webkit-scrollbar {
+    display: none;
 }
 
 body {
@@ -153,6 +158,42 @@ button:active {
 .item-image {
     aspect-ratio: 1/1;
     width: 400px;
+}
+
+/* Pedidos */
+
+.order-option {
+    padding: 20px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-inline: auto;
+    width: 80%;
+    height: 90px;
+    max-width: 1100px;
+    flex-shrink: 0;
+    border: 3px solid;
+    box-shadow: var(--box-shadow);
+    font-size: 1.5rem;
+    align-items: center;
+}
+
+/* Ventas */
+
+.sale-option {
+    padding: 10px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    margin-inline: auto;
+    width: 80%;
+    height: 60px;
+    max-width: 1200px;
+    flex-shrink: 0;
+    border: 3px solid;
+    box-shadow: var(--box-shadow);
+    font-size: 1.1rem;
+    align-items: center;
 }
 
 /* Product Details */

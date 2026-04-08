@@ -37,7 +37,23 @@ const OrderStatus = {
      * Es cuando el pedido se entrego con exito.
      * @readonly
      */
-    CONCLUDED: 6
+    CONCLUDED: 6,
+
+    /**
+     * Convierte en string el nombre de un valor de este enum.
+     * @param {number} n 
+     */
+    toString(n) {
+        const map = {
+            [this.PENDING]: "Pendiente",
+            [this.RETURNED]: "Devuelto",
+            [this.ACCEPTED]: "Aceptado",
+            [this.REJECTED]: "Rechazado",
+            [this.CANCELED]: "Cancelado",
+            [this.CONCLUDED]: "Concluido"
+        };
+        return map[n] ?? "Desconocido";
+    }
 };
 
 Object.freeze(OrderStatus);
@@ -62,7 +78,20 @@ const UserRole = {
      * roles a los usuarios.
      * @readonly
      */
-    ADMINISTRATOR: 3
+    ADMINISTRATOR: 3,
+
+    /**
+     * Convierte en string el nombre de un valor de este enum.
+     * @param {number} n 
+     */
+    toString(n) {
+        const map = {
+            [this.CLIENT]: "Cliente",
+            [this.EMPLOYEE]: "Empleado",
+            [this.ADMINISTRATOR]: "Administrador"
+        };
+        return map[n] ?? "Desconocido";
+    }
 };
 
 Object.freeze(UserRole);
@@ -84,7 +113,20 @@ const FinishType = {
      * Tipo de acabado poliuretano.
      * @readonly
      */
-    POLYURETHANE: 3
+    POLYURETHANE: 3,
+
+    /**
+     * Convierte en string el nombre de un valor de este enum.
+     * @param {number} n 
+     */
+    toString(n) {
+        const map = {
+            [this.VARNISH]: "Barniz",
+            [this.LACQUER]: "Laca",
+            [this.POLYURETHANE]: "Poliuretano"
+        };
+        return map[n] ?? "Desconocido";
+    }
 };
 
 Object.freeze(FinishType);

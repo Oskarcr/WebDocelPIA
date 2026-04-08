@@ -14,13 +14,13 @@ export default function Header({ inverted = false }) {
             <RouterLink to="/" className="link-button">
                 <Components.ButtonHeader name={"INICIO"}/>
             </RouterLink>
-            <RouterLink to="/not_found" className="link-button">
+            <RouterLink to="/orders" className="link-button">
                 <Components.ButtonHeader name={"PEDIDOS"}/>
             </RouterLink>
             <RouterLink to="/shopping" className="link-button">
                 <Components.ButtonHeader name={"MUEBLES"}/>
             </RouterLink>
-            <RouterLink to="/not_found" className="link-button">
+            <RouterLink to="/profile" className="link-button">
                 <Components.ButtonHeader name={"PERFIL"}/>
             </RouterLink>
         </div>
