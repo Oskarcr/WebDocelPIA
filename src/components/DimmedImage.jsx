@@ -30,7 +30,7 @@ export default function DimmedImage({src = "", style = {}, childStyle = {}, chil
             height: "100%",
             backgroundColor: "black",
             zIndex: 1,
-            opacity: 0.6
+            opacity: 0.5
         }}></div>
         <img src={src} style={{
             position: "absolute",
