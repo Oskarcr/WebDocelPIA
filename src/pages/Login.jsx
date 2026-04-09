@@ -1,4 +1,4 @@
-import { Components, Theme } from "@/DocelCore";
+import { Components, FontSize, Theme } from "@/DocelCore";
 
 export default function Login() {
     return(<Components.Main horizontal>
@@ -9,7 +9,7 @@ export default function Login() {
                 display: "flex"
             }} childStyle={{
                 color: Theme.TEXT.SECONDARY,
-                fontSize: "4.6rem",
+                fontSize: FontSize.XL3,
                 padding: "20px",
                 boxSizing: "border-box",
                 marginBlock: "auto"
@@ -35,7 +35,7 @@ export default function Login() {
                 }}>
                     <Components.TextBox 
                         color={Theme.BLACK}
-                        fontSize="1.5rem"
+                        fontSize={FontSize.MD}
                         alignment="center-left" 
                         content="INICIAR SESION EN DOCEL"
                     />
@@ -45,7 +45,7 @@ export default function Login() {
                         marginTop: "20px"
                     }}>INICIAR SESION</button>
                     <Components.TextBox 
-                        fontSize="1.2rem"
+                        fontSize={FontSize.SM}
                         color={Theme.BLACK}
                         alignment="center" 
                         content="¿No tienes cuenta?"

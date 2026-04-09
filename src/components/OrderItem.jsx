@@ -1,4 +1,4 @@
-import { Components, Theme } from "@/DocelCore";
+import { Components, FontSize, Theme } from "@/DocelCore";
 import { Link as RouterLink } from "react-router-dom";
 
 export default function OrderItem({ path = "", src = "", name = "", color = "", price = "" }) {
@@ -25,10 +25,10 @@ export default function OrderItem({ path = "", src = "", name = "", color = "", 
             <div style={{
                 flex: "33%"
             }}>
-                <Components.TextBox className="order-item-name" fontSize={"1.8rem"} content={name} color={Theme.PRIMARY} />
-                <Components.TextBox className="order-item-color" fontSize={"1.8rem"} content={color} color={Theme.PRIMARY} />
+                <Components.TextBox className="order-item-name" fontSize={FontSize.LG} content={name} color={Theme.PRIMARY} />
+                <Components.TextBox className="order-item-color" fontSize={FontSize.LG} content={color} color={Theme.PRIMARY} />
             </div>
-            <Components.TextBox className="order-item-price" fontSize={"1.8rem"} content={"$" + price + " MXN"} alignment="top-right" color={Theme.PRIMARY} style={{ width: "33%" }} />
+            <Components.TextBox className="order-item-price" fontSize={FontSize.LG} content={"$" + price + " MXN"} alignment="top-right" color={Theme.PRIMARY} style={{ width: "33%" }} />
         </RouterLink>
     );
 }

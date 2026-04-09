@@ -1,4 +1,4 @@
-import { Theme } from "@/DocelCore";
+import { FontSize, Theme } from "@/DocelCore";
 import { useNavigate } from "react-router-dom";
 
 
@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 export default function Table({
     color = Theme.PRIMARY,
     size = "var(--box-size)",
-    fontSize = "1.1rem",
+    fontSize = FontSize.SM,
     backgroundColor = Theme.BACKGROUND.SURFACE,
     rowActiveColor = Theme.ACCENT,
     head = ["Test", "Test2"],

@@ -22,7 +22,7 @@ const OrderStatus = {
 
     /**
      * Es cuando el empleado rechaza la solicitud
-     * por algun motivo.
+     * por algun motivo. 
      * @readonly
      */
     REJECTED: 4,

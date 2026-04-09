@@ -1,4 +1,4 @@
-import { Components, Theme } from "@/DocelCore";
+import { Components, FontSize, Theme } from "@/DocelCore";
 
 export default function Profile() {
     return (<Components.Main horizontal inverted>
@@ -25,7 +25,7 @@ export default function Profile() {
                                 style={{
                                     marginTop: "auto",
                                 }}
-                                fontSize="1.5rem"
+                                fontSize={FontSize.MD}
                                 color={Theme.TEXT.SECONDARY}
                                 content="PERFIL CLIENTE"
                             />
@@ -33,7 +33,7 @@ export default function Profile() {
                                 style={{
                                     marginBottom: "auto"
                                 }}
-                                fontSize="3.2rem"
+                                fontSize={FontSize.XL2}
                                 color={Theme.TEXT.SECONDARY}
                                 content="Hola, Oscar"
                             />

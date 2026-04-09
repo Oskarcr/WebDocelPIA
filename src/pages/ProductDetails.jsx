@@ -1,4 +1,4 @@
-import { Components, Theme } from "@/DocelCore";
+import { Components, FontSize, Theme } from "@/DocelCore";
 import { Link as RouterLink } from "react-router-dom";
 
 export default function ProductDetails() {
@@ -24,7 +24,7 @@ export default function ProductDetails() {
                     <Components.TextBox
                         content="DETALLES DEL PRODUCTO"
                         color={Theme.TEXT.SECONDARY}
-                        fontSize="2.5rem"
+                        fontSize={FontSize.XL1}
                         alignment="center"
                         style={{
                             boxSizing: "border-box",
@@ -34,7 +34,7 @@ export default function ProductDetails() {
                         }}
                     />
                 </Components.DimmedImage>
-                <div id="product-wrapper" style={{ backgroundColor: Theme.BACKGROUND.MAIN }}>
+                <div id="product-wrapper">
                     <div id="product-card" style={{
                         backgroundColor: Theme.BACKGROUND.MAIN,
                         borderColor: Theme.PRIMARY

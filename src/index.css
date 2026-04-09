@@ -13,6 +13,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  margin: 0 0;
 }
 
 a {
@@ -30,6 +31,7 @@ body {
   /* place-items: center; */
   min-width: 320px;
   min-height: 100vh;
+  overflow: hidden;
 }
 
 h1 {
@@ -55,6 +57,7 @@ input {
 img {
   pointer-events: none;
   user-select: none;
+  object-fit: cover;
 }
 
 @media (prefers-color-scheme: light) {

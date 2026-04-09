@@ -1,4 +1,4 @@
-import { Components, Theme } from "@/DocelCore";
+import { Components, FontSize, Theme } from "@/DocelCore";
 
 export default function Home() {
     return (<Components.Main horizontal inverted>
@@ -28,7 +28,7 @@ export default function Home() {
                                 marginTop: "auto"
                             }}
                             color={Theme.TEXT.SECONDARY}
-                            fontSize="2rem"
+                            fontSize={FontSize.LG}
                             content="CARPINTERIA Y PINTURA"
                         />
                         <Components.TextBox 
@@ -36,7 +36,7 @@ export default function Home() {
                                 marginBottom: "auto"
                             }}
                             color={Theme.TEXT.SECONDARY}
-                            fontSize="3.8rem"
+                            fontSize={FontSize.XL3}
                             content="TUS DISEÑOS FAVORITOS EN TU ESPACIO"
                         />
                     </Components.DimmedImage>
@@ -47,7 +47,7 @@ export default function Home() {
                         justifyContent: "center",
                         alignItems: "center"
                     }}>
-                        <Components.TextBox fontSize={"1.8rem"} alignment="center" style={{
+                        <Components.TextBox fontSize={FontSize.LG} alignment="center" style={{
                             width: "70%"
                         }} content="
                         Somos un negocio de carpinteria totalmente transparente y profesional con años de
@@ -62,13 +62,13 @@ export default function Home() {
                 height: "100px",
                 justifyContent: "center",
                 alignItems: "center",
-                gap: "3rem",
+                gap: FontSize.XL2,
                 backgroundColor: Theme.PRIMARY
             }}>
                 <div style={{
                     width: "20%"
                 }}>
-                    <Components.TextBox fontSize={"2rem"} alignment="center" color={Theme.TEXT.SECONDARY} content="Contacto:"/>
+                    <Components.TextBox fontSize={FontSize.MD} alignment="center" color={Theme.TEXT.SECONDARY} content="Contacto:"/>
                 </div>
                 <div style={{
                     display: "flex",
@@ -79,29 +79,29 @@ export default function Home() {
                         width: "100%",
                         height: "50%",
                         display: "flex",
-                        }}>
-                        <Components.TextBox fontSize={"1rem"} alignment="bottom-left" color={Theme.TEXT.SECONDARY} style={{
+                    }}>
+                        <Components.TextBox alignment="bottom-left" color={Theme.TEXT.SECONDARY} style={{
                             width: "30%"
                         }} content="CORREO"/>
-                        <Components.TextBox fontSize={"1rem"} alignment="bottom-left" color={Theme.TEXT.SECONDARY} style={{
+                        <Components.TextBox alignment="bottom-left" color={Theme.TEXT.SECONDARY} style={{
                             width: "40%"
-                        }} content="Ubicacion"/>
-                        <Components.TextBox fontSize={"1rem"} alignment="bottom-left" color={Theme.TEXT.SECONDARY} style={{
+                        }} content="UBICACION"/>
+                        <Components.TextBox alignment="bottom-left" color={Theme.TEXT.SECONDARY} style={{
                             width: "30%"
-                        }} content="Telefono"/>
+                        }} content="TELEFONO"/>
                     </div>
                     <div style={{
                         width: "100%",
                         height: "50%",
                         display: "flex",
                         }}>
-                        <Components.TextBox fontSize={"1rem"} color={Theme.TEXT.SECONDARY} style={{
+                        <Components.TextBox color={Theme.TEXT.SECONDARY} style={{
                             width: "30%"
                         }} content="DOCEL@CORREO.COM"/>
-                        <Components.TextBox fontSize={"1rem"} alignment="top-left" color={Theme.TEXT.SECONDARY} style={{
+                        <Components.TextBox alignment="top-left" color={Theme.TEXT.SECONDARY} style={{
                             width: "40%"
                         }} content="MTY. NL. AVENIDA 'LA AVENIDA' #00000"/>
-                        <Components.TextBox fontSize={"1rem"} color={Theme.TEXT.SECONDARY} style={{
+                        <Components.TextBox color={Theme.TEXT.SECONDARY} style={{
                             width: "30%"
                         }} content="+52 000 000 0000"/>
                     </div>
