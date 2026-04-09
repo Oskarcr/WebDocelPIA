@@ -1,3 +1,6 @@
+@import url("mobile.css") screen and (max-width: 720px);
+@import url("desktop.css") screen and (min-width: 721px);
+
 * {
     font-family: "ZTNatureMedium";
     scrollbar-width: none; 
@@ -70,6 +73,10 @@ button:active {
 @font-face {
     font-family: "ZTNatureMedium";
     src: url("../assets/ZTNatureMedium.ttf");
+}
+
+.column {
+    z-index: 99;
 }
 
 /* Header */
