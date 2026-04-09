@@ -1,15 +1,28 @@
-import { Components, Theme } from "@/DocelCore"
+import { Components, FontSize, Theme } from "@/DocelCore"
 
 export default function Portal() {
     return (
         <Components.Main horizontal>
             <Components.Column color={Theme.BLACK} />
-            <Components.DimmedImage src="/furniture/background_home.png" childStyle={{
+            <Components.DimmedImage src="/furniture/background_home.png" style={{
+                height: "100%",
+                width: "35%",
+            }} childStyle={{
                 display: "flex",
-                objectFit: "fill"
-            }} style={{
-                width: "25%"
-            }} />
+                height: "100%",
+                width: "100%"
+            }}>
+                <Components.TextBox
+                    style={{
+                        padding: "20px",
+                        marginBlock: "auto"
+                    }}
+                    color={Theme.TEXT.SECONDARY}
+                    fontSize={FontSize.XL3}
+                    content="PORTAL\nDE\nAPLICACIÓN"
+                    alignment="center-left"
+                />
+            </Components.DimmedImage>
             <div style={{
                 display: "flex",
                 flexDirection: "column",
@@ -19,11 +32,11 @@ export default function Portal() {
                 marginTop: "5%",
                 backgroundColor: Theme.BACKGROUND.MAIN
             }}>
-                <Components.PortalCard title="Buscar usuario" hasInput>
+                <Components.PortalCard path="/profile" title="Buscar usuario" hasInput>
                     <input placeholder="Nombre de usuario" style={{ width: "40%" }}></input>
                 </Components.PortalCard>
-                <Components.PortalCard title="Subir un mueble"/>
-                <Components.PortalCard title="Reporte de ventas"/>
+                <Components.PortalCard path="/product_manager" title="Gestor de muebles"/>
+                <Components.PortalCard path="/reports" title="Reporte de ventas"/>
             </div>
             <Components.Column color={Theme.ACCENT} />
         </Components.Main>

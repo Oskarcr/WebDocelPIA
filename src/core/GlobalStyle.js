@@ -13,7 +13,9 @@ const GlobalStyle = {
     "--input-placeholder-color": Theme.SECONDARY,
     "--text-color-primary": Theme.TEXT.PRIMARY,
     "--text-color-secondary": Theme.TEXT.SECONDARY,
-    "--input-background-color": Theme.TEXT.SECONDARY
+    "--input-background-color": Theme.TEXT.SECONDARY,
+    "--option-color": Theme.BACKGROUND.MAIN,
+    "--option-active-color": Theme.ACCENT
 };
 
 export default GlobalStyle;
