@@ -18,6 +18,7 @@ export default function AppRoutes() {
                 <Route path="/employees" element={<Pages.Employees/>}/>
                 <Route path="/sales" element={<Pages.Sales/>}/>
                 <Route path="/portal" element={<Pages.Portal/>}/>
+                <Route path="/reports" element={<Pages.Reports/>}/>
             </Routes>
         </BrowserRouter>
     )

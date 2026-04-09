@@ -10,6 +10,7 @@ import OrderOption from "../components/OrderOption.jsx";
 import PortalCard from "../components/PortalCard.jsx";
 import SaleOption from "../components/SaleOption.jsx";
 import ShoppingItem from "../components/ShoppingItem.jsx";
+import Table from "../components/Table.jsx";
 import TextBox from "../components/TextBox.jsx";
 
 /**
@@ -26,7 +27,8 @@ const Components = {
     OrderOption,
     Flex,
     SaleOption,
-    PortalCard
+    PortalCard,
+    Table
 };
 
 Object.freeze(Components);
