@@ -9,6 +9,7 @@ export default function OrderItem({ path = "", src = "", name = "", color = "", 
             width: "70%",
             height: "180px",
             border: "3px solid" + Theme.PRIMARY,
+            borderRadius: "8px",
             backgroundColor: Theme.BACKGROUND.MAIN,
             color: Theme.TEXT.SECONDARY,
         }}>
@@ -19,6 +20,7 @@ export default function OrderItem({ path = "", src = "", name = "", color = "", 
                 <img className="order-item-image" src={src} style={{
                     width: "100%",
                     height: "100%",
+                    borderRadius: "8px",
                     objectFit: "cover"
                 }} />
             </div>

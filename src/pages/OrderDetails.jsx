@@ -1,4 +1,4 @@
-import { Components, Theme } from "@/DocelCore";
+import { Components, FontSize, Theme } from "@/DocelCore";
 import OrderItem from "../components/OrderItem";
 
 const orderItems = [
@@ -25,7 +25,7 @@ export default function OrderDetails() {
                     height: "25%",
                     alignItems: "center",
                 }}>
-                    <Components.TextBox fontSize={"40px"} color={Theme.TEXT.SECONDARY} content="DETALLES DEL PEDIDO" style={{
+                    <Components.TextBox fontSize={FontSize.XL1} color={Theme.TEXT.SECONDARY} content="DETALLES DEL PEDIDO" style={{
                         marginLeft: "30px"
                     }}/>
                 </Components.DimmedImage>

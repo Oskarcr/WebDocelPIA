@@ -37,9 +37,11 @@ export default function ProductDetails() {
                 <div id="product-wrapper">
                     <div id="product-card" style={{
                         backgroundColor: Theme.BACKGROUND.MAIN,
+                        borderRadius: "8px",
+                        overflow: "hidden",
                         borderColor: Theme.PRIMARY
                     }}>
-                        <div className="product-image">
+                        <div className="product-image" style={{borderRadius: "8px"}}>
                             <img src="furniture/bed_base.png" className="image"></img>
                         </div>
                         <div className="product-information">

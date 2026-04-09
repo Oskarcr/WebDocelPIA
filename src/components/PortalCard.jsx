@@ -8,6 +8,7 @@ export default function PortalCard({ title = "", path = "", style = {}, hasInput
             width: "80%",
             height: "15%",
             border: "3px solid " + Theme.PRIMARY,
+            borderRadius: "8px",
             boxSizing: "border-box",
             alignItems: "center",
             backgroundColor: Theme.BACKGROUND.SURFACE,
