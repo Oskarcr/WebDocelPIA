@@ -7,6 +7,7 @@ import Flex from "../components/Flex.jsx";
 import Header from "../components/Header.jsx";
 import Main from "../components/Main.jsx";
 import OrderOption from "../components/OrderOption.jsx";
+import PortalCard from "../components/PortalCard.jsx";
 import SaleOption from "../components/SaleOption.jsx";
 import ShoppingItem from "../components/ShoppingItem.jsx";
 import Table from "../components/Table.jsx";
@@ -26,6 +27,7 @@ const Components = {
     OrderOption,
     Flex,
     SaleOption,
+    PortalCard,
     Table
 };
 
