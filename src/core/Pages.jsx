@@ -11,6 +11,7 @@ import Sales from "../pages/Sales.jsx";
 import Shopping from "../pages/Shopping.jsx";
 import Signup from "../pages/Signup.jsx";
 import Employees from "../pages/Employees.jsx";
+import Portal from "../pages/Portal.jsx";
 
 /**
  * Es un objeto que tiene todas los componentes
@@ -27,7 +28,8 @@ const Pages = {
     Profile,
     Sales,
     OrderDetails,
-    Employees
+    Employees,
+    Portal
 };
 
 Object.freeze(Pages);
