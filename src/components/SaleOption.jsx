@@ -16,7 +16,8 @@ export default function SaleOption({amount = 1, username = "Oscar", date = Date.
     return (<div className="sale-option" style={{
         borderColor: Theme.PRIMARY,
         backgroundColor: Theme.BACKGROUND.SURFACE,
-        color: Theme.PRIMARY,
+        borderRadius: "8px",
+        color: Theme.PRIMARY
     }}>
         <div>{"Cantidad: " + amount}</div>
         <div>{"Usuario: " + username}</div>

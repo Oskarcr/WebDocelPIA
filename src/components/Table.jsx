@@ -66,6 +66,7 @@ const navigate = useNavigate();
         position: "relative",
         overflowY: "auto",
         boxSizing: "border-box",
+        borderRadius: "8px",
         outline: "inset 3px solid" + Theme.PRIMARY,
         boxShadow: "var(--box-shadow)",
         "--tr-active-color": rowActiveColor,
