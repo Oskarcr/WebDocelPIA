@@ -9,9 +9,10 @@ export default function Profile() {
                     overflowY: "scroll"
                 }}>
                     <Components.DimmedImage style={{
-                        height: "25%",
                     }} childStyle={{
-                        height: "100%"
+                        height: "100%",
+                        padding: "10px",
+                        boxSizing: "border-box"
                     }} src="https://d38qrl83hrqn1t.cloudfront.net/media/catalog/product/cache/e5313a059d82e47a0dd0c73b13afb6be/m/u/mueble-tv-160cm-cairo-nogal-decorado-cto40669s1-1_principal.jpg">
                         <div style={{
                             display: "flex",

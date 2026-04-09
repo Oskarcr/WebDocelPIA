@@ -43,11 +43,13 @@ body {
 }
 
 input {
+    flex-shrink: 0;
+    border-radius: 8px;
     height: var(--box-size);
     font-size: var(--font-size-sm);
     box-sizing: border-box;
     background-color: var(--input-background-color);
-    border: solid 3px;
+    border: solid 2px;
     border-color: var(--input-border-color);
     transition: border-color 0.1s ease;
     color: var(--text-color-primary);
@@ -63,6 +65,8 @@ input:focus {
 }
 
 button {
+    flex-shrink: 0;
+    border-radius: 8px;
     height: var(--box-size);
     font-size: var(--font-size-sm);
     background-color: var(--button-background-color);
