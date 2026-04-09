@@ -1,0 +1,3 @@
+*[data-device="mobile"] {
+    display: none !important;
+}

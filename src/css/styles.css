@@ -32,6 +32,7 @@ body {
     --border-medium: 3px;
     --box-size: 50px;
     --box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+    --tr-active-color: red;
 }
 
 input {
@@ -77,6 +78,15 @@ button:active {
 
 .column {
     z-index: 99;
+}
+
+tr {
+    user-select: none;
+    transition: background-color 0.1s ease;
+}
+
+tr:active {
+    background-color: var(--tr-active-color);
 }
 
 /* Header */
