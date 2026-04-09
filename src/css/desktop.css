@@ -1,3 +1,32 @@
 *[data-device="mobile"] {
     display: none !important;
 }
+
+body {
+    --font-size-sm: 1.1rem;
+    --font-size-md: 1.5rem;
+    --font-size-lg: 1.8rem;
+    --font-size-xl1: 2.5rem;
+    --font-size-xl2: 3.2rem;
+    --font-size-xl3: 3.8rem;
+    --spacing-small: 10px;
+    --spacing-medium: 20px;
+    --spacing-long: 30px;
+}
+
+.header-wrapper {
+    min-height: 80px;
+}
+
+.column {
+    display: block;
+}
+
+.product-manager-option {
+    height: 140px;
+}
+
+.product-manager-options-container {
+    width: 60%;
+    min-width: 600px;
+}

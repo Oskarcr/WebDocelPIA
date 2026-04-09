@@ -31,6 +31,13 @@ export default function TextBox({ content="", fontSize = FontSize.SM, href = nul
         "bottom-center":{ justifyContent: "flex-end",   alignItems: "center",     textAlign: "center" },
         "bottom-right": { justifyContent: "flex-end",   alignItems: "flex-end",   textAlign: "right" },
     };
+
+    const contentHTML = (<>
+        {content.split("\\n").map((a, i) => {
+            return (i != 0 ? <><br/>{a}</> : <>{a}</>);
+        })}
+    </>);
+
     const pos = positions[alignment] || positions.center;
     /**@type {import("react").CSSProperties} */
     const elementStyle = {
@@ -52,7 +59,7 @@ export default function TextBox({ content="", fontSize = FontSize.SM, href = nul
             {content}
         </RouterLink> :
         <div style={elementStyle}>
-            {content}
+            {contentHTML}
         </div>
     );
     return element;

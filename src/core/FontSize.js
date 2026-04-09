@@ -12,7 +12,7 @@ const FontSize = {
     MD: "var(--font-size-md)",
 
     /**
-     * 
+     * Es un `font-size` grande.
      * @readonly
      */
     LG: "var(--font-size-lg)",

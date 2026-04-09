@@ -3,13 +3,14 @@
  * @property {import("react").CSSProperties} style
  * @property {import("react").CSSProperties} childStyle
  * @property {string} src
- * @property {string}
+ * @property {string} className
+ * @property {string} childClassName
  */
 
 /**
  * @param {DimmedImageParams} param0 
  */
-export default function DimmedImage({src = "", style = {}, childStyle = {}, children}) {
+export default function DimmedImage({src = "", className="", style = {}, childClassName="", childStyle = {}, children}) {
     if(!style.position) style.position = "relative";
     style.boxShadow = "var(--box-shadow)";
     Object.assign(childStyle, {
@@ -18,8 +19,8 @@ export default function DimmedImage({src = "", style = {}, childStyle = {}, chil
         left: 0,
         zIndex: 2
     });
-    return <div style={style}>
-        <div style={childStyle}>
+    return <div className={className} style={style}>
+        <div className={childClassName} style={childStyle}>
             {children}
         </div>
         <div style={{

@@ -1,4 +1,4 @@
-import { Components, FontSize, Theme } from "@/DocelCore";
+import { Components, FontSize, Spacing, Theme } from "@/DocelCore";
 
 export default function Profile() {
     return (<Components.Main horizontal inverted>
@@ -11,7 +11,7 @@ export default function Profile() {
                     <Components.DimmedImage style={{
                     }} childStyle={{
                         height: "100%",
-                        padding: "10px",
+                        padding: Spacing.SM,
                         boxSizing: "border-box"
                     }} src="https://d38qrl83hrqn1t.cloudfront.net/media/catalog/product/cache/e5313a059d82e47a0dd0c73b13afb6be/m/u/mueble-tv-160cm-cairo-nogal-decorado-cto40669s1-1_principal.jpg">
                         <div style={{
@@ -42,12 +42,12 @@ export default function Profile() {
                     </Components.DimmedImage>
                     <Components.Flex column style={{
                         marginInline: "auto",
-                        padding: "20px",
+                        padding: Spacing.MD,
                         width: "50%",
                         minWidth: "600px",
                         maxWidth: "800px",
                         boxSizing: "border-box",
-                        gap: "20px",
+                        gap: Spacing.MD,
                         overflowY: "scroll"
                     }}>
                         <input type="text" value="Oscar"/>

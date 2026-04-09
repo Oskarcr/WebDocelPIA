@@ -16,9 +16,6 @@ body {
     --font-small: 24px;
     --font-medium: 32px;
     --font-larger: 40px;
-    --padding-small: 5px;
-    --padding-medium: 15px;
-    --padding-larger: 30px;
     --gap-medium: 10px;
     --gap-larger: 30px;
     --input-background-color: red;
@@ -29,17 +26,12 @@ body {
     --text-color-secondary: red;
     --button-background-color: red;
     --button-active-color: red;
+    --option-color: red;
+    --option-active-color: red;
     --border-medium: 3px;
     --box-size: 50px;
     --box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
     --tr-active-color: red;
-    /* FONT SIZE */
-    --font-size-sm: 1.1rem;
-    --font-size-md: 1.5rem;
-    --font-size-lg: 1.8rem;
-    --font-size-xl1: 2.5rem;
-    --font-size-xl2: 3.2rem;
-    --font-size-xl3: 3.8rem;
 }
 
 input {
@@ -53,7 +45,7 @@ input {
     border-color: var(--input-border-color);
     transition: border-color 0.1s ease;
     color: var(--text-color-primary);
-    padding: 10px;
+    padding: var(--spacing-small);
 }
 
 input::placeholder {
@@ -106,7 +98,6 @@ tr:active {
     display: flex;
     top: 0;
     width: 100vw;
-    min-height: 80px;
     justify-content: space-between;
     align-items: center;
     padding: 0 10px;
@@ -141,7 +132,7 @@ tr:active {
     align-items: center;
     justify-content: center;
     font-size: var(--font-size-md);
-    padding: var(--padding-small);
+    padding: var(--spacing-small);
     cursor: pointer;
     border: none;
     box-sizing: border-box;
@@ -151,7 +142,7 @@ tr:active {
 /* Compras */
 #shopping-wrapper {
     display: flex;
-    padding: var(--padding-larger);
+    padding: var(--padding-medium);
     height: calc(100% - 100px);
     justify-content: flex-start;
     align-items: center;
@@ -178,7 +169,7 @@ tr:active {
     align-items: center;
     aspect-ratio: 4/5;
     height: 500px;
-    padding: var(--padding-small);
+    padding: var(--spacing-small);
     box-sizing: border-box;
     box-shadow: var(--box-shadow);
 }
@@ -227,7 +218,7 @@ tr:active {
 /* Detalles del producto */
 #product-wrapper {
     display: flex;
-    padding: var(--padding-larger);
+    padding: var(--padding-medium);
     height: calc(100% - 100px);
     justify-content: center;
     align-items: center;
@@ -263,7 +254,7 @@ tr:active {
 
 .product {
     height: 70%;
-    padding: var(--padding-medium);
+    padding: var(--spacing-medium);
 }
 
 .product-color {
@@ -282,7 +273,7 @@ tr:active {
 /**/
 
 #header-menu-container {
-    padding-block: 20px;
+    padding-block: var(--padding-medium);
     padding-inline: 0;
     box-sizing: border-box;
     top: 100%;
@@ -295,4 +286,33 @@ tr:active {
     width: 0vw;
     background-color: var(--text-color-secondary);
     box-shadow: var(--box-shadow);
+}
+
+.product-manager-options-container {
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    max-width: 900px;
+    height: 100%;
+    gap: 20px;
+    overflow-y: auto;
+}
+
+.product-manager-option {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    flex-shrink: 0;
+    background-color: var(--option-color);
+    transition: background-color 0.2s ease;
+    border: 2px solid var(--input-border-color);
+}
+
+.product-manager-option:hover {
+    background-color: var(--option-active-color);
 }
