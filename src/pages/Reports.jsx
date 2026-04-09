@@ -1,4 +1,4 @@
-import { Components, Theme } from "@/DocelCore";
+import { Components, FontSize, Theme } from "@/DocelCore";
 
 const tmp = [
     {folio: 1, date: Date.now(), income : 10000},
@@ -41,7 +41,7 @@ export default function Reports() {
                             width: "80%",
                             marginInline: "auto"
                         }}
-                        fontSize="3.2rem"
+                        fontSize={FontSize.XL1}
                         alignment="bottom-left"
                         color={Theme.TEXT.SECONDARY}
                         content="REPORTES DOCEL"

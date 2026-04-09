@@ -1,4 +1,4 @@
-import { Components, Theme } from "@/DocelCore"
+import { Components, FontSize, Theme } from "@/DocelCore"
 
 export default function Sales() {
     // Temporal
@@ -17,7 +17,7 @@ export default function Sales() {
                     borderColor: Theme.PRIMARY
                 }} 
                 alignment="center"
-                fontSize="2.0rem"
+                fontSize={FontSize.LG}
                 content="VENTAS DOCEL"
             />
             <Components.Flex column style={{

@@ -1,4 +1,4 @@
-import { Components, Theme } from "@/DocelCore";
+import { Components, FontSize, Theme } from "@/DocelCore";
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
@@ -15,7 +15,7 @@ function ButtonLink({desktop = false, path = "/", name="ANY"}) {
             justifyContent: "end",
             width: "100%",
             height: "100px",
-            fontSize: "1.5rem",
+            fontSize: FontSize.MD,
             color: "var(--primary-color)"
         }}>
             {name}
@@ -44,25 +44,15 @@ export default function Header({ inverted = false }) {
                 flexDirection: "row"
             }} onClick={() => setMenuVisible(!menuVisible)}>
                 <Components.ButtonHeader name="MENU" />
-                {menuVisible && (
-                    <div style={{
-                        padding: "20px",
-                        boxSizing: "border-box",
-                        top: "100%",
-                        right: "0",
-                        position: "absolute",
-                        display: "flex",
-                        flexDirection: "column",
-                        width: "100vw",
-                        backgroundColor: "var(--text-color-secondary)",
-                        boxShadow: "var(--box-shadow)"
-                    }}>
-                        <ButtonLink path="/" name="INICIO"/>
-                        <ButtonLink path="/orders" name="PEDIDOS"/>
-                        <ButtonLink path="/shopping" name="MUEBLES"/>
-                        <ButtonLink path="/profile" name="PERFIL"/>
-                    </div>
-                )}
+                <div id="header-menu-container" style={{
+                    width: menuVisible ? "100vw" : 0,
+                    paddingInline: menuVisible ? "20px" : 0
+                }}>
+                    <ButtonLink path="/" name="INICIO"/>
+                    <ButtonLink path="/orders" name="PEDIDOS"/>
+                    <ButtonLink path="/shopping" name="MUEBLES"/>
+                    <ButtonLink path="/profile" name="PERFIL"/>
+                </div>
             </div>
         </div>
     </div>);

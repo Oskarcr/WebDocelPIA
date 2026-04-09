@@ -1,4 +1,4 @@
-import { Theme } from "@/DocelCore";
+import { FontSize, Theme } from "@/DocelCore";
 import { Link as RouterLink } from "react-router-dom";
 
 /**
@@ -19,7 +19,7 @@ import { Link as RouterLink } from "react-router-dom";
 /**
  * @param {TextBoxParams} param0 
  */
-export default function TextBox({ content="", fontSize = "1.1rem", href = null, color = Theme.TEXT.PRIMARY, alignment = "top-left", style = {}}) {
+export default function TextBox({ content="", fontSize = FontSize.SM, href = null, color = Theme.TEXT.PRIMARY, alignment = "top-left", style = {}}) {
     const positions = {
         "top-left":     { justifyContent: "flex-start", alignItems: "flex-start", textAlign: "left" },
         "top-center":   { justifyContent: "flex-start", alignItems: "center",     textAlign: "center" },

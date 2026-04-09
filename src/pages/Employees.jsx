@@ -1,4 +1,4 @@
-import { Components, Theme, UserRole } from "@/DocelCore";
+import { Components, FontSize, Theme, UserRole } from "@/DocelCore";
 
 const employees = [
     { id: 1, name: "Emiliano", email: "emi@mail.com", phone: "+52 000 000 0000", role: UserRole.CLIENT },
@@ -28,7 +28,7 @@ export default function Employees() {
                 justifyContent: "center",
                 height: "20%"
             }}>
-                <Components.TextBox alignment="bottom-left" fontSize="1.8rem" content="LISTA DE EMPLEADOS" style={{
+                <Components.TextBox alignment="bottom-left" fontSize={FontSize.LG} content="LISTA DE EMPLEADOS" style={{
                     width: "70%"
                 }} />
             </div>

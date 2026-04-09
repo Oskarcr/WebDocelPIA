@@ -1,4 +1,4 @@
-import { Components, Theme } from "@/DocelCore";
+import { Components, FontSize, Theme } from "@/DocelCore";
 
 export default function Signup() {
     return (<Components.Main horizontal>
@@ -27,7 +27,7 @@ export default function Signup() {
                     gap: "20px"
                 }}>
                     <Components.TextBox 
-                        fontSize="1.5rem"
+                        fontSize={FontSize.MD}
                         content="REGISTRARSE EN DOCEL"
                     />
                     <input type="text" placeholder="Nombre"/>
@@ -62,7 +62,7 @@ export default function Signup() {
                     marginTop: "auto"
                 }}></div>
                 <div style={{
-                    fontSize: "4.6rem"
+                    fontSize: FontSize.XL3
                 }}>
                     COMIENZA <br/> 
                     A <br/> 
@@ -73,7 +73,7 @@ export default function Signup() {
                     style={{
                         marginTop: "auto"
                     }}
-                    fontSize="1.5rem"
+                    fontSize={FontSize.MD}
                     alignment="center"
                     color={Theme.TEXT.SECONDARY}
                     content="CONSTRUYE CON NOSOTROS ENVIANDO MENSAJE AL +52 0000000000"
