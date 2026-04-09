@@ -29,3 +29,15 @@ body {
 .product-manager-options-container {
     width: 100%;
 }
+
+#shopping-wrapper {
+        min-height: 600px;
+        align-items: unset;
+        margin-inline: auto;
+        flex-direction: column;
+}
+
+.item-card {
+    width: 100%;
+    flex-shrink: unset !important;
+}

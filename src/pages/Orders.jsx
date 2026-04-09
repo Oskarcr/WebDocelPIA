@@ -16,7 +16,6 @@ export default function Orders() {
                 position: "relative",
                 gap: "20px",
                 paddingTop: "20px",
-                borderRadius: "8px",
                 boxSizing: "border-box",
                 overflow: "scroll"
             }}>

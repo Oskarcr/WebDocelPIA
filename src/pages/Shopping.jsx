@@ -18,7 +18,9 @@ export default function Shopping() {
     return (
         <>
             <Components.Main horizontal>
-                <div id="shopping-wrapper" style={{ backgroundColor: Theme.BACKGROUND.MAIN }}>
+                <div id="shopping-wrapper" style={{
+                    height: "100%",
+                    backgroundColor: Theme.BACKGROUND.MAIN }}>
                     {children}
                 </div>
             </Components.Main>
