@@ -72,7 +72,7 @@ button:active {
     src: url("../assets/ZTNatureMedium.ttf");
 }
 
-/* Header */
+/* Cabecera */
 .header-wrapper {
     position: relative;
     display: flex;
@@ -120,7 +120,7 @@ button:active {
 }
 
 
-/* Shopping */
+/* Compras */
 #shopping-wrapper {
     display: flex;
     padding: var(--padding-larger);
@@ -196,7 +196,7 @@ button:active {
     align-items: center;
 }
 
-/* Product Details */
+/* Detalles del producto */
 #product-wrapper {
     display: flex;
     padding: var(--padding-larger);
