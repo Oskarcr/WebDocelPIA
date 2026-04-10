@@ -5,12 +5,14 @@
  * @property {string} src
  * @property {string} className
  * @property {string} childClassName
+ * @property {string} device
+ * @property {string} orientation
  */
 
 /**
  * @param {DimmedImageParams} param0 
  */
-export default function DimmedImage({src = "", className="", style = {}, childClassName="", childStyle = {}, children}) {
+export default function DimmedImage({orientation = null, device=null, src = "", className="", style = {}, childClassName="", childStyle = {}, children}) {
     if(!style.position) style.position = "relative";
     style.boxShadow = "var(--box-shadow)";
     Object.assign(childStyle, {
@@ -19,7 +21,11 @@ export default function DimmedImage({src = "", className="", style = {}, childCl
         left: 0,
         zIndex: 2
     });
-    return <div className={className} style={style}>
+    return <div 
+    data-device={(device !== null ? device : undefined)} 
+    data-orientation={(orientation !== null ? orientation : undefined)} 
+    className={className} 
+    style={style}>
         <div className={childClassName} style={childStyle}>
             {children}
         </div>
