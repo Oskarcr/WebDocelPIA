@@ -3,12 +3,12 @@
 }
 
 body { 
-    --font-size-sm: 1.0rem;
-    --font-size-md: 1.4rem;
-    --font-size-lg: 1.6rem;
-    --font-size-xl1: 2.2rem;
-    --font-size-xl2: 2.8rem;
-    --font-size-xl3: 3.2rem;
+    --font-size-sm: 0.9rem;
+    --font-size-md: 1.3rem;
+    --font-size-lg: 1.5rem;
+    --font-size-xl1: 1.9rem;
+    --font-size-xl2: 2.5rem;
+    --font-size-xl3: 2.8rem;
     --spacing-small: 8px;
     --spacing-medium: 16px;
     --spacing-long: 24px;
@@ -28,6 +28,14 @@ body {
 
 .product-manager-options-container {
     width: 100%;
+}
+
+.profile-inputs-container {
+    width: 100%;
+}
+
+.home-footer-container {
+    grid-template-rows: 1fr 1fr 1fr;
 }
 
 #shopping-wrapper {

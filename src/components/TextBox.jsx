@@ -1,4 +1,4 @@
-import { FontSize, Theme } from "@/DocelCore";
+import { FontSize, Spacing, Theme } from "@/DocelCore";
 import { Link as RouterLink } from "react-router-dom";
 
 /**
@@ -14,12 +14,13 @@ import { Link as RouterLink } from "react-router-dom";
  * @property {string} color
  * @property {string} content
  * @property {string} href
+ * @property {string} device
  */
 
 /**
  * @param {TextBoxParams} param0 
  */
-export default function TextBox({ content="", fontSize = FontSize.SM, href = null, color = Theme.TEXT.PRIMARY, alignment = "top-left", style = {}}) {
+export default function TextBox({device=null, content="", fontSize = FontSize.SM, href = null, color = Theme.TEXT.PRIMARY, alignment = "top-left", style = {}}) {
     const positions = {
         "top-left":     { justifyContent: "flex-start", alignItems: "flex-start", textAlign: "left" },
         "top-center":   { justifyContent: "flex-start", alignItems: "center",     textAlign: "center" },
@@ -44,7 +45,7 @@ export default function TextBox({ content="", fontSize = FontSize.SM, href = nul
         display: "flex",
         flexDirection: "column",
         fontSize,
-        padding: "10px",
+        padding: Spacing.SM,
         color,
         minHeight: "var(--box-size)",
         boxSizing: "border-box",
@@ -52,13 +53,13 @@ export default function TextBox({ content="", fontSize = FontSize.SM, href = nul
         ...style
     };
     const element = (href !== null ?
-        <RouterLink to={href} style={{
+        <RouterLink data-device={(device !== null ? device : undefined)} to={href} style={{
             textDecoration: "underline",
             ...elementStyle
         }}>
             {content}
         </RouterLink> :
-        <div style={elementStyle}>
+        <div data-device={(device !== null ? device : undefined)} style={elementStyle}>
             {contentHTML}
         </div>
     );

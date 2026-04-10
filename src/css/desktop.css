@@ -30,3 +30,12 @@ body {
     width: 60%;
     min-width: 600px;
 }
+
+.profile-inputs-container {
+    width: 50%;
+    min-width: 600px;
+}
+
+.home-footer-container {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
