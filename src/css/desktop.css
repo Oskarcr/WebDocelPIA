@@ -106,3 +106,12 @@ body {
     width: 80%;
     min-width: 600px;
 }
+
+.shopping-main-container > div {
+    flex-direction: row;
+    height: 70%;
+}
+
+.item-card {
+    aspect-ratio: 4/5;
+}

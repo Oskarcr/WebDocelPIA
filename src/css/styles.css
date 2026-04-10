@@ -153,12 +153,11 @@ tr:active {
 /* Compras */
 #shopping-wrapper {
     display: flex;
-    padding: var(--padding-medium);
     height: 100%;
     min-height: 600px;
     justify-content: flex-start;
     align-items: center;
-    gap: var(--gap-larger);
+    gap: 2px;
     box-sizing: border-box;
 }
 
@@ -167,15 +166,14 @@ tr:active {
 }
 
 .item-card {
+    aspect-ratio: 4/5;
     display: flex;
     flex-shrink: 0;
     flex-direction: column;
     align-items: center;
-    aspect-ratio: 4/5;
-    height: 500px;
-    padding: var(--spacing-small);
+    height: 100%;
+    padding: var(--spacing-medium);
     box-sizing: border-box;
-    box-shadow: var(--box-shadow);
 }
 
 .item-image {
@@ -385,4 +383,21 @@ tr:active {
     display: flex;
     flex-direction: column;
     min-height: 0;
+}
+
+.shopping-main-container {
+    display: flex;
+    position: relative;
+    flex: 1;
+    height: 100%;
+    overflow-x: auto;
+}
+
+.shopping-main-container > div {
+    display: flex;
+    min-height: 440px;
+    margin-block: auto;
+    box-shadow: var(--box-shadow);
+    overflow: auto;
+    gap: 2px;
 }
