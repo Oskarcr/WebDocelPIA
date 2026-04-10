@@ -1,4 +1,4 @@
-import { Components, FontSize, Theme } from "@/DocelCore";
+import { Components, FontSize, Spacing, Theme } from "@/DocelCore";
 
 export default function Login() {
     return(<Components.Main horizontal>
@@ -10,7 +10,7 @@ export default function Login() {
             }} childStyle={{
                 color: Theme.TEXT.SECONDARY,
                 fontSize: FontSize.XL3,
-                padding: "20px",
+                padding: Spacing.MD,
                 boxSizing: "border-box",
                 marginBlock: "auto"
             }} src="https://images.homify.com/v1461159094/p/photo/image/1468444/20151118_131941_resized.jpg">
@@ -25,13 +25,13 @@ export default function Login() {
                 <div style={{
                     display: "flex",
                     flexDirection: "column",
-                    padding: "10px",
+                    padding: Spacing.SM,
                     width: "80%",
                     maxWidth: "500px",
                     marginBlock: "auto",
                     marginInline: "auto",
                     boxSizing: "border-box",
-                    gap: "20px"
+                    gap: Spacing.MD
                 }}>
                     <Components.TextBox 
                         color={Theme.BLACK}
@@ -42,7 +42,7 @@ export default function Login() {
                     <input type="email" placeholder="Correo electronico"/>
                     <input type="password" placeholder="Contraseña"/>
                     <button style={{
-                        marginTop: "20px"
+                        marginTop: Spacing.MD
                     }}>INICIAR SESION</button>
                     <Components.TextBox 
                         fontSize={FontSize.SM}

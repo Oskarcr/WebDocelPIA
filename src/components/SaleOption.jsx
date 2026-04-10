@@ -14,14 +14,12 @@ import { Theme } from "@/DocelCore";
 export default function SaleOption({amount = 1, username = "Oscar", date = Date.now(), total = 100}) {
     const ddate = (new Date(date));
     return (<div className="sale-option" style={{
-        borderColor: Theme.PRIMARY,
-        backgroundColor: Theme.BACKGROUND.SURFACE,
-        borderRadius: "8px",
+        backgroundColor: Theme.BACKGROUND.MAIN,
         color: Theme.PRIMARY
     }}>
-        <div>{"Cantidad: " + amount}</div>
-        <div>{"Usuario: " + username}</div>
-        <div>{"Fecha: " + ddate.getDay() + "/" + ddate.getMonth() + "/" + ddate.getFullYear()}</div>
-        <div>{"Total: $" + total + "MXN"}</div>
+        <div>{"Cantidad"} <br/> {amount}</div>
+        <div>{"Usuario"} <br/> {username}</div>
+        <div>{"Fecha"} <br/> {ddate.getDay() + "/" + ddate.getMonth() + "/" + ddate.getFullYear()}</div>
+        <div>{"Total"} <br/> {total + "MXN"}</div>
     </div>);
 }

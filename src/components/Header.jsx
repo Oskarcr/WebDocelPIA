@@ -1,4 +1,4 @@
-import { Components, FontSize, Theme } from "@/DocelCore";
+import { Components, FontSize, Spacing, Theme } from "@/DocelCore";
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
@@ -14,7 +14,7 @@ function ButtonLink({desktop = false, path = "/", name="ANY"}) {
             alignItems: "center",
             justifyContent: "end",
             width: "100%",
-            height: "100px",
+            height: "70px",
             fontSize: FontSize.MD,
             color: "var(--primary-color)"
         }}>
@@ -46,7 +46,7 @@ export default function Header({ inverted = false }) {
                 <Components.ButtonHeader name="MENU" />
                 <div id="header-menu-container" style={{
                     width: menuVisible ? "100vw" : 0,
-                    paddingInline: menuVisible ? "20px" : 0
+                    paddingInline: menuVisible ? Spacing.MD : 0
                 }}>
                     <ButtonLink path="/" name="INICIO"/>
                     <ButtonLink path="/orders" name="PEDIDOS"/>

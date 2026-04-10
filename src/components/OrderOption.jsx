@@ -11,13 +11,11 @@ export default function OrderOption({status = -1, register = Date.now(), deliver
     };
     
     return (<div className="order-option" style={{
-        borderRadius: "8px",
         borderColor: Theme.PRIMARY,
-        backgroundColor: Theme.BACKGROUND.SURFACE,
-        color: Theme.PRIMARY,
+        color: Theme.PRIMARY
     }}>
-        <div>Estado: {data.status}</div>
-        <div>Registro: {data.register}</div>
-        <div>Entrega: {data.delivery}</div>
+        <div>Estado: <br/> {data.status}</div>
+        <div>Registro: <br/> {data.register}</div>
+        <div>Entrega: <br/> {data.delivery}</div>
     </div>);
 }
