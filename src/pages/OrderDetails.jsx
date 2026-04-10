@@ -1,4 +1,4 @@
-import { Components, FontSize, Theme } from "@/DocelCore";
+import { Components, FontSize, Spacing, Theme } from "@/DocelCore";
 import OrderItem from "../components/OrderItem";
 
 const orderItems = [
@@ -9,7 +9,7 @@ const orderItems = [
 ]
 
 const children = orderItems.map(item => {
-    return <OrderItem src={item.src} name={item.name} color={item.color} price={item.price}></OrderItem>
+    return <OrderItem path={"/product_details"} src={item.src} name={item.name} price={item.price}></OrderItem>
 })
 
 export default function OrderDetails() {
@@ -26,18 +26,19 @@ export default function OrderDetails() {
                     alignItems: "center",
                 }}>
                     <Components.TextBox fontSize={FontSize.XL1} color={Theme.TEXT.SECONDARY} content="DETALLES DEL PEDIDO" style={{
-                        marginLeft: "30px"
+                        marginLeft: Spacing.LG
                     }}/>
                 </Components.DimmedImage>
                 <div style={{
                     display: "flex",
                     width: "100%",
                     height: "75%",
-                    paddingTop: "30px",
+                    padding: Spacing.SM,
                     backgroundColor: Theme.BACKGROUND.SURFACE,
                     flexDirection: "column",
                     alignItems: "center",
-                    gap: "30px",
+                    gap: Spacing.LG,
+                    boxSizing: "border-box",
                     overflowY: "auto"
                 }}>
                     {children}

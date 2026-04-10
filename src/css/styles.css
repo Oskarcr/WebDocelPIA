@@ -316,8 +316,13 @@ tr:active {
 .order-item-card {
     display: flex;
     flex-direction: row;
-    width: 70%;
-    height: 180px;
     border: 3px solid;
     border-radius: 8px;
+    flex-shrink: 0;
+    background-color: var(--option-color);
+    transition: 0.2s ease background-color;
+}
+
+.order-item-card:active {
+    background-color: var(--option-active-color);
 }

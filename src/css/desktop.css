@@ -39,3 +39,14 @@ body {
 .home-footer-container {
     grid-template-columns: 1fr 1fr 1fr 1fr;
 }
+
+.order-item-card {
+    max-width: 1000px;
+    width: 70%;
+    height: 150px;
+}
+
+.portal-image-container {
+    height: 100%;
+    width: 35%;
+}
