@@ -20,6 +20,7 @@ export default function Shopping() {
             <Components.Main horizontal>
                 <div id="shopping-wrapper" style={{
                     height: "100%",
+                    overflow: "auto",
                     backgroundColor: Theme.BACKGROUND.MAIN }}>
                     {children}
                 </div>

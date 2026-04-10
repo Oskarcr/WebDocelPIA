@@ -160,7 +160,6 @@ tr:active {
     align-items: center;
     gap: var(--gap-larger);
     box-sizing: border-box;
-    overflow-x: scroll;
 }
 
 #root {
@@ -253,8 +252,6 @@ tr:active {
 .add-product {
     width: 100%;
 }
-
-/**/
 
 #header-menu-container {
     padding-block: var(--spacing-small);
@@ -359,10 +356,14 @@ tr:active {
 
 .portal-item {
     display: flex;
-    border: 3px solid;
-    border-radius: 8px;
+    width: 100%;
     box-sizing: border-box;
     align-items: center;
+    transition: 0.2s ease background-color;
+}
+
+.portal-item:active {
+    background-color: var(--option-active-color);
 }
 
 .report-table-container {
