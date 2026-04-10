@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
  * @property {string} fontSize 
  * @property {string} color
  * @property {string} backgroundColor
+ * @property {string} className
  */
 
 /**
@@ -21,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 export default function Table({
     color = Theme.PRIMARY,
     size = "var(--box-size)",
+    className = "",
     fontSize = FontSize.SM,
     backgroundColor = Theme.BACKGROUND.SURFACE,
     rowActiveColor = Theme.ACCENT,
@@ -53,8 +55,9 @@ const navigate = useNavigate();
         for (let j = 0; j < hlen; j++) {
             bodyElements[i].push(<td style={{
                 padding: "12px",
-                border: "5px solid " + Theme.PRIMARY,
+                border: "2px solid " + Theme.PRIMARY,
                 height: size,
+                overflowWrap: "break-word",
                 ...elementsStyle
             }}>
                 {elements[i][j] ?? elements[i][j]}
@@ -62,12 +65,13 @@ const navigate = useNavigate();
         }
     }
 
-    return (<div style={{
+    return (<div className={className} style={{
         position: "relative",
         overflowY: "auto",
         boxSizing: "border-box",
         borderRadius: "8px",
-        outline: "inset 3px solid" + Theme.PRIMARY,
+        overflow: "hidden",
+        outline: "inset 2px solid" + Theme.PRIMARY,
         boxShadow: "var(--box-shadow)",
         "--tr-active-color": rowActiveColor,
         ...style

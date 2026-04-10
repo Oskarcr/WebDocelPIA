@@ -338,3 +338,20 @@ tr:active {
 .order-item-card:active {
     background-color: var(--option-active-color);
 }
+
+.portal-item {
+    display: flex;
+    border: 3px solid;
+    border-radius: 8px;
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.report-table-container {
+    box-sizing: border-box;
+    margin-inline: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}

@@ -3,8 +3,9 @@ import { Components, FontSize, Spacing, Theme } from "@/DocelCore"
 export default function Portal() {
     return (
         <Components.Main horizontal>
-            <Components.Column color={Theme.BLACK} />
-            <Components.DimmedImage className="portal-image-container" src="/furniture/background_home.png" childStyle={{
+            <Components.DimmedImage orientation="portrait" src="/furniture/background_home.png" style={{
+                width: "45%"
+            }}childStyle={{
                 display: "flex",
                 height: "100%",
                 width: "100%"
@@ -26,11 +27,13 @@ export default function Portal() {
                 flex: 1,
                 gap: Spacing.LG,
                 alignItems: "center",
-                marginTop: "5%",
+                marginTop: Spacing.LG,
+                marginBottom: "auto",
+                padding: Spacing.SM,
                 backgroundColor: Theme.BACKGROUND.MAIN
             }}>
                 <Components.PortalCard path="/profile" title="Buscar usuario" hasInput>
-                    <input placeholder="Nombre de usuario" style={{ width: "40%" }}></input>
+                    <input placeholder="Usuario" style={{ width: "45%" }}></input>
                 </Components.PortalCard>
                 <Components.PortalCard path="/product_manager" title="Gestor de muebles"/>
                 <Components.PortalCard path="/reports" title="Reporte de ventas"/>
