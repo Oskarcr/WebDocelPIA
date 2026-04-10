@@ -23,10 +23,9 @@ export default function Employees() {
         <div style={{
             flex: 1
         }}>
-            <div style={{
+            <div className="employee-text-wrapper" style={{
                 display: "flex",
-                justifyContent: "center",
-                height: "20%"
+                justifyContent: "center"
             }}>
                 <Components.TextBox alignment="bottom-left" fontSize={FontSize.LG} content="LISTA DE EMPLEADOS" style={{
                     width: "70%"
@@ -37,13 +36,9 @@ export default function Employees() {
                 height: "60%",
                 justifyContent: "center"
             }}>
-                <Components.Table
+                <Components.Table className="employee-table"
                     head={["Nombre", "Correo", "Telefono", "Asignar rol"]}  
                     elements={elements}
-                    style={{
-                        width: "70%",
-                        height: "100%",
-                    }}
                 />
             </div>
         </div>

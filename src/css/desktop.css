@@ -46,7 +46,24 @@ body {
     height: 150px;
 }
 
-.portal-image-container {
+.portal-item {
+    width: 85%;
+    min-height: 100px;
+    height: 15%;
+}
+
+.employee-text-wrapper {
+    height: 20%;
+}
+
+.employee-table {
+    width: 70%;
     height: 100%;
-    width: 35%;
+}
+
+.report-table-container {
+    width: 65%;
+    min-width: 200px;
+    height: 100%;
+    max-width: 900px;
 }
