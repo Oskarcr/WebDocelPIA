@@ -5,47 +5,48 @@ export default function ProductDetails() {
     return (
         <Components.Main horizontal>
             <Components.Column color={Theme.ACCENT} />
-            <div className="product-wrapper" style={{
-                display: "flex",
+            <div style={{
                 flex: 1,
-                background: "red"
+                backgroundColor: Theme.BACKGROUND.SURFACE
             }}>
-                <div className="product-card" style={{
-                    display: "flex",
-                    aspectRatio: "16/9",
-                    minWidth: "600px",
-                    width: "55%",
-                    margin: "auto",
-                    backgroundColor: Theme.BACKGROUND.MAIN,
-                    boxSizing: "border-box",
-                    border: "var(--border-medium) solid" + Theme.PRIMARY,
-                    borderRadius: "8px",
-                    overflow: "hidden"
-                }}>
-                    <img src="/furniture/sideboard2.png"/>
-                    <div className="product-information" style={{
-                        flex: 1,
-                        display: "flex",
-                        gap: Spacing.SM
+                <Components.DimmedImage
+                    style={{
+                        position: "absolute",
+                        width: "100%",
+                        height: "35%",
+                    }}
+                    src="/furniture/sideboard2.png"
+                />
+                <Components.Flex column className="product-details-card-container">
+                    <Components.TextBox
+                        style={{
+                            marginTop: Spacing.MD,
+                        }}
+                        color={Theme.TEXT.SECONDARY}
+                        content="DETALLES DEL PRODUCTO"
+                        fontSize={FontSize.XL1}
+                    />
+                    <div className="product-details-card" style={{
+                        backgroundColor: Theme.BACKGROUND.MAIN,
                     }}>
-                        <Components.TextBox fontSize={FontSize.MD} color={Theme.PRIMARY} content="Mueble de madera bonito"/>
-                        <Components.TextBox fontSize={FontSize.MD} color={Theme.PRIMARY} content="Precio: 4500MXN"/>
-                        <Components.TextBox fontSize={FontSize.MD} color={Theme.PRIMARY} content="Acabado: laca"/>
-                        <div style={{
-                            marginInline: Spacing.MD,
-                            marginTop: "auto",
-                            marginBottom: Spacing.MD,
-                            border: "2px solid " + Theme.PRIMARY,
-                            borderRadius: "8px"
+                        <img src="/furniture/sideboard2.png"/>
+                        <Components.Flex column style={{
+                            padding: Spacing.MD,
+                            boxSizing: "border-box",
+                            gap: Spacing.SM
                         }}>
-                            <Components.TextBox fontSize={FontSize.MD} color={Theme.PRIMARY} content="Color"/>
-                        </div>
-                        <button style={{
-                            marginInline: Spacing.MD,
-                            marginBottom: Spacing.MD
-                            }}>Agregar</button>
+                            <Components.TextBox 
+                                fontSize={FontSize.LG} 
+                                color={Theme.PRIMARY} 
+                                content="Mueble de madera bonito\nPrecio: 4500MXN\nAcabado: laca"
+                            />
+                            <input style={{
+                                marginTop: "auto"
+                            }} type="text" placeholder="Color"/>
+                            <button>Agregar</button>
+                        </Components.Flex>
                     </div>
-                </div>
+                </Components.Flex> 
             </div>
             <Components.Column color={Theme.BLACK} />
         </Components.Main>
