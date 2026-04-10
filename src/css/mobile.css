@@ -54,10 +54,7 @@ body {
     width: 100%;
 }
 
-.order-items-name{
-    font-size: 1px !important;
-}
-
-.order-items-color{
-    font-size: 1px !important;
+.order-item-card {
+    width: 100%;
+    height: 120px;
 }

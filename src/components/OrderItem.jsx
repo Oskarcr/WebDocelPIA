@@ -1,11 +1,10 @@
 import { Components, FontSize, Theme } from "@/DocelCore";
 import { Link as RouterLink } from "react-router-dom";
 
-export default function OrderItem({ path = "", src = "", name = "", color = "", price = "" }) {
+export default function OrderItem({ path = "", src = "", name = "", price = "" }) {
     return (
         <RouterLink className="order-item-card" to={path} style={{
             borderColor: Theme.PRIMARY,
-            backgroundColor: Theme.BACKGROUND.MAIN,
             color: Theme.TEXT.SECONDARY,
         }}>
             <div style={{
@@ -18,12 +17,13 @@ export default function OrderItem({ path = "", src = "", name = "", color = "", 
                 }} />
             </div>
             <div style={{
+                display: "flex",
+                alignItems: "center",
                 width: "40%"
             }}>
-                <Components.TextBox className="order-item-name" fontSize={FontSize.MD} content={name} color={Theme.PRIMARY} />
-                <Components.TextBox className="order-item-color" fontSize={FontSize.MD} content={color} color={Theme.PRIMARY} />
+                <Components.TextBox className="order-item-name" fontSize={FontSize.MD} content={name} alignment="center-left" color={Theme.PRIMARY} />
             </div>
-            <Components.TextBox className="order-item-price" fontSize={FontSize.MD} content={"$" + price + " MXN"} alignment="top-right" color={Theme.PRIMARY} style={{ width: "40%" }} />
+            <Components.TextBox className="order-item-price" fontSize={FontSize.MD} content={"$" + price + " MXN"} alignment="center-right" color={Theme.PRIMARY} style={{ width: "40%" }} />
         </RouterLink>
     );
 }

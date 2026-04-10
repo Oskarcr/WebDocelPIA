@@ -1,20 +1,17 @@
-import { Components, FontSize, Theme } from "@/DocelCore"
+import { Components, FontSize, Spacing, Theme } from "@/DocelCore"
 
 export default function Portal() {
     return (
         <Components.Main horizontal>
             <Components.Column color={Theme.BLACK} />
-            <Components.DimmedImage src="/furniture/background_home.png" style={{
-                height: "100%",
-                width: "35%",
-            }} childStyle={{
+            <Components.DimmedImage className="portal-image-container" src="/furniture/background_home.png" childStyle={{
                 display: "flex",
                 height: "100%",
                 width: "100%"
             }}>
                 <Components.TextBox
                     style={{
-                        padding: "20px",
+                        padding: Spacing.SM,
                         marginBlock: "auto"
                     }}
                     color={Theme.TEXT.SECONDARY}
@@ -27,7 +24,7 @@ export default function Portal() {
                 display: "flex",
                 flexDirection: "column",
                 flex: 1,
-                gap: "10%",
+                gap: Spacing.LG,
                 alignItems: "center",
                 marginTop: "5%",
                 backgroundColor: Theme.BACKGROUND.MAIN
