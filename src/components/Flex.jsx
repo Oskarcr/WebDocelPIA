@@ -2,15 +2,16 @@
  * @typedef FlexParams
  * @property {import("react").CSSProperties} style
  * @property {boolean} row
- * @property {boolean} column 
+ * @property {boolean} column
+ * @property {string} className 
  */
 
 /**
  * @param {FlexParams} param0 
  */
-export default function Flex({row = false, column = false, style = {}, children}) {
+export default function Flex({className="", row = false, column = false, style = {}, children}) {
     if(!row && !column || !column) row = true;
-    return (<div style={{
+    return (<div className={className} style={{
         flex: 1,
         display: "flex",
         flexDirection: (row ? "row" : "column"),

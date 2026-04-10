@@ -40,16 +40,7 @@ export default function Profile() {
                             />
                         </div>
                     </Components.DimmedImage>
-                    <Components.Flex column style={{
-                        marginInline: "auto",
-                        padding: Spacing.MD,
-                        width: "50%",
-                        minWidth: "600px",
-                        maxWidth: "800px",
-                        boxSizing: "border-box",
-                        gap: Spacing.MD,
-                        overflowY: "scroll"
-                    }}>
+                    <div className="profile-inputs-container">
                         <input type="text" value="Oscar"/>
                         <input type="email" value="oscar.pro@gmail.com"/>
                         <input type="text" value="Monterrey av. 'La avenida' calle 'Ernesto Peralez' #0000"/>
@@ -57,7 +48,7 @@ export default function Profile() {
                         <button>CAMBIAR CONTRASEÑA</button>
                         <button>VER UBICACIÓN</button>
                         <button>CONTRATAR</button>
-                    </Components.Flex>
+                    </div>
                 </Components.Flex>
             </Components.Flex>
             <Components.TextBox style={{
