@@ -4,7 +4,7 @@ export default function Login() {
     return(<Components.Main horizontal>
         <Components.Column color={Theme.BLACK}/>
         <Components.Flex row>   
-            <Components.DimmedImage style={{
+            <Components.DimmedImage orientation="portrait" style={{
                 width: "50%",
                 display: "flex"
             }} childStyle={{

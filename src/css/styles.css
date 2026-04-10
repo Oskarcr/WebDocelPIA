@@ -1,5 +1,17 @@
-@import url("mobile.css") screen and (max-width: 720px);
-@import url("desktop.css") screen and (min-width: 721px);
+@import url("mobile.css") screen and (max-width: 740px);
+@import url("desktop.css") screen and (min-width: 741px);
+
+@media (orientation: landscape) {
+    *[data-orientation="landscape"] {
+        display: none !important;
+    }
+}
+
+@media (orientation: portrait) {
+    *[data-orientation="portrait"] {
+        display: none !important;
+    }
+}
 
 * {
     font-family: "ZTNatureMedium";
