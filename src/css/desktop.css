@@ -88,6 +88,20 @@ body {
     height: 90px;
 }
 
+.product-details-card-container {
+    min-width: 300px;
+}
+
+.product-details-card {
+    flex-direction: row;
+    height: 60%;
+}
+
+.product-details-card > img {
+    height: 100%;
+    width: 50%;
+}
+
 .sales-list-container {
     width: 80%;
     min-width: 600px;

@@ -229,12 +229,6 @@ tr:active {
     aspect-ratio: 1/1;
 }
 
-.product-information {
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-}
-
 .product {
     height: 70%;
     padding: var(--spacing-medium);
@@ -364,6 +358,24 @@ tr:active {
 
 .portal-item:active {
     background-color: var(--option-active-color);
+}
+
+.product-details-card-container {
+    position: relative;
+    height: 100%;
+    width: 90%;
+    max-width: 900px;
+    margin-inline: auto;
+    z-index: 5;
+}
+
+.product-details-card {
+    display: flex;
+    margin-top: var(--spacing-medium);
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
 }
 
 .report-table-container {

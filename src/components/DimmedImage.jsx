@@ -15,6 +15,7 @@
 export default function DimmedImage({orientation = null, device=null, src = "", className="", style = {}, childClassName="", childStyle = {}, children}) {
     if(!style.position) style.position = "relative";
     style.boxShadow = "var(--box-shadow)";
+    style.overflow = "hidden";
     Object.assign(childStyle, {
         position: "relative",
         top: 0,
