@@ -39,10 +39,10 @@ body {
 }
 
 #shopping-wrapper {
-        min-height: 600px;
-        align-items: unset;
-        margin-inline: auto;
-        flex-direction: column;
+    min-height: 600px;
+    align-items: unset;
+    margin-inline: auto;
+    flex-direction: column;
 }
 
 .item-card {
@@ -75,4 +75,20 @@ body {
 
 .sales-list-container {
     width: 100%;
+}
+
+.portal-item {
+    width: 100%;
+    min-height: 120px;
+    padding: var(--spacing-small);
+}
+
+.employee-text-wrapper {
+    height: 10%;
+}
+
+.report-table-container {
+    width: 100%;
+    min-width: 300px;
+    height: 100%;
 }

@@ -1,7 +1,6 @@
-import { Components, FontSize, Theme } from "@/DocelCore";
+import { Components, FontSize, Spacing, Theme } from "@/DocelCore";
 
 const tmp = [
-    {folio: 1, date: Date.now(), income : 10000},
     {folio: 1, date: Date.now(), income : 10000},
     {folio: 1, date: Date.now(), income : 10000},
     {folio: 1, date: Date.now(), income : 10000},
@@ -36,7 +35,7 @@ export default function Reports() {
                 >
                     <Components.TextBox 
                         style={{
-                            padding: "20px",
+                            padding: Spacing.LG,
                             height: "100%",
                             width: "80%",
                             marginInline: "auto"
@@ -47,27 +46,17 @@ export default function Reports() {
                         content="REPORTES DOCEL"
                     />
                 </Components.DimmedImage>
-                <Components.Flex column style={{
-                    padding: "30px",
-                    width: "60%",
-                    minWidth: "700px",
-                    height: "100%",
-                    boxSizing: "border-box",
-                    marginInline: "auto"
+                <div className="report-table-container" style={{
+                    padding: Spacing.SM
                 }}>
                     
-                    <Components.Flex row style={{
-                        boxSizing: "border-box"
-                    }}>
+                    <Components.Flex row>
                         <Components.Table 
-                            style={{
-                                flex: 1,
-                            }}
                             head={["Folio", "Fecha", "Ingresos"]}
                             elements={elements}
                         />
                     </Components.Flex>
-                </Components.Flex>
+                </div>
             </Components.Flex>
         <Components.Column color={Theme.ACCENT}/>
     </Components.Main>);
