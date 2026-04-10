@@ -8,7 +8,7 @@ export default function Portal() {
             }}childStyle={{
                 display: "flex",
                 height: "100%",
-                width: "100%"
+                width: "100%",
             }}>
                 <Components.TextBox
                     style={{
@@ -25,20 +25,27 @@ export default function Portal() {
                 display: "flex",
                 flexDirection: "column",
                 flex: 1,
-                gap: Spacing.LG,
                 alignItems: "center",
-                marginTop: Spacing.LG,
-                marginBottom: "auto",
                 padding: Spacing.SM,
-                backgroundColor: Theme.BACKGROUND.MAIN
+                backgroundColor: Theme.BACKGROUND.SURFACE
             }}>
-                <Components.PortalCard path="/profile" title="Buscar usuario" hasInput>
+                <div style={{
+                    width: "85%",
+                    marginTop: Spacing.LG,
+                    marginBottom: "auto",
+                    overflow: "hidden",
+                    boxShadow: "var(--box-shadow)",
+                    borderRadius: "8px",
+                    backgroundColor: Theme.BACKGROUND.MAIN
+                }}>
+                    <Components.PortalCard path="/profile" title="Buscar usuario" hasInput>
                     <input placeholder="Usuario" style={{ width: "45%" }}></input>
-                </Components.PortalCard>
-                <Components.PortalCard path="/product_manager" title="Gestor de muebles"/>
-                <Components.PortalCard path="/reports" title="Reporte de ventas"/>
+                    </Components.PortalCard>
+                    <Components.PortalCard path="/product_manager" title="Gestor de muebles"/>
+                    <Components.PortalCard path="/reports" title="Reporte de ventas"/>
+                </div>
             </div>
-            <Components.Column color={Theme.ACCENT} />
+            <Components.Column color={Theme.BLACK} />
         </Components.Main>
     )
 }

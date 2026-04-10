@@ -4,9 +4,7 @@ import { Link as RouterLink } from "react-router-dom";
 export default function PortalCard({ title = "", path = "", style = {}, hasInput = false, children }) {
     return (
         <RouterLink className="portal-item" to={path} style={{
-            borderColor: Theme.PRIMARY,
-            backgroundColor: Theme.BACKGROUND.SURFACE,
-            boxShadow: "0 0 20px rgba(0, 0, 0, 0.5)",
+            outline: "1px solid " + Theme.ACCENT,
             ...style
         }}>
             <Components.TextBox fontSize={FontSize.MD} alignment="center-left" color={Theme.PRIMARY} content={title} style={{width: hasInput ? "45%" : "90%"}}/>
