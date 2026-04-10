@@ -15,5 +15,6 @@ export default function Column({color = Theme.BLACK, style = {}, horizontal}) {
     style.backgroundColor = color;
     style.width = (horizontal ? "100%" : HEIGHT + "px");
     style.height = (!horizontal ? "100%" : HEIGHT + "px");
+    style.flexShrink = 0;
     return (<div className="column" style={style}/>);
 }

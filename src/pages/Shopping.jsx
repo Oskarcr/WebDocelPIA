@@ -1,4 +1,4 @@
-import { Components, Theme } from "@/DocelCore";
+import { Components, Spacing, Theme } from "@/DocelCore";
 import "../css/styles.css";
 
 const shoppingItems = [
@@ -15,16 +15,18 @@ const children = shoppingItems.map((item) => {
 });
 
 export default function Shopping() {
-    return (
-        <>
-            <Components.Main horizontal>
-                <div id="shopping-wrapper" style={{
-                    height: "100%",
-                    overflow: "auto",
-                    backgroundColor: Theme.BACKGROUND.MAIN }}>
-                    {children}
-                </div>
-            </Components.Main>
-        </>
-    )
+    return (<Components.Main horizontal>
+        <Components.Column color={Theme.ACCENT}/>
+        <div className="shopping-main-container" style={{
+            backgroundColor: Theme.BACKGROUND.SURFACE
+        }}>
+            <div style={{
+                backgroundColor: Theme.ACCENT,
+                outline: "2px solid " + Theme.ACCENT,
+            }}>
+                {children}
+            </div>
+        </div>
+        <Components.Column color={Theme.BLACK}/>
+    </Components.Main>);
 }
