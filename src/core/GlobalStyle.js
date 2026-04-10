@@ -15,6 +15,7 @@ const GlobalStyle = {
     "--text-color-secondary": Theme.TEXT.SECONDARY,
     "--input-background-color": Theme.TEXT.SECONDARY,
     "--option-color": Theme.BACKGROUND.MAIN,
+    "--option-hover-color": Theme.BACKGROUND.SURFACE,
     "--option-active-color": Theme.ACCENT
 };
 

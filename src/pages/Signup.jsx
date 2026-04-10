@@ -1,30 +1,25 @@
-import { Components, FontSize, Theme } from "@/DocelCore";
+import { Components, FontSize, Spacing, Theme } from "@/DocelCore";
 
 export default function Signup() {
     return (<Components.Main horizontal>
         <Components.Column color={Theme.BLACK}/>
-        <div style={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "row",
+        <Components.Flex row style={{
             backgroundColor: Theme.BACKGROUND.MAIN
         }}>
-            <div style={{
-                flex: 1,
-                display: "flex",
-                flexDirection: "column",
+            <Components.Flex column style={{
                 backgroundColor: Theme.BACKGROUND.MAIN
             }}>
                 <div style={{
                     display: "flex",
                     flexDirection: "column",
-                    padding: "10px",
+                    padding: Spacing.SM,
                     width: "80%",
                     maxWidth: "500px",
                     marginBlock: "auto",
                     marginInline: "auto",
                     boxSizing: "border-box",
-                    gap: "20px"
+                    gap: Spacing.MD,
+                    overflow: "auto"
                 }}>
                     <Components.TextBox 
                         fontSize={FontSize.MD}
@@ -36,7 +31,7 @@ export default function Signup() {
                     <input type="email" placeholder="Correo"/>
                     <input type="password" placeholder="Contraseña"/>
                     <button style={{
-                        marginTop: "20px"
+                        marginTop: Spacing.MD
                     }}>REGISTRARME</button>
                     <Components.TextBox 
                         content="Ya tengo cuenta" 
@@ -45,12 +40,14 @@ export default function Signup() {
                     />
                 </div>
                 <Components.Column color={Theme.ACCENT} horizontal/>
-            </div>
+            </Components.Flex>
             
-            <Components.DimmedImage style={{
+            <Components.DimmedImage 
+            device="desktop"
+            orientation="portrait" style={{
                 height: "100%",
                 width: "50%",
-                padding: "20px",
+                padding: Spacing.MD,
                 boxSizing: "border-box"
             }} childStyle={{
                 position: "relative",
@@ -58,28 +55,25 @@ export default function Signup() {
                 flexDirection: "column",
                 height: "100%",
             }} src="https://www.shutterstock.com/image-photo/senior-carpenter-guides-woman-using-600nw-2585917355.jpg">
-                <div style={{
-                    marginTop: "auto"
-                }}></div>
-                <div style={{
-                    fontSize: FontSize.XL3
-                }}>
-                    COMIENZA <br/> 
-                    A <br/> 
-                    TRANSFORMAR <br/> 
-                    TU HOGAR
-                </div>
+                <Components.TextBox
+                    style={{
+                        marginTop: "auto"
+                    }}
+                    color={Theme.TEXT.SECONDARY}
+                    fontSize={FontSize.XL3}
+                    content="COMIENZA\nCON\nNOSOTROS"
+                />
                 <Components.TextBox 
                     style={{
                         marginTop: "auto"
                     }}
-                    fontSize={FontSize.MD}
+                    fontSize={FontSize.SM}
                     alignment="center"
                     color={Theme.TEXT.SECONDARY}
                     content="CONSTRUYE CON NOSOTROS ENVIANDO MENSAJE AL +52 0000000000"
                 />
             </Components.DimmedImage>
-        </div>
+        </Components.Flex>
         <Components.Column color={Theme.ACCENT}/>
     </Components.Main>);
 }

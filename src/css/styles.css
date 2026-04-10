@@ -1,5 +1,5 @@
-@import url("mobile.css") screen and (max-width: 740px);
-@import url("desktop.css") screen and (min-width: 741px);
+@import url("mobile.css") screen and (max-width: 750px);
+@import url("desktop.css") screen and (min-width: 751px);
 
 @media (orientation: landscape) {
     *[data-orientation="landscape"] {
@@ -28,7 +28,6 @@ body {
     --font-small: 24px;
     --font-medium: 32px;
     --font-larger: 40px;
-    --gap-medium: 10px;
     --gap-larger: 30px;
     --input-background-color: red;
     --input-border-color: red;
@@ -39,6 +38,7 @@ body {
     --button-background-color: red;
     --button-active-color: red;
     --option-color: red;
+    --option-hover-color: red;
     --option-active-color: red;
     --border-medium: 3px;
     --box-size: 50px;
@@ -112,7 +112,7 @@ tr:active {
     width: 100vw;
     justify-content: space-between;
     align-items: center;
-    padding: 0 10px;
+    padding: 0 var(--spacing-small);
     background-color: var(--primary-color);
     flex-wrap: wrap;
     box-sizing: border-box;
@@ -133,7 +133,6 @@ tr:active {
     flex: 1;
     flex-wrap: wrap;
     justify-content: flex-end;
-    gap: var(--gap-medium);
 }
 
 .header-button {
@@ -187,35 +186,33 @@ tr:active {
 
 /* Pedidos */
 .order-option {
-    padding: 20px;
+    background-color: var(--option-color);
+    padding-inline: var(--spacing-medium);
+    padding-block: var(--spacing-small);
     box-sizing: border-box;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    margin-inline: auto;
-    width: 80%;
-    height: 90px;
-    max-width: 1100px;
+    width: 100%;
     flex-shrink: 0;
-    border: 3px solid;
-    box-shadow: var(--box-shadow);
     font-size: var(--font-size-md);
     align-items: center;
+    transition: background-color 0.2s ease;
+}
+
+.order-option:hover {
+    background-color: var(--option-hover-color);
 }
 
 /* Ventas */
 
 .sale-option {
-    padding: 10px;
+    padding: var(--spacing-small);
     box-sizing: border-box;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     margin-inline: auto;
-    width: 80%;
-    height: 60px;
-    max-width: 1200px;
+    width: 100%;
     flex-shrink: 0;
-    border: 3px solid;
-    box-shadow: var(--box-shadow);
     font-size: var(--font-size-sm);
     align-items: center;
 }
@@ -260,7 +257,8 @@ tr:active {
 /**/
 
 #header-menu-container {
-    padding-block: var(--padding-medium);
+    padding-block: var(--spacing-small);
+    gap: var(--spacing-small);
     padding-inline: 0;
     box-sizing: border-box;
     top: 100%;
@@ -337,4 +335,24 @@ tr:active {
 
 .order-item-card:active {
     background-color: var(--option-active-color);
+}
+
+.orders-list-container {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    margin-inline: auto;
+    position: relative;
+    gap: 2px;
+    box-sizing: border-box;
+    box-shadow: var(--box-shadow);
+}
+
+.sales-list-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    margin-inline: auto;
+    gap: 2px;
+    box-shadow: var(--box-shadow);
 }
