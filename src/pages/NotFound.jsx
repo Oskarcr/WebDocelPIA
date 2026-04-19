@@ -1,4 +1,4 @@
-import { Components, FontSize } from "@/DocelCore";
+import { Components, FontSize } from "@/DocelClient";
 
 export default function NotFound() {
     return (<Components.Main>

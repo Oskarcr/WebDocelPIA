@@ -1,4 +1,4 @@
-import { Components, FontSize, Spacing, Theme } from "@/DocelCore";
+import { Components, FontSize, Spacing, Theme } from "@/DocelClient";
 
 const tmp = [
     {folio: 1, date: Date.now(), income : 10000},

@@ -1,4 +1,4 @@
-import { Components, FontSize, Spacing, Theme } from "@/DocelCore";
+import { Components, FontSize, Spacing, Theme } from "@/DocelClient";
 
 export default function Profile() {
     return (<Components.Main horizontal inverted>

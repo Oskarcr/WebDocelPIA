@@ -1,4 +1,4 @@
-import { Components, FontSize, Spacing, Theme } from "@/DocelCore";
+import { Components, FontSize, Spacing, Theme } from "@/DocelClient";
 import Padding from "../core/Spacing";
 
 export default function ProductDetails() {

@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "paths": {
-      "@/DocelCore": ["./src/DocelCore.jsx"]
+      "@/DocelClient": ["./src/DocelClient.jsx"],
+      "#DocelServer": ["./server/main.js"]
     }
   }
 }

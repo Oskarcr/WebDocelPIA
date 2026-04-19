@@ -1,4 +1,4 @@
-import { Theme } from "@/DocelCore";
+import { Theme } from "@/DocelClient";
 
 /**
  * @typedef ColumnParams

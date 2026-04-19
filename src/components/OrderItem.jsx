@@ -1,4 +1,4 @@
-import { Components, FontSize, Theme } from "@/DocelCore";
+import { Components, FontSize, Theme } from "@/DocelClient";
 import { Link as RouterLink } from "react-router-dom";
 
 export default function OrderItem({ path = "", src = "", name = "", price = "" }) {

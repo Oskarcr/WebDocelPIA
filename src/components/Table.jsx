@@ -1,4 +1,4 @@
-import { FontSize, Theme } from "@/DocelCore";
+import { FontSize, Theme } from "@/DocelClient";
 import { useNavigate } from "react-router-dom";
 
 
@@ -70,7 +70,7 @@ const navigate = useNavigate();
         overflowY: "auto",
         boxSizing: "border-box",
         borderRadius: "8px",
-        overflow: "hidden",
+        overflow: "auto",
         outline: "inset 2px solid" + Theme.PRIMARY,
         boxShadow: "var(--box-shadow)",
         "--tr-active-color": rowActiveColor,
