@@ -1,4 +1,4 @@
-import { Components, Theme } from "@/DocelCore";
+import { Components, Theme } from "@/DocelClient";
 
 /**
  * @typedef MainParams

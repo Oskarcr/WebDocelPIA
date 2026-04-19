@@ -1,4 +1,4 @@
-import { OrderStatus, Theme } from "@/DocelCore";
+import { OrderStatus, Theme } from "@/DocelClient";
 
 export default function OrderOption({status = -1, register = Date.now(), delivery = Date.now()}) {  
     const rdate = new Date(register);

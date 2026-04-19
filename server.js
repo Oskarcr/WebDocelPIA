@@ -1,3 +1,29 @@
+import { app } from "#DocelServer";
+import { connect } from "mongoose";
+
+const SERVER_PORT = process.env["SERVER_PORT"];
+const DATABASE_URL = process.env["DATABASE_URL"];
+
+async function start() {
+    try {
+        await connect(DATABASE_URL);   
+        console.log("Database connected sucessfully");
+    }
+    catch(error) {
+        console.log("Database error");
+        console.log(error);
+        process.exit(0);
+    }
+
+    app.listen(SERVER_PORT, () => {
+        console.log("App listeting on http://localhost:" + SERVER_PORT);
+    });
+}
+
+start();
+
+/*
+
 require("dotenv").config();
 
 const express = require("express");
@@ -25,4 +51,4 @@ app.use("/base", baseRoute);
 
 app.get("/", (req, res) => res.send("Hello world!"));
 
-app.listen(port, () => console.log("App listeting on http://localhost:" + port));
+app.listen(port, () => console.log("App listeting on http://localhost:" + port));*/

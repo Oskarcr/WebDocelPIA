@@ -1,4 +1,4 @@
-import { Components, Spacing, Theme } from "@/DocelCore";
+import { Components, Spacing, Theme } from "@/DocelClient";
 import "../css/styles.css";
 
 const shoppingItems = [

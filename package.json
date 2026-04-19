@@ -2,6 +2,10 @@
   "name": "webdocelpia",
   "private": true,
   "version": "0.0.0",
+  "type": "module",
+  "imports": {
+    "#DocelServer": "./server/main.js"
+  },
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "node --env-file=.env.local server.js",

@@ -1,4 +1,4 @@
-import { FontSize, Spacing, Theme } from "@/DocelCore";
+import { FontSize, Spacing, Theme } from "@/DocelClient";
 import { Link as RouterLink } from "react-router-dom";
 
 /**

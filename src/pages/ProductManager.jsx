@@ -1,4 +1,4 @@
-import { Components, FontSize, Spacing, Theme } from "@/DocelCore";
+import { Components, FontSize, Spacing, Theme } from "@/DocelClient";
 import { useParams } from "react-router-dom";
 
 function ProductPage({ name = "", finish = "", price = "" }) {

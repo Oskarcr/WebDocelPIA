@@ -6,7 +6,7 @@
  * @property {number} total
  */
 
-import { Theme } from "@/DocelCore";
+import { Theme } from "@/DocelClient";
 
 /**
  * @param {SaleParams} param0 

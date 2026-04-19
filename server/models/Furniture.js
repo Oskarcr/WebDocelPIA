@@ -1,5 +1,4 @@
-const mongoose = require("mongoose");
-const { Schema } = mongoose;
+import { Schema, model } from "mongoose";
 
 const furnitureSchema = new Schema({
     name: String,
@@ -12,6 +11,6 @@ const furnitureSchema = new Schema({
     manufacturingTime: Number
 })
 
-const Furniture = mongoose.model("Furniture", furnitureSchema);
+const Furniture = model("Furniture", furnitureSchema);
 
-module.exports = Furniture;
+export default Furniture;

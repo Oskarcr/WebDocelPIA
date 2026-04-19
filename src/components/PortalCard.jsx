@@ -1,4 +1,4 @@
-import { Components, FontSize, Spacing, Theme } from "@/DocelCore";
+import { Components, FontSize, Spacing, Theme } from "@/DocelClient";
 import { Link as RouterLink } from "react-router-dom";
 
 export default function PortalCard({ title = "", path = "", style = {}, hasInput = false, children }) {
