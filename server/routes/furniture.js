@@ -7,12 +7,12 @@ furniture.get("/", async (req, res) => {
 
 });
 
-// Visualiza los detalles del mueble especifico
+// Obtiene los detalles de un mueble especifico
 furniture.get("/:id", async (req, res) => {
     const { id } = req.params;
 });
 
-// Agrega un nuevo mueble al catalogo
+// Agrega un nuevo mueble a la base de datos.
 furniture.post("/", async (req, res) => {
 
 });

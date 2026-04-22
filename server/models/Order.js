@@ -1,19 +1,20 @@
 import { Schema, model } from "mongoose";
 
 const orderSchema = new Schema({
-    registrationDate: Number,
-    daliveryDate: Number,
+    deliverdAt: Number,
     status: Number,
     advance: Number,
     comment: String,
-    furnitureIds: [{
+    furnitures: [{
         type: Schema.Types.ObjectId,
         ref: "Furniture"
     }],
-    userId: {
+    user: {
         type: Schema.Types.ObjectId,
         ref: "User"
     }
+}, {
+    timestamps: true
 });
 
 const Order = model("Order", orderSchema);

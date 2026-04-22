@@ -2,11 +2,12 @@ import { Schema, model } from "mongoose";
 
 const saleSchema = new Schema({
     total: Number,
-    date: Number,
-    orderId: {
+    order: {
         type: Schema.Types.ObjectId,
         ref: "Order"
     }
+}, {
+    timestamps: true
 });
 
 const Sale = model("Sale", saleSchema);
