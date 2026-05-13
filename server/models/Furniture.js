@@ -3,8 +3,11 @@ import { Schema, model } from "mongoose";
 const furnitureSchema = new Schema({
     name: String,
     price: Number,
-    color: Number,
-    path: String,
+    color: [{
+        type: Schema.Types.ObjectId,
+        ref: "Color"
+    }],
+    imageUrl: String,
     approximateTime: Number,
     description: String,
     finish: Number,
