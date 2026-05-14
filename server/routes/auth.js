@@ -1,31 +1,39 @@
 import { Router } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { User } from "#DocelServer";
+import { User, Validators } from "#DocelServer";
+const validator = Validators.auth;
 
 const auth = Router();
 
 // Crea un nuevo usuario
 auth.post("/signup", async (req, res) => {
     try{
-        const {name, phone, address, email, password} = req.body;
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        const normalizedEmail = email.trim().toLowerCase();
-        const validEmail = emailRegex.test(normalizedEmail);
+        const {name, phone, address} = req.body;
+        
+        const empties = validator.empties(req.body, "email", "password");
 
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
-        const validPassword = passwordRegex.test(password);
+        if(empties.length > 0){
+            res.status(400).json({
+                empties
+            });
+            return;
+        }
 
-        if(!validEmail) return res.status(400).send(
-            "Se debe proporcionar un correo valido."
-        );
+        const errors = validator.validate(req.body);
 
-        if(!validPassword) return res.status(400).send(
-            "La contraseña debe ser de al menos 8 caracteres, 1 mayuscula y 1 minuscula."
-        );
+        if(errors.length > 0){
+            res.status(400).json({
+                errors
+            });
+            return;
+        }
+
+        const email = req.body.email.trim().toLowerCase();
+        const { password } = req.body;
 
         const userExists = await User.findOne({
-            email: normalizedEmail
+            email: email
         })
 
         if(userExists) return res.status(400).send(
@@ -36,7 +44,7 @@ auth.post("/signup", async (req, res) => {
 
         const user = await User.create({
             username: name,
-            email: normalizedEmail,
+            email: email,
             password: cryptedPassword,
             address: address,
             phone: phone,
