@@ -2,6 +2,7 @@ import RequestValidator from "./RequestValidator.js";
 
 const auth = new RequestValidator({
     email: {
+        label: "correo",
         type: String,
         validate: (email) => {
             const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -12,6 +13,7 @@ const auth = new RequestValidator({
         }
     },
     password: {
+        label: "contraseña",
         type: String,
         validate: (password) => {
             const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
@@ -21,6 +23,7 @@ const auth = new RequestValidator({
         }
     },
     address: {
+        label: "dirección",
         type: String,
         validate: (address) => {
             const addressRegex = /^[a-zA-ZÀ-ÿ0-9\s#.,-]{5,100}$/;
@@ -30,6 +33,7 @@ const auth = new RequestValidator({
         }
     },
     phone: {
+        label: "telefono",
         type: Number,
         validate: (phone) => {
             const phoneRegex = /^\d{11}$/;
@@ -39,6 +43,7 @@ const auth = new RequestValidator({
         }
     },
     name: {
+        label: "nombre",
         type: String,
         validate: (name) => {
             const usernameRegex = /^[A-Za-z]{3,100}$/;
