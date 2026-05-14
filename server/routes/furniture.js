@@ -14,7 +14,25 @@ furniture.get("/:id", async (req, res) => {
 
 // Agrega un nuevo mueble a la base de datos.
 furniture.post("/", async (req, res) => {
+    validator.validate({
 
+    });
+    const {
+        name,
+        price,
+        imageUrl,
+        approximateTime,
+        description,
+        finish
+    } = req.body;
+    if(typeof name !== "string") {
+        res.status(400).send("El name debe ser de tipo string");
+        return;
+    }
+    if(typeof price !== "number") {
+        res.status(400).send("El name debe ser de tipo string");
+        return;
+    }
 });
 
 // Marca como inactivo un mueble
