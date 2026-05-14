@@ -31,7 +31,7 @@ const furniture = new RequestValidator({
         label: "acabado",
         type: String,
         validate: (finishName) => {
-            const finish = FinishType.fromString(finishName);
+            const finish = FinishType.fromLabel(finishName);
             if(!finish) {
                 const list = FinishType.labels().map(a => "'" + a + "'").join(" | ");
                 return "El tipo de acabado es invalido, debe ser " + list;  

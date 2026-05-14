@@ -1,17 +1,14 @@
 export default class Enumerable {
-    #map = null;
-
-    #getMap() {
-        if(this.#map === null) this.#map = this.buildMap();
-        return this.#map;
-    }
-
     /**
-     * Un metodo que puedes sobreescribir para poner el map de tu enum.
+     * Es el map de tu enum.
+     * @example 
+     * _map = {
+     *      "cliente": this.CLIENT,
+     *      "administrador": this.ADMINISTRATOR,
+     *      "etc": this.ETC
+     * };
      */
-    buildMap() {
-        return {};
-    }
+    _map = {};
 
     /**
      * Devuelve una lista de los valores del enum.
@@ -33,19 +30,18 @@ export default class Enumerable {
      * Devuelve una lista de los texto descriptivos del mapa del enum.
      */
     labels() {
-        return Object.keys(this.#map);
+        return Object.keys(this._map);
     }
-
 
     /**
      * Convierte `value` en un `string` que representa 
-     * el nombre de un valor de este enum .
+     * el label de un valor de este enum.
      * 
      * En caso de ser invalido, retorna `null`.
      * @param {number} value
      */
-    toString(value) {
-        const map = this.#getMap();
+    toLabel(value) {
+        const map = this._map;
         for(const k in map) {
             if(map[k] === value) {
                 return k;
@@ -55,11 +51,16 @@ export default class Enumerable {
     }
 
     /**
-     * Convierte `str` en un valor de tipo `number`
+     * Convierte `label` en un valor de tipo `number`
      * perteneciente a este enum.
-     * @param {string} str 
+     * 
+     * Retorna `null` si no se encuentra.
+     * @param {string} label 
      */
-    fromString(str) {
-        return this.#getMap()[str] ?? null;
+    fromLabel(label) {
+        /**@type {number} */
+        const value = this._map[label] ?? null;
+        if(!value) return -1;
+        return value;
     }
 }

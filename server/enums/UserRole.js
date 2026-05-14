@@ -22,12 +22,10 @@ class UserRoleEnum extends Enumerable {
      */
     ADMINISTRATOR = 3;
 
-    buildMap() {
-        return {
-            "cliente": this.CLIENT,
-            "empleado": this.EMPLOYEE,
-            "administrador": this.ADMINISTRATOR
-        }
+    _map = {
+        "cliente": this.CLIENT,
+        "empleado": this.EMPLOYEE,
+        "administrador": this.ADMINISTRATOR
     };
 };
 

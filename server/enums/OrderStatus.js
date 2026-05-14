@@ -41,16 +41,14 @@ class OrderStatusEnum extends Enumerable {
      */
     CONCLUDED = 6;
 
-    buildMap() {
-        return {
-            "pendiente": this.PENDING,
-            "devuelto": this.RETURNED,
-            "aceptado": this.ACCEPTED,
-            "rechazado": this.REJECTED,
-            "cancelado": this.CANCELED,
-            "concluido": this.CONCLUDED
-        };
-    }
+    _map = {
+        "pendiente": this.PENDING,
+        "devuelto": this.RETURNED,
+        "aceptado": this.ACCEPTED,
+        "rechazado": this.REJECTED,
+        "cancelado": this.CANCELED,
+        "concluido": this.CONCLUDED
+    };
 }
 
 const OrderStatus = new OrderStatusEnum();

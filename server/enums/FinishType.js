@@ -19,13 +19,11 @@ class FinishTypeEnum extends Enumerable {
      */
     POLYURETHANE = 3;
 
-    buildMap() {
-        return {
-            "barniz": this.VARNISH,
-            "laca": this.LACQUER,
-            "poliuretano": this.POLYURETHANE
-        };
-    }
+    _map = {
+        "barniz": this.VARNISH,
+        "laca": this.LACQUER,
+        "poliuretano": this.POLYURETHANE
+    };
 }
 
 const FinishType = new FinishTypeEnum();
