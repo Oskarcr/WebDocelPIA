@@ -14,7 +14,7 @@ orders.get("/by/:userId", async (req, res) => {
 
 // Crea un pedido mediante la estructura indicada
 orders.post("/", (req, res) => {
-
+    
 });
 
 // Cambia el estado del pedido asignando su fecha y costo real

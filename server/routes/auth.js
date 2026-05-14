@@ -9,9 +9,9 @@ const auth = Router();
 // Crea un nuevo usuario
 auth.post("/signup", async (req, res) => {
     try{
-        const {name, phone, address} = req.body;
+        const {name, phone, address, password} = req.body;
         
-        const empties = validator.empties(req.body, "email", "password");
+        const empties = validator.empties(req.body, "name", "phone", "address", "email", "password");        
 
         if(empties.length > 0){
             res.status(400).json({
@@ -30,7 +30,6 @@ auth.post("/signup", async (req, res) => {
         }
 
         const email = req.body.email.trim().toLowerCase();
-        const { password } = req.body;
 
         const userExists = await User.findOne({
             email: email
@@ -58,7 +57,6 @@ auth.post("/signup", async (req, res) => {
             }
         });
 
-        console.log(req.body);
     }catch(error){
         console.log(error);
 
@@ -70,12 +68,28 @@ auth.post("/signup", async (req, res) => {
 // Crea una sesion para el usuario
 auth.post("/login", async (req, res) => {
     try{
-        const {email, password} = req.body;
+        const {password} = req.body;
 
-        const normalizedEmail = email.trim().toLowerCase();
+        const empties = validator.empties(req.body, "email", "password");
+
+        if(empties.length > 0) {
+            return res.status(400).json({
+                empties
+            });
+        }
+
+        const errors = validator.validate(req.body);
+
+        if(errors.length > 0){
+            return res.status(400).json({
+                errors
+            });
+        }
+
+        const email = req.body.email.trim().toLowerCase();
 
         const user = await User.findOne({
-            email: normalizedEmail
+            email: email
         });
 
         if(!user) return res.status(400).send("Este usuario no existe.");

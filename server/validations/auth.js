@@ -19,6 +19,33 @@ const auth = new RequestValidator({
 
             if (!validPassword) return "La contraseña debe ser de al menos 8 caracteres, 1 mayuscula y 1 minuscula.";
         }
+    },
+    address: {
+        type: String,
+        validate: (address) => {
+            const addressRegex = /^[a-zA-ZÀ-ÿ0-9\s#.,-]{5,100}$/;
+            const validAddress = addressRegex.test(address);
+
+            if(!validAddress) return "La direccion proporcionada no es valida.";
+        }
+    },
+    phone: {
+        type: Number,
+        validate: (phone) => {
+            const phoneRegex = /^\d{11}$/;
+            const validPhone = phoneRegex.test(phone);
+
+            if(!validPhone) return "El telefono debe contener 12 caracteres (Incluyendo prefijo).";
+        }
+    },
+    name: {
+        type: String,
+        validate: (name) => {
+            const usernameRegex = /^[A-Za-z]{3,100}$/;
+            const validUsername = usernameRegex.test(name);
+
+            if(!validUsername) return "El usuario debe contener al menos 3 caracteres, no debe contener numeros, ni simbolos.";
+        }
     }
 });
 
