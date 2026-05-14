@@ -168,12 +168,13 @@ class RequestValidator {
         for(const k in this.#schema) {
             if(k in body === false) continue;
             if(!RequestValidator.isType(body[k], this.#schema[k].type)) {
-                const l = this.#schema[k].label || k;
+                const label = this.#schema[k].label || k;
                 const t = RequestValidator.#mapNames[this.#schema[k].type?.name] ?? "?";
-                errors.push("El campo '" + l + "' debe ser " + t);
+                errors.push("El campo '" + label + "' debe ser " + t + ".");
                 continue;
             }
             const validate = this.#schema[k].validate;
+            if(!validate) continue;
             const result = validate(body[k]);
             if(result) errors.push(result);
         }
@@ -198,7 +199,8 @@ class RequestValidator {
         for(const key of args) {
             const value = body[key];
             if(RequestValidator.isEmpty(value)) {
-                errors.push("El campo '" + key + "' esta vacio.");
+                const label = this.#schema[key].label || key;
+                errors.push("El campo '" + label + "' esta vacio.");
                 continue;
             }
         }
