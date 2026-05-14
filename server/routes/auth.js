@@ -1,7 +1,7 @@
 import { Router } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { User, Validators } from "#DocelServer";
+import { User, UserRole, Validators } from "#DocelServer";
 const validator = Validators.auth;
 
 const auth = Router();
@@ -47,7 +47,7 @@ auth.post("/signup", async (req, res) => {
             password: cryptedPassword,
             address: address,
             phone: phone,
-            role: 0
+            role: UserRole.CLIENT
         });
 
         res.status(201).json({
