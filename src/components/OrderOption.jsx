@@ -1,11 +1,11 @@
-import { OrderStatus, Theme } from "@/DocelClient";
+import { Theme } from "@/DocelClient";
 
 export default function OrderOption({status = -1, register = Date.now(), delivery = Date.now()}) {  
     const rdate = new Date(register);
     const ddate = new Date(delivery);
 
     const data = {
-        status: OrderStatus.toString(status),
+        status: "true",
         register: rdate.getDay() + "/" + rdate.getMonth() + "/" + rdate.getFullYear(),
         delivery: ddate.getDay() + "/" + ddate.getMonth() + "/" + ddate.getFullYear()
     };
