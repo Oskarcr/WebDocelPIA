@@ -9,6 +9,6 @@ const userSchema = new Schema({
     role: Number,
 });
 
-const Usuario = model("Usuario", userSchema);
+const Usuario = model("User", userSchema);
 
 export default Usuario;

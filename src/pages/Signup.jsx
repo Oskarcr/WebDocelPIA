@@ -1,29 +1,22 @@
 import { Components, FontSize, Spacing, Theme } from "@/DocelClient";
+import axios from "axios";
 
 async function handleSubmit(evt) {
     evt.preventDefault();
 
     const formData = new FormData(evt.target);
 
-    const body = {
+    try{
+        await axios.post("/api/auth/signup", {
         name: formData.get("name"),
         phone: formData.get("phone"),
         address: formData.get("address"),
         email: formData.get("email"),
         password: formData.get("password")
-    }
-
-    const response = await fetch("auth/signup", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(body)
-    })
-
-    const data = await response.json();
-
-    console.log(data);
+    });
+    }catch(error){
+        console.log(error.response.data);
+    }    
 }
 
 export default function Signup() {
