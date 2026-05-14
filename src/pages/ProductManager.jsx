@@ -1,7 +1,36 @@
 import { Components, FontSize, Spacing, Theme } from "@/DocelClient";
+import axios from "axios";
+import { useRef } from "react";
 import { useParams } from "react-router-dom";
 
-function ProductPage({ name = "", finish = "", price = "" }) {
+function ProductPage() {
+    const refs = {
+        name: useRef(null),
+        finishName: useRef(null),
+        price: useRef(null)
+    };
+
+    const onAccept = async () => {
+        const json = {
+            name: refs.name.current.value,
+            finishName: refs.finishName.current.value,
+            price: parseInt(refs.price.current.value),
+        };
+        try {
+
+        const json = {
+            name: refs.name.current.value,
+            finishName: refs.finishName.current.value.toLowerCase(),
+            price: parseInt(refs.price.current.value),
+        };
+
+        const response = await axios.post("/api/furniture", json);
+            alert(JSON.stringify(response.data));
+        } catch(err) {
+            alert(JSON.stringify(err.response.data));
+        }
+    };
+
     return (<div style={{
         display: "flex",
         flexDirection: "column",
@@ -20,11 +49,11 @@ function ProductPage({ name = "", finish = "", price = "" }) {
             backgroundColor: Theme.BACKGROUND.MAIN,
             flexShrink: 0
         }}>
-            <input placeholder="Nombre del mueble" value={name} />
-            <input placeholder="Tipo de acabado" value={finish} />
-            <input placeholder="Precio del mueble" value={price} />
+            <input ref={refs.name} placeholder="Nombre del mueble" />
+            <input ref={refs.finishName} placeholder="Tipo de acabado" />
+            <input ref={refs.price} placeholder="Precio del mueble" />
             <button>SUBIR IMAGEN</button>
-            <button>ACEPTAR</button>
+            <button onClick={onAccept}>ACEPTAR</button>
             <Components.TextBox
                 content="OTRAS OPCIONES"
             />

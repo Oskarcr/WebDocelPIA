@@ -50,6 +50,12 @@ class RequestValidationData {
     validate = null;
 
     /**
+     * Es el nombre para visible de esta validacion 
+     * para mandarle la informacion al cliente.
+     */
+    label = "sin titulo";
+
+    /**
      * Es el tipo del cual es `validate()`.
      * @type {T}
      */
@@ -83,6 +89,14 @@ class RequestValidationData {
  * @template T
  */
 class RequestValidator {
+    static #mapNames = {
+        String: "una cadena de texto",
+        Number: "un numero",
+        Boolean: "un booleano",
+        Date: "una fecha",
+        Array: "una lista"
+    };
+
     /**
      * Retorna `true` si `value` es de tipo `type`.
      * En otro caso será `false`.
@@ -154,7 +168,9 @@ class RequestValidator {
         for(const k in this.#schema) {
             if(k in body === false) continue;
             if(!RequestValidator.isType(body[k], this.#schema[k].type)) {
-                errors.push("El campo '" + k + "' no es de tipo '" + this.#schema[k].type?.name + "'");
+                const l = this.#schema[k].label || k;
+                const t = RequestValidator.#mapNames[this.#schema[k].type?.name] ?? "?";
+                errors.push("El campo '" + l + "' debe ser " + t);
                 continue;
             }
             const validate = this.#schema[k].validate;
@@ -167,9 +183,8 @@ class RequestValidator {
     /**
      * Retorna una lista de errores si cada `arg` 
      * que sea atributo `body` esta vacio.
-     * @template {Partial<T>} V
-     * @param {V} body 
-     * @param  {...(RequestValidatorRecommendedName | keyof V)} args 
+     * @param {Partial<T>} body 
+     * @param  {...(RequestValidatorRecommendedName | keyof T)} args 
      * 
      * @example
      * const empties = validator.empties(req.body, "username", "email");

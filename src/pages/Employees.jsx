@@ -1,20 +1,20 @@
-import { Components, FontSize, Theme, UserRole } from "@/DocelClient";
+import { Components, FontSize, Theme } from "@/DocelClient";
 
 const employees = [
-    { id: 1, name: "Emiliano", email: "emi@mail.com", phone: "+52 000 000 0000", role: UserRole.CLIENT },
-    { id: 2, name: "Gabriel", email: "gabriel@mail.com", phone: "+52 000 000 0000", role: UserRole.CLIENT },
-    { id: 3, name: "Carlos", email: "carloschad@mail.com", phone: "+52 000 000 0000", role: UserRole.CLIENT },
-    { id: 4, name: "Adrian", email: "vidgamer@mail.com", phone: "+52 000 000 0000", role: UserRole.CLIENT },
-    { id: 5, name: "Edwin", email: "eduin@mail.com", phone: "+52 000 000 0000", role: UserRole.CLIENT },
-    { id: 6, name: "Andres", email: "andre@mail.com", phone: "+52 000 000 0000", role: UserRole.CLIENT},
-    { id: 7, name: "Hector", email: "hector@mail.com", phone: "+52 000 000 0000", role: UserRole.CLIENT },
-    { id: 8, name: "Angel", email: "angel@mail.com", phone: "+52 000 000 0000", role: UserRole.CLIENT },
-    { id: 9, name: "Diego", email: "diego@mail.com", phone: "+52 000 000 0000", role: UserRole.CLIENT },
-    { id: 10, name: "Oscar", email: "locoscar@mail.com", phone: "+52 000 000 0000", role: UserRole.CLIENT }
+    { id: 1, name: "Emiliano", email: "emi@mail.com", phone: "+52 000 000 0000", role: 1 },
+    { id: 2, name: "Gabriel", email: "gabriel@mail.com", phone: "+52 000 000 0000", role: 1 },
+    { id: 3, name: "Carlos", email: "carloschad@mail.com", phone: "+52 000 000 0000", role: 1 },
+    { id: 4, name: "Adrian", email: "vidgamer@mail.com", phone: "+52 000 000 0000", role: 1 },
+    { id: 5, name: "Edwin", email: "eduin@mail.com", phone: "+52 000 000 0000", role: 1 },
+    { id: 6, name: "Andres", email: "andre@mail.com", phone: "+52 000 000 0000", role: 1},
+    { id: 7, name: "Hector", email: "hector@mail.com", phone: "+52 000 000 0000", role: 1 },
+    { id: 8, name: "Angel", email: "angel@mail.com", phone: "+52 000 000 0000", role: 1 },
+    { id: 9, name: "Diego", email: "diego@mail.com", phone: "+52 000 000 0000", role: 1 },
+    { id: 10, name: "Oscar", email: "locoscar@mail.com", phone: "+52 000 000 0000", role: 1 }
 ];
 
 const elements = employees.map((emp) => {
-    return [emp.name, emp.email, emp.phone, UserRole.toString(emp.role)];
+    return [emp.name, emp.email, emp.phone, (emp.role + "_role")];
 });
 
 export default function Employees() {

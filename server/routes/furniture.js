@@ -1,4 +1,7 @@
+import { Validators } from "#DocelServer";
 import { Router } from "express";
+
+const validator = Validators.furniture;
 
 const furniture = Router();
 
@@ -14,25 +17,31 @@ furniture.get("/:id", async (req, res) => {
 
 // Agrega un nuevo mueble a la base de datos.
 furniture.post("/", async (req, res) => {
-    validator.validate({
+    const errors = validator.validate(req.body);
+    if(errors.length > 0) {
+        res.status(400).json({ errors });
+        return;
+    }
 
-    });
-    const {
+    const empties = validator.empties(req.body, 
+        "name", 
+        "price", 
+        "finishName"
+    );
+
+    if(empties.length > 0) {
+        res.status(400).json({ errors: empties });
+        return;
+    }
+
+    const name = req.body.name.trim();
+    const { price, finishName } = req.body;
+
+    res.status(200).json({
         name,
         price,
-        imageUrl,
-        approximateTime,
-        description,
-        finish
-    } = req.body;
-    if(typeof name !== "string") {
-        res.status(400).send("El name debe ser de tipo string");
-        return;
-    }
-    if(typeof price !== "number") {
-        res.status(400).send("El name debe ser de tipo string");
-        return;
-    }
+        finishName
+    });
 });
 
 // Marca como inactivo un mueble
