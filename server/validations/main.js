@@ -1,7 +1,9 @@
+import auth from "./auth.js";
 import example from "./example.js";
 
 const Validators = {
-    example
+    example,
+    auth
 };
 
 Object.freeze(Validators);

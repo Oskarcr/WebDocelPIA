@@ -147,15 +147,12 @@ class RequestValidator {
      * @param {Partial<T>} body 
      */
     validate(body) {
-        if(!body || Object.keys(body).length === 0) {
+        if(!body) {
             return ["El body no existe o esta vacio."];
         }
         const errors = [];
         for(const k in this.#schema) {
-            if(body[k] === undefined || body[k] === null) {
-                errors.push("El campo '" + k + "' no existe o esta vacio.");
-                continue;
-            }
+            if(k in body === false) continue;
             if(!RequestValidator.isType(body[k], this.#schema[k].type)) {
                 errors.push("El campo '" + k + "' no es de tipo '" + this.#schema[k].type?.name + "'");
                 continue;
