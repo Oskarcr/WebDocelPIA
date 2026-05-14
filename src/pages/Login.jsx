@@ -16,8 +16,8 @@ async function handleSubmit(evt) {
             localStorage.setItem("email", res.data.email);
             localStorage.setItem("username", res.data.username);
 
+            window.location.href = "/Shopping";
             console.log(res);
-
     } catch (error) {
         console.log(error.response.data);
     }

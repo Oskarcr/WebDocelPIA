@@ -9,11 +9,11 @@ async function handleSubmit(evt) {
     try{
         await axios.post("/api/auth/signup", {
         name: formData.get("name"),
-        phone: formData.get("phone"),
+        phone: parseInt(formData.get("phone")),
         address: formData.get("address"),
         email: formData.get("email"),
         password: formData.get("password")
-    });
+        });
     }catch(error){
         console.log(error.response.data);
     }    

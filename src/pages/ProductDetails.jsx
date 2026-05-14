@@ -1,5 +1,22 @@
 import { Components, FontSize, Spacing, Theme } from "@/DocelClient";
-import Padding from "../core/Spacing";
+import axios from "axios";
+
+async function submitHandler(evt) {
+    evt.preventDefault();
+        
+    // PENDIENTE
+    try {
+        const color = document.getElementById("product-details-color").value;
+
+        const res = await axios.post("/api/orders/", {
+            color: color
+        })
+
+        console.log(res.data);
+    }catch(error){
+        console.log(error.response.data);
+    }
+}
 
 export default function ProductDetails() {
     return (
@@ -40,10 +57,10 @@ export default function ProductDetails() {
                                 color={Theme.PRIMARY} 
                                 content="Mueble de madera bonito\nPrecio: 4500MXN\nAcabado: laca"
                             />
-                            <input style={{
+                            <input type="text" id="product-details-color" placeholder="Color" style={{
                                 marginTop: "auto"
-                            }} type="text" placeholder="Color"/>
-                            <button>Agregar</button>
+                            }}/>
+                            <button id="product-details-button" onClick={submitHandler}>Agregar</button>
                         </Components.Flex>
                     </div>
                 </Components.Flex> 

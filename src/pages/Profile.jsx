@@ -1,5 +1,19 @@
 import { Components, FontSize, Spacing, Theme } from "@/DocelClient";
 
+async function handle(evt){
+    evt.preventDefault();
+
+    const formData = new FormData(evt.target);
+
+    try{
+        await axios.patch("/api/users/:id", {
+
+        })
+    }catch(error){
+        console.log(error.response.data);
+    }
+}
+
 export default function Profile() {
     return (<Components.Main horizontal inverted>
         <Components.Flex column>
@@ -40,15 +54,15 @@ export default function Profile() {
                             />
                         </div>
                     </Components.DimmedImage>
-                    <div className="profile-inputs-container">
-                        <input type="text" value="Oscar"/>
-                        <input type="email" value="oscar.pro@gmail.com"/>
-                        <input type="text" value="Monterrey av. 'La avenida' calle 'Ernesto Peralez' #0000"/>
-                        <input type="text" value="+52 000 000 0000"/>
-                        <button>CAMBIAR CONTRASEÑA</button>
+                    <form className="profile-inputs-container">
+                        <input type="text" name="name" value="Oscar"/>
+                        <input type="email" name="email" value="oscar.pro@gmail.com"/>
+                        <input type="text" name="address" value="Monterrey av. 'La avenida' calle 'Ernesto Peralez' #0000"/>
+                        <input type="text" name="phone" value="+52 000 000 0000"/>
+                        <button type="submit">CAMBIAR CONTRASEÑA</button>
                         <button>VER UBICACIÓN</button>
                         <button>CONTRATAR</button>
-                    </div>
+                    </form>
                 </Components.Flex>
             </Components.Flex>
             <Components.TextBox style={{
