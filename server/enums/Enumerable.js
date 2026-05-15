@@ -59,8 +59,10 @@ export default class Enumerable {
      */
     fromLabel(label) {
         /**@type {number} */
-        const value = this._map[label] ?? null;
-        if(!value) return -1;
+        const value = this._map[label];
+        if (value === undefined || value === null) {
+            return null;
+        }
         return value;
     }
 }

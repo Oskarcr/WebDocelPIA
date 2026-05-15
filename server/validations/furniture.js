@@ -22,8 +22,8 @@ const furniture = new RequestValidator({
         label: "precio",
         type: Number,
         validate: (price) => {
-            if(price < 5) {
-                return "El precio debe ser mayor a 5.";
+            if(price < 5 || price > 400000) {
+                return "El precio debe estar entre 5MXN - 400,000MXN.";
             }
         }
     },
@@ -37,6 +37,10 @@ const furniture = new RequestValidator({
                 return "El tipo de acabado es invalido, debe ser " + list;  
             }
         }
+    },
+    colorName: {
+        label: "nombre del color",
+        type: String
     }
 });
 

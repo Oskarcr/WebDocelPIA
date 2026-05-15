@@ -1,6 +1,7 @@
 // Son los componentes exportados.
 
 import ButtonHeader from "../components/ButtonHeader.jsx";
+import ColorItem from "../components/ColorItem.jsx";
 import Column from "../components/Column.jsx";
 import DimmedImage from "../components/DimmedImage.jsx";
 import Flex from "../components/Flex.jsx";
@@ -32,6 +33,7 @@ const Components = {
     PortalCard,
     Table,
     ProductOption,
+    ColorItem,
     MessageBox
 };
 

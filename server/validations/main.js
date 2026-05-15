@@ -1,10 +1,10 @@
 import auth from "./auth.js";
-import example from "./example.js";
+import colors from "./colors.js";
 import furniture from "./furniture.js";
 
 const Validators = {
+    colors,
     furniture,
-    example,
     auth
 };
 
