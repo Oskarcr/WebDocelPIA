@@ -1,16 +1,29 @@
 import { Schema, model } from "mongoose";
 
 const furnitureSchema = new Schema({
-    name: String,
-    price: Number,
-    color: [{
+    name: {
+        type: String,
+        required: true
+    },
+    price: {
+        type: Number,
+        required: true,
+    },
+    color: {
         type: Schema.Types.ObjectId,
-        ref: "Color"
-    }],
-    imageUrl: String,
+        ref: "Color",
+        required: true
+    },
+    imageUrl: {
+        type: String,
+        required: true
+    },
+    finish: {
+        type: Number,
+        required: true,
+    },
+    // Se dejan para despues
     approximateTime: Number,
-    description: String,
-    finish: Number,
     manufacturingTime: Number
 })
 

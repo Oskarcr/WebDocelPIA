@@ -43,6 +43,7 @@ export default function Portal() {
                     </Components.PortalCard>
                     <Components.PortalCard path="/product_manager" title="Gestor de muebles"/>
                     <Components.PortalCard path="/reports" title="Reporte de ventas"/>
+                    <Components.PortalCard path="/color_swatches" title="Muestras de color"/>
                 </div>
             </div>
             <Components.Column color={Theme.BLACK} />

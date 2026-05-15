@@ -1,6 +1,6 @@
 import { Components, FontSize, Spacing, Theme } from "@/DocelClient";
 import { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 function ButtonLink({desktop = false, path = "/", name="ANY"}) {
     if(desktop) {
@@ -24,13 +24,21 @@ function ButtonLink({desktop = false, path = "/", name="ANY"}) {
 }
 
 export default function Header({ inverted = false }) {
+    const navigate = useNavigate();
     const [menuVisible, setMenuVisible] = useState(false);
     const headerVars = (!inverted ? {} : {
         "--primary-color": Theme.BACKGROUND.MAIN,
         "--text-color-secondary": Theme.PRIMARY
     });
+
+    const onPortal = () => {
+        navigate("/portal");
+    }
+
     return (<div className="header-wrapper" style={headerVars}>
-        <div className="title-wrapper">
+        <div className="title-wrapper" style={{
+            cursor: "pointer"
+        }} onClick={onPortal}>
             DoCeL
         </div>
         <div className="buttons-wrapper">

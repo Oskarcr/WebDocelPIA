@@ -7,27 +7,25 @@ function ProductPage() {
     const refs = {
         name: useRef(null),
         finishName: useRef(null),
-        price: useRef(null)
+        price: useRef(null),
+        image: useRef(null),
+        colorName: useRef(null)
     };
 
     const onAccept = async () => {
-        const json = {
-            name: refs.name.current.value,
-            finishName: refs.finishName.current.value,
-            price: parseInt(refs.price.current.value),
-        };
         try {
+            const formData = new FormData();
+            formData.set("name", refs.name.current.value);
+            formData.set("finishName", refs.finishName.current.value.toLowerCase());
+            formData.set("price", parseInt(refs.price.current.value));
+            formData.set("img", refs.image.current.files[0]);
+            formData.set("colorName", refs.colorName.current.value);
 
-        const json = {
-            name: refs.name.current.value,
-            finishName: refs.finishName.current.value.toLowerCase(),
-            price: parseInt(refs.price.current.value),
-        };
-
-        const response = await axios.post("/api/furniture", json);
-            alert(JSON.stringify(response.data));
-        } catch(err) {
-            alert(JSON.stringify(err.response.data));
+            await axios.post("/api/furniture", formData);
+        } 
+        catch(error) {
+            console.log(error);
+            alert(JSON.stringify(error.response.data));
         }
     };
 
@@ -39,6 +37,14 @@ function ProductPage() {
         height: "100%",
         flexShrink: 0
     }}>
+        <input
+            ref={refs.image}
+            type="file"
+            accept="image/*"
+            style={{
+                display: "none"
+            }}
+        />
         <Components.Flex column style={{
             width: "100%",
             flex: "unset",
@@ -49,10 +55,13 @@ function ProductPage() {
             backgroundColor: Theme.BACKGROUND.MAIN,
             flexShrink: 0
         }}>
-            <input ref={refs.name} placeholder="Nombre del mueble" />
-            <input ref={refs.finishName} placeholder="Tipo de acabado" />
-            <input ref={refs.price} placeholder="Precio del mueble" />
-            <button>SUBIR IMAGEN</button>
+            <input ref={refs.name} placeholder="Nombre"/>
+            <input ref={refs.finishName} placeholder="Tipo de acabado"/>
+            <input ref={refs.price} placeholder="Precio"/>
+            <input ref={refs.colorName} placeholder="Color"/>
+            <button onClick={() => {
+                refs.image.current.click();
+            }}>SUBIR IMAGEN</button>
             <button onClick={onAccept}>ACEPTAR</button>
             <Components.TextBox
                 content="OTRAS OPCIONES"

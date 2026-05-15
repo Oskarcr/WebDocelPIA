@@ -68,6 +68,28 @@ input:focus {
     border-color: var(--input-active-border-color);
 }
 
+input[type="color"] {
+    border: none;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+    outline: none;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+    border: none;
+}
+
 button {
     flex-shrink: 0;
     border-radius: 8px;
@@ -400,4 +422,32 @@ tr:active {
     box-shadow: var(--box-shadow);
     overflow: auto;
     gap: 2px;
+}
+
+/**/
+
+.modal-color-edit-overlay {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 200;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.modal-color-edit-content {
+    background-color: var(--secondary-color);
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-medium);
+    box-sizing: border-box;
+    gap: var(--spacing-medium);
+    border-radius: 8px;
+    margin: auto;
+    margin-top: auto;
 }
