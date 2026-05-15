@@ -1,8 +1,12 @@
 import { app } from "#DocelServer";
 import { connect } from "mongoose";
+import express from "express";
 import fs from "fs";
 import Path from "path";
+import { fileURLToPath } from "url";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = Path.dirname(__filename);
 const SERVER_PORT = process.env["SERVER_PORT"];
 const DATABASE_URL = process.env["DATABASE_URL"];
 
@@ -45,6 +49,9 @@ async function start() {
 
     // Colocar la app en un puerto local
     logtitle("LISTENING");
+
+    app.use("/attachments", express.static(Path.join(__dirname, "attachments")));
+
     app.listen(SERVER_PORT, () => {
         console.log("App listeting on http://localhost:" + SERVER_PORT);
     });
