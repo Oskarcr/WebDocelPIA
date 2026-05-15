@@ -14,6 +14,7 @@ import Employees from "../pages/Employees.jsx";
 import Portal from "../pages/Portal.jsx";
 import Reports from "../pages/Reports.jsx";
 import ProductManager from "../pages/ProductManager.jsx";
+import TestPage from "../pages/TestPage.jsx";
 
 /**
  * Es un objeto que tiene todas los componentes
@@ -33,7 +34,8 @@ const Pages = {
     Employees,
     Portal,
     Reports,
-    ProductManager
+    ProductManager,
+    TestPage
 };
 
 Object.freeze(Pages);

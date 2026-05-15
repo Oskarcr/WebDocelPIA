@@ -6,6 +6,7 @@ import DimmedImage from "../components/DimmedImage.jsx";
 import Flex from "../components/Flex.jsx";
 import Header from "../components/Header.jsx";
 import Main from "../components/Main.jsx";
+import MessageBox from "../components/MessageBox.jsx";
 import OrderOption from "../components/OrderOption.jsx";
 import PortalCard from "../components/PortalCard.jsx";
 import ProductOption from "../components/ProductOption.jsx";
@@ -30,7 +31,8 @@ const Components = {
     SaleOption,
     PortalCard,
     Table,
-    ProductOption
+    ProductOption,
+    MessageBox
 };
 
 Object.freeze(Components);
