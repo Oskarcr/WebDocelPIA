@@ -36,7 +36,7 @@ const auth = new RequestValidator({
         label: "telefono",
         type: Number,
         validate: (phone) => {
-            const phoneRegex = /^\d{11}$/;
+            const phoneRegex = /^\d{12}$/;
             const validPhone = phoneRegex.test(phone);
 
             if(!validPhone) return "El telefono debe contener 12 caracteres (Incluyendo prefijo).";

@@ -20,6 +20,8 @@ export default function AppRoutes() {
             
             <Route path="/product_manager/" element={<Pages.ProductManager/>}/>
             <Route path="/product_manager/:id" element={<Pages.ProductManager/>}/>
+            
+            <Route path="/test_page" element={<Pages.TestPage/>}/>
             {/* Cualquier pagina que no sea las de arriba */}
             <Route path="*" element= {<Pages.NotFound/>}/>
         </Routes>

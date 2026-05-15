@@ -55,11 +55,9 @@ export default function ProductDetails() {
                             <Components.TextBox 
                                 fontSize={FontSize.LG} 
                                 color={Theme.PRIMARY} 
-                                content="Mueble de madera bonito\nPrecio: 4500MXN\nAcabado: laca"
+                                content="Mueble de madera bonito\nPrecio: 4500MXN\nAcabado: laca\nColor:"
                             />
-                            <input type="text" id="product-details-color" placeholder="Color" style={{
-                                marginTop: "auto"
-                            }}/>
+                            <Components.Flex/>
                             <button id="product-details-button" onClick={submitHandler}>Agregar</button>
                         </Components.Flex>
                     </div>
