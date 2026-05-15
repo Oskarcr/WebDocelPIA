@@ -8,12 +8,12 @@ const auth = Router();
 
 // Crea un nuevo usuario
 auth.post("/signup", async (req, res) => {
-    try{
-        const {name, phone, address, password} = req.body;
-        
-        const empties = validator.empties(req.body, "name", "phone", "address", "email", "password");        
+    try {
+        const { name, phone, address, password } = req.body;
 
-        if(empties.length > 0){
+        const empties = validator.empties(req.body, "name", "phone", "address", "email", "password");
+
+        if (empties.length > 0) {
             res.status(400).json({
                 empties
             });
@@ -22,7 +22,7 @@ auth.post("/signup", async (req, res) => {
 
         const errors = validator.validate(req.body);
 
-        if(errors.length > 0){
+        if (errors.length > 0) {
             res.status(400).json({
                 errors
             });
@@ -35,9 +35,9 @@ auth.post("/signup", async (req, res) => {
             email: email
         })
 
-        if(userExists) return res.status(400).send(
-            "Este correo ya esta registrado."
-        );
+        if (userExists) return res.status(400).json({
+            message: "Este correo ya esta registrado."
+        });
 
         const cryptedPassword = await bcrypt.hash(password, 10);
 
@@ -57,22 +57,24 @@ auth.post("/signup", async (req, res) => {
             }
         });
 
-    }catch(error){
+    } catch (error) {
         console.log(error);
 
-        res.status(500).send(" Error de servidor.");
+        res.status(500).json({
+            message: "Error de servidor."
+        });
     }
-    
+
 });
 
 // Crea una sesion para el usuario
 auth.post("/login", async (req, res) => {
-    try{
-        const {password} = req.body;
+    try {
+        const { password } = req.body;
 
         const empties = validator.empties(req.body, "email", "password");
 
-        if(empties.length > 0) {
+        if (empties.length > 0) {
             return res.status(400).json({
                 empties
             });
@@ -80,7 +82,7 @@ auth.post("/login", async (req, res) => {
 
         const errors = validator.validate(req.body);
 
-        if(errors.length > 0){
+        if (errors.length > 0) {
             return res.status(400).json({
                 errors
             });
@@ -92,29 +94,39 @@ auth.post("/login", async (req, res) => {
             email: email
         });
 
-        if(!user) return res.status(400).send("Este usuario no existe.");
+        if (!user) return res.status(400).json({
+            message: "Este usuario no existe."
+        });
 
         const validPassword = await bcrypt.compare(password, user.password);
 
-        if(!validPassword) return res.status(400).send("Credenciales incorrectas.");
+        if (!validPassword) return res.status(400).json({
+            message: "Credenciales incorrectas."
+        });
 
         const token = jwt.sign({
-                email: email
-            }, process.env.JWT_SECRET,{
-                expiresIn: "3d"
-            });
+            id: user._id
+        }, process.env.JWT_SECRET, {
+            expiresIn: "1d"
+        });
 
-            console.log(req.body);
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax",
+            maxAge: 1000 * 60 * 60 * 24
+        });
 
-            return res.status(200).json({
-                username: user.username,
-                email: user.email,
-                token: token
-            });
-    }catch(error){
+        return res.status(200).json({
+            username: user.username,
+            email: user.email,
+        });
+    } catch (error) {
         console.log(error);
 
-        res.status(500).send("Error del servidor.");
+        res.status(500).json({
+            message: "Error del servidor."
+        });
     }
 });
 
