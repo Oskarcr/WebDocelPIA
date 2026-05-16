@@ -1,8 +1,7 @@
-import { Color, uploader } from "#DocelServer";
+import { Color, JSON_SERVER_ERROR } from "#DocelServer";
 import { Router } from "express";
 
 import { Validators } from "#DocelServer";
-import { JSON_SERVER_ERROR } from "../../constants.js";
 
 const validator = Validators.colors;
 

@@ -1,6 +1,5 @@
-import { Color, deleteAttachment, FinishType, Furniture, saveAttachment, uploader, Validators } from "#DocelServer";
+import { Color, deleteAttachment, FinishType, Furniture, JSON_NOT_FOUND, JSON_SERVER_ERROR, saveAttachment, uploader, Validators } from "#DocelServer";
 import { Router } from "express";
-import { JSON_NOT_FOUND, JSON_SERVER_ERROR } from "../../constants.js";
 
 const validator = Validators.furniture;
 
