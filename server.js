@@ -1,4 +1,4 @@
-import { app } from "#DocelServer";
+import { app, User } from "#DocelServer";
 import { connect } from "mongoose";
 import express from "express";
 import fs from "fs";
@@ -39,6 +39,11 @@ async function start() {
     try {
         await connect(DATABASE_URL);   
         console.log("Database connected sucessfully");
+
+        const users = await User.find()
+            .sort({ _id: -1 })
+            .limit(3);
+        console.log(users);
     }
     catch(error) {
         console.error("Database error");

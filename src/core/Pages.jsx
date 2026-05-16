@@ -15,6 +15,7 @@ import Portal from "../pages/Portal.jsx";
 import Reports from "../pages/Reports.jsx";
 import ProductManager from "../pages/ProductManager.jsx";
 import ColorSwatches from "../pages/ColorSwatches.jsx";
+import TestPage from "../pages/TestPage.jsx";
 
 /**
  * Es un objeto que tiene todas los componentes
@@ -35,7 +36,8 @@ const Pages = {
     Portal,
     Reports,
     ProductManager,
-    ColorSwatches
+    ColorSwatches,
+    TestPage
 };
 
 Object.freeze(Pages);

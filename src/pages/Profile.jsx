@@ -6,12 +6,15 @@ export default function Profile() {
     const [title, setTitle] = useState("");
     const [message, setMessage] = useState("");
     const [showMessage, setShowMessage] = useState(false);
+    const [passwordBox, setPasswordBox] = useState(false);
     const [user, setUser] = useState({
         username: "",
         email: "",
         address: "",
-        phone: 0
+        phone: 0,
+        password: ""
     });
+
 
     async function submitHandler(evt) {
         evt.preventDefault();
@@ -21,13 +24,25 @@ export default function Profile() {
                 withCredentials: true
             })
 
-            setUser(response.data);
+            setUser({...response.data, password: ""});
 
             setTitle("Éxito");
             setMessage("Datos modificados con exito.");
             setShowMessage(true);
         } catch (error) {
-            console.log(error.response.data);
+            const data = error.response.data;
+            if(data.error){
+                setMessage(data.message);
+            }
+
+            if (data.errors) {
+                setMessage(data.errors.join("\\n"));
+            }
+
+            else if (data.empties) {
+                setMessage(" Faltan los campos:\\n" + data.empties.join(", \\n"));
+            }
+            setShowMessage(true);
         }
     }
 
@@ -66,6 +81,20 @@ export default function Profile() {
             {
                 showMessage && (
                     <Components.MessageBox title={title} content={message} onClose={() => setShowMessage(false)} />
+                )
+            }
+            {
+                passwordBox && (
+                    <Components.InputBox title="Cambiar contraseña" placeholder="Nueva contraseña" onClose={() => setPasswordBox(false)}
+                        onConfirm={(value) => {
+                            setUser({
+                                ...user,
+                                password: value
+                            });
+                            
+                            setPasswordBox(false);
+                        }}
+                    />
                 )
             }
 
@@ -113,9 +142,9 @@ export default function Profile() {
                                 <input type="email" name="email" value={user.email} onChange={(e) => setUser({ ...user, email: e.target.value })} />
                                 <input type="text" name="address" value={user.address} onChange={(e) => setUser({ ...user, address: e.target.value })} />
                                 <input type="text" name="phone" value={user.phone} onChange={(e) => setUser({ ...user, phone: e.target.value })} />
-                                <button>CAMBIAR CONTRASEÑA</button>
-                                <button>VER UBICACIÓN</button>
-                                <button>CONTRATAR</button>
+                                <button type="button" onClick={() => setPasswordBox(true)}>CAMBIAR CONTRASEÑA</button>
+                                <button type="button">VER UBICACIÓN</button>
+                                <button type="button">CONTRATAR</button>
                                 <button type="submit">CONFIRMAR CAMBIOS</button>
                             </form>
                         </Components.Flex>

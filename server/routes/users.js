@@ -1,6 +1,8 @@
-import { User } from "#DocelServer";
+import { User, Validators } from "#DocelServer";
 import { Router } from "express";
+import bcrypt from "bcrypt";
 import authMiddleware from "../middlewares/auth.js";
+const Validator = Validators.user;
 
 const users = Router();
 
@@ -26,6 +28,26 @@ users.get("/me", authMiddleware, async (req, res) => {
 
 users.patch("/me", authMiddleware, async (req, res) => {
     try {
+        const empties = Validator.empties(req.body, "username", "email", "address", "phone");
+
+        if(empties.length > 0){
+            return res.status(400).json({
+                empties
+            });
+        }
+
+        const errors = Validator.validate(req.body);
+
+        if(errors.length > 0){
+            return res.status(400).json({
+                errors
+            })
+        }
+
+        if(req.body.password){
+            req.body.password = await bcrypt.hash(req.body.password, 10);
+        }
+
         const user = await User.findByIdAndUpdate(
             req.user.id,
             req.body,
@@ -33,6 +55,8 @@ users.patch("/me", authMiddleware, async (req, res) => {
                 returnDocument: "after"
             }
         ).select("-password");
+
+        res.status
 
         return res.status(200).json(user);
 

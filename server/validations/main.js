@@ -1,11 +1,11 @@
-import auth from "./auth.js";
+import user from "./user.js";
 import colors from "./colors.js";
 import furniture from "./furniture.js";
 
 const Validators = {
     colors,
     furniture,
-    auth
+    user
 };
 
 Object.freeze(Validators);

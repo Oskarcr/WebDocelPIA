@@ -1,6 +1,6 @@
 import RequestValidator from "./RequestValidator.js";
 
-const auth = new RequestValidator({
+const user = new RequestValidator({
     email: {
         label: "correo",
         type: String,
@@ -42,7 +42,7 @@ const auth = new RequestValidator({
             if(!validPhone) return "El telefono debe contener 12 caracteres (Incluyendo prefijo).";
         }
     },
-    name: {
+    username: {
         label: "nombre",
         type: String,
         validate: (name) => {
@@ -54,4 +54,4 @@ const auth = new RequestValidator({
     }
 });
 
-export default auth;
+export default user;
