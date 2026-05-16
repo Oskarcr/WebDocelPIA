@@ -1,4 +1,4 @@
-import { app } from "#DocelServer";
+import { app, User } from "#DocelServer";
 import { connect } from "mongoose";
 import express from "express";
 import fs from "fs";

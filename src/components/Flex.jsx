@@ -3,22 +3,40 @@
  * @property {import("react").CSSProperties} style
  * @property {boolean} row
  * @property {boolean} column
- * @property {string} className 
+ * @property {string} className
  */
+
+import { forwardRef } from "react";
 
 /**
  * @param {FlexParams} param0 
  */
-export default function Flex({className="", row = false, column = false, style = {}, children}) {
+const Flex = forwardRef(function({
+    className="",
+    form = false, 
+    row = false, 
+    column = false, 
+    style = {}, 
+    children
+}, ref) {
     if(!row && !column || !column) row = true;
-    return (<div className={className} style={{
-        flex: 1,
-        display: "flex",
-        flexDirection: (row ? "row" : "column"),
-        minHeight: 0,
-        minWidth: 0,
-        ...style
-    }}>
+
+    const Comp = form ? "form" : "div";
+
+    return (<Comp 
+        ref={ref}
+        className={className} 
+        style={{
+            flex: 1,
+            display: "flex",
+            flexDirection: (row ? "row" : "column"),
+            minHeight: 0,
+            minWidth: 0,
+            ...style
+        }}
+    >
         {children}
-    </div>);
-}
+    </Comp>);
+});
+
+export default Flex;
