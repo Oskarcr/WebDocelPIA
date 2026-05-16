@@ -1,8 +1,7 @@
-import { User, Validators } from "#DocelServer";
+import { JSON_SERVER_ERROR, User, Validators } from "#DocelServer";
 import { Router } from "express";
 import bcrypt from "bcrypt";
 import authMiddleware from "../middlewares/auth.js";
-import { JSON_SERVER_ERROR } from "../../constants.js";
 const validator = Validators.user;
 
 const users = Router();

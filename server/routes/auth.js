@@ -1,8 +1,7 @@
 import { Router } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { User, UserRole, Validators } from "#DocelServer";
-import { JSON_SERVER_ERROR } from "../../constants.js";
+import { JSON_SERVER_ERROR, User, UserRole, Validators } from "#DocelServer";
 const validator = Validators.user;
 
 const auth = Router();
