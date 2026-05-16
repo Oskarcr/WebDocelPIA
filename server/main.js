@@ -1,5 +1,9 @@
 import { Types } from "mongoose";
 
+// Constantes
+export { PROJECT_DIR, ATTACHMENTS_DIR } from "../constants.js";
+export { default as saveAttachment } from "./core/saveAttachment.js";
+
 // Uploader
 export { default as uploader } from "./core/uploader.js";
 

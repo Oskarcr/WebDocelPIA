@@ -5,23 +5,18 @@ import { useParams } from "react-router-dom";
 
 function ProductPage() {
     const refs = {
-        name: useRef(null),
-        finishName: useRef(null),
-        price: useRef(null),
         image: useRef(null),
-        colorName: useRef(null)
+        /**@type {React.RefObject<HTMLFormElement>} */
+        form: useRef(null)
     };
 
     const onAccept = async () => {
         try {
-            const formData = new FormData();
-            formData.set("name", refs.name.current.value);
-            formData.set("finishName", refs.finishName.current.value.toLowerCase());
-            formData.set("price", parseInt(refs.price.current.value));
-            formData.set("img", refs.image.current.files[0]);
-            formData.set("colorName", refs.colorName.current.value);
+            const formData = new FormData(refs.form.current);
 
             await axios.post("/api/furniture", formData);
+
+            refs.form.current.reset();
         } 
         catch(error) {
             console.log(error);
@@ -37,15 +32,12 @@ function ProductPage() {
         height: "100%",
         flexShrink: 0
     }}>
-        <input
-            ref={refs.image}
-            type="file"
-            accept="image/*"
+        
+        <Components.Flex 
+            ref={refs.form}
+            form
+            column
             style={{
-                display: "none"
-            }}
-        />
-        <Components.Flex column style={{
             width: "100%",
             flex: "unset",
             gap: "20px",
@@ -55,18 +47,28 @@ function ProductPage() {
             backgroundColor: Theme.BACKGROUND.MAIN,
             flexShrink: 0
         }}>
-            <input ref={refs.name} placeholder="Nombre"/>
-            <input ref={refs.finishName} placeholder="Tipo de acabado"/>
-            <input ref={refs.price} placeholder="Precio"/>
-            <input ref={refs.colorName} placeholder="Color"/>
-            <button onClick={() => {
+            <input
+                ref={refs.image}
+                name="img"
+                type="file"
+                accept="image/*"
+                style={{
+                    display: "none"
+                }}
+            />
+            <input name="name" placeholder="Nombre"/>
+            <input name="finishName" placeholder="Tipo de acabado"/>
+            <input name="price" placeholder="Precio"/>
+            <input name="colorName" placeholder="Color"/>
+
+            <button type="button" onClick={() => {
                 refs.image.current.click();
             }}>SUBIR IMAGEN</button>
-            <button onClick={onAccept}>ACEPTAR</button>
+            <button type="button" onClick={onAccept}>ACEPTAR</button>
             <Components.TextBox
                 content="OTRAS OPCIONES"
             />
-            <button>ELIMINAR</button>
+            <button type="button">ELIMINAR</button>
         </Components.Flex>
     </div>);
 }

@@ -13,30 +13,33 @@
  */
 
 /**
- * Son nombres que se recomiendan para el titulo de 
- * `RequestValidator`, no necesariamente tienen que 
- * ser los que vienen.
- * @typedef {"password" | 
- * "username" | 
- * "name" |
- * "description" |
- * "email" |
- * "password" |
- * (string & {})} RequestValidatorRecommendedName
- */
-
-/**
- * @template T 
- * @typedef {{ [K in keyof T]: {
- *      type: T[K],
- *      validate: (value: InferType<T[K]>) => string | null 
- * }}} RequestValidationDat_a
+ * @template T
+ * @typedef {{[K in keyof T]: 
+ *      InferType<T[K]> | null | undefined
+ * }} RequestValidationParsedSchema
  */
 
 /**
  * @template T
  */
 class RequestValidationData {
+    /**
+     * Es el nombre para visible de esta validacion 
+     * para mandarle la informacion al cliente.
+     */
+    label = "sin titulo";
+
+    /**
+     * Una funcion teoricamente corta que se llama en `parseBody()` 
+     * la cual normalizara tu valor.
+     * 
+     * Por ejemplo si quieres pasar de "aAc   " a "abc" esta
+     * funcion te servira de esta manera:
+     * @example
+     * normalize: (v) => v.trim().toLowerCase() 
+     * @type {(value: InferType<T> => InferType<T>)}
+     */
+    normalize = null;
 
     /**
      * Una función que teoricamente retornaria un 
@@ -44,16 +47,11 @@ class RequestValidationData {
      * del error o `null` en caso contrario.
      * 
      * El parametro `value` siempre será de tipo especificado 
-     * `type` al llamarse.
+     * `type` al llamarse y siempre estara normalizado en
+     * caso de que hayas puesto la funcion `normalize()`.
      * @type {(value: InferType<T>) => string | null}
      */
     validate = null;
-
-    /**
-     * Es el nombre para visible de esta validacion 
-     * para mandarle la informacion al cliente.
-     */
-    label = "sin titulo";
 
     /**
      * Es el tipo del cual es `validate()`.
@@ -82,6 +80,7 @@ class RequestValidationData {
         }
     }
 }
+
 
 /**
  * Una clase para crear validaciones dinamicas y reutilizables
@@ -139,6 +138,43 @@ class RequestValidator {
         return value === undefined || value === null || value === "";
     }
 
+    /**
+     * 
+     * @param {any} value 
+     * @param {new () => V} type 
+     * @returns 
+     */
+    static parseFormValue(value, type) {
+        if (value === undefined || value === null) {
+            return value;
+        }
+
+        switch (type) {
+            case String:
+                return (value + "");
+            case Number: {
+                const n = Number(value);
+                return Number.isNaN(n) ? null : n;
+            }
+            case Boolean:
+                const b = 
+                    value === true ||
+                    value === "true" ||
+                    value === "1" ||
+                    value === 1;
+                return b;
+            case BigInt:
+                try {
+                    return BigInt(value);
+                } 
+                catch(_) {
+                    return null;
+                }
+            default:
+                return value;
+        }
+    }
+
     /** @type {{ [K in keyof T]: RequestValidationData<T[K]>}} */
     #schema = null;
 
@@ -153,6 +189,27 @@ class RequestValidator {
             parsedSchema[rule] = new RequestValidationData(schema[rule]);
         }
         this.#schema = parsedSchema;
+    }
+
+    /**
+     * Parsea un objeto `JSON` con valores `string`
+     * al tipo de cada valor del `schema`.
+     * 
+     * Tambien deja vacias las propiedades que no esten en `unparsedBody`.
+     * @param {any} unparsedBody 
+     */
+    parseBody(unparsedBody) {
+        /** @type {RequestValidationParsedSchema<T>} */
+        const result = {};
+        for(const k in this.#schema) {
+            const type = this.#schema[k].type;
+            if(unparsedBody[k] === undefined || unparsedBody[k] === "") continue;
+            const normalize = this.#schema[k].normalize;
+            const value = unparsedBody[k];
+            const parsed = RequestValidator.parseFormValue(value, type);
+            result[k] = (!normalize ? parsed : normalize(parsed));
+        }
+        return result;
     }
 
     /**
@@ -185,7 +242,7 @@ class RequestValidator {
      * Retorna una lista de errores si cada `arg` 
      * que sea atributo `body` esta vacio.
      * @param {Partial<T>} body 
-     * @param  {...(RequestValidatorRecommendedName | keyof T)} args 
+     * @param  {...(keyof T)} args 
      * 
      * @example
      * const empties = validator.empties(req.body, "username", "email");

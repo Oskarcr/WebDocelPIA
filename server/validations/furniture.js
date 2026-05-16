@@ -5,15 +5,15 @@ const furniture = new RequestValidator({
     name: {
         label: "nombre",
         type: String,
+        normalize: (a) => a.trim(),
         validate: (name) => {
-            const trimmed = name.trim();
-            if (trimmed.length < 2) {
+            if (name.length < 2) {
                 return "El nombre tiene que tener por lo menos 2 caracteres.";
             }
-            if (trimmed.length > 50) {
+            if (name.length > 50) {
                 return "El nombre supera el limite de 50 caracteres.";
             }
-            if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s]+$/.test(trimmed)) {
+            if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s]+$/.test(name)) {
                 return "El nombre contiene caracteres no validos.";
             }
         }
@@ -40,7 +40,8 @@ const furniture = new RequestValidator({
     },
     colorName: {
         label: "nombre del color",
-        type: String
+        type: String,
+        normalize: (a) => a.toLowerCase().trim()
     }
 });
 

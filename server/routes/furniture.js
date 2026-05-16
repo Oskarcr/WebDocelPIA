@@ -1,4 +1,4 @@
-import { Color, FinishType, Furniture, uploader, Validators } from "#DocelServer";
+import { Color, FinishType, Furniture, saveAttachment, uploader, Validators } from "#DocelServer";
 import { Router } from "express";
 
 const validator = Validators.furniture;
@@ -23,12 +23,9 @@ furniture.post("/", uploader.single("img"), async (req, res) => {
         res.status(400).json({ errors: ["No se subio una imagen"] });
         return;
     }
-
-    const body = {
-        ...req.body,
-        price: parseInt(req.body.price)
-    }
     
+    const body = validator.parseBody(req.body);
+
     const errors = validator.validate(body);
     if(errors.length > 0) {
         res.status(400).json({ errors });
@@ -47,12 +44,8 @@ furniture.post("/", uploader.single("img"), async (req, res) => {
         return;
     }
 
-    const name = body.name.trim();
-    const price = body.price;
-    const finishName = body.finishName;
+    const { name, colorName, finishName, price } = body;
     const finish = FinishType.fromLabel(finishName);
-    const imageUrl = file.path.replace("attachments\\", "");
-    const colorName = body.colorName.toLowerCase().trim();
 
     try {
         const color = await Color.findOne({ name: colorName });
@@ -60,6 +53,8 @@ furniture.post("/", uploader.single("img"), async (req, res) => {
             res.status(400).json({ errors: ["El color no existe en los registros de base de datos."]});
             return;
         }
+
+        const imageUrl = saveAttachment(file);
 
         const json = {
             color: color._id,
@@ -76,7 +71,7 @@ furniture.post("/", uploader.single("img"), async (req, res) => {
     }
     catch(error) {
         console.log(error);
-        res.status(400).json({
+        res.status(500).json({
             errors: ["Error del servidor"]
         });
     }
