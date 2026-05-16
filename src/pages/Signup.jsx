@@ -12,13 +12,16 @@ export default function Signup() {
         const formData = new FormData(evt.target);
 
         try {
-            await axios.post("/api/auth/signup", {
-                name: formData.get("name"),
+            const response = await axios.post("/api/auth/signup", {
+                username: formData.get("username"),
                 phone: parseInt(formData.get("phone")),
                 address: formData.get("address"),
                 email: formData.get("email"),
                 password: formData.get("password")
             });
+
+            setMessage(response.data.message);
+            setShowMessage(true);
         } catch (error) {
             console.log(error);
             const data = error.response.data;
@@ -77,7 +80,7 @@ export default function Signup() {
                                 gap: Spacing.MD,
 
                             }}>
-                                <input type="text" name="name" placeholder="Nombre" />
+                                <input type="text" name="username" placeholder="Nombre" />
                                 <input type="number" name="phone" placeholder="Telefono" />
                                 <input type="text" name="address" placeholder="Domicilio" />
                                 <input type="email" name="email" placeholder="Correo" />

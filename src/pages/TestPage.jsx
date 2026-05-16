@@ -1,8 +1,15 @@
 import { Components } from "@/DocelClient";
 
 export default function TestPage () {
+    function onCloseHandler(evt){
+        console.log("Cancelado");
+    }
+
+    function onConfirmHandler(evt){
+        console.log("Confirmado");
+    }
+
     return (
-        <Components.MessageBox title="Titulo" content="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iure qui amet quibusdam molestiae alias,
-         laborum accusamus in eveniet? Labore odio soluta repudiandae tempore voluptatem voluptatum, optio delectus recusandae odit expedita!"/>
+        <Components.InputBox title="Contraseña" placeholder="PepeTilinEtesechNiñodeloxxo" onClose={onCloseHandler} onConfirm={onConfirmHandler}/>
     )
 }

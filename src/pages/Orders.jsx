@@ -1,7 +1,26 @@
 import { Components, FontSize, Spacing, Theme } from "@/DocelClient";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 export default function Orders() {
-    // Temporal
+const [orders, setOrders] = useState([]);
+
+    useEffect(() => {
+        async function loadOrders() {
+            try {
+                const response = await axios.get("api/orders/me", {
+                    withCredentials: true
+                });
+
+                setOrders([response.data]);
+            } catch (error) {
+                console.log(error.response);
+            }
+        }
+
+        loadOrders();
+    }, []);
+
     const children = [];
     for(let i = 0; i < 4; i++) {
         children.push(<Components.OrderOption status={1 + Math.round(Math.random() * 5)}/>);

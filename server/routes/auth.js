@@ -2,16 +2,16 @@ import { Router } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { User, UserRole, Validators } from "#DocelServer";
-const validator = Validators.auth;
+const validator = Validators.user;
 
 const auth = Router();
 
 // Crea un nuevo usuario
 auth.post("/signup", async (req, res) => {
     try {
-        const { name, phone, address, password } = req.body;
+        const { username, phone, address, password } = req.body;
 
-        const empties = validator.empties(req.body, "name", "phone", "address", "email", "password");
+        const empties = validator.empties(req.body, "username", "phone", "address", "email", "password");
 
         if (empties.length > 0) {
             res.status(400).json({
@@ -42,7 +42,7 @@ auth.post("/signup", async (req, res) => {
         const cryptedPassword = await bcrypt.hash(password, 10);
 
         const user = await User.create({
-            username: name,
+            username: username,
             email: email,
             password: cryptedPassword,
             address: address,
@@ -53,8 +53,9 @@ auth.post("/signup", async (req, res) => {
         res.status(201).json({
             user: {
                 username: user.username,
-                email: user.email
-            }
+                email: user.email,
+            },
+            message: "Usuario creado con éxito."
         });
 
     } catch (error) {

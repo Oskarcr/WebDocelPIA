@@ -6,6 +6,7 @@ import Column from "../components/Column.jsx";
 import DimmedImage from "../components/DimmedImage.jsx";
 import Flex from "../components/Flex.jsx";
 import Header from "../components/Header.jsx";
+import InputBox from "../components/InputBox.jsx";
 import Main from "../components/Main.jsx";
 import MessageBox from "../components/MessageBox.jsx";
 import OrderOption from "../components/OrderOption.jsx";
@@ -34,7 +35,8 @@ const Components = {
     Table,
     ProductOption,
     ColorItem,
-    MessageBox
+    MessageBox,
+    InputBox
 };
 
 Object.freeze(Components);
