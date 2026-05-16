@@ -1,8 +1,11 @@
-import { Components, Spacing, Theme } from "@/DocelClient";
+import { capitalize, Components, Spacing, Theme } from "@/DocelClient";
 
 export default function ColorItem({
-    hexReference = "#00000000",
-    name = "desconocido",
+    colorJSON={
+        id: "",
+        hexReference: "#00000000",
+        name: "agregar nuevo"
+    },
     onClick,
 }) {
     return <div onClick={onClick} style={{
@@ -18,7 +21,7 @@ export default function ColorItem({
         <Components.TextBox
             alignment="center"
             color={Theme.TEXT.SECONDARY}
-            content={name}
+            content={capitalize(colorJSON.name)}
             style={{
                 height: "60px"
             }}
@@ -29,7 +32,7 @@ export default function ColorItem({
             width: "100%",
             aspectRatio: "1/1",
             marginInline: "auto",
-            backgroundColor: hexReference
+            backgroundColor: colorJSON.hexReference
         }}>
 
         </div>

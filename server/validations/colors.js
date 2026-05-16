@@ -4,9 +4,9 @@ const colors = new RequestValidator({
     "name": {
         label: "nombre",
         type: String,
+        normalize: (a) => a.trim().toLowerCase().replace(/\s+/g, " "),
         validate: (name) => {
-            name = name.toLowerCase();
-            const colorNameRegex = /^[A-Za-z]{3,100}$/;
+            const colorNameRegex = /^[\p{L}\s]{3,100}$/u;
             const validColorName = colorNameRegex.test(name);
             if(!validColorName) return "El nombre del color no es valido.";
         }
@@ -14,13 +14,14 @@ const colors = new RequestValidator({
     "hexReference": {
         label: "color",
         type: String,
+        normalize: (a) => a.trim(),
         validate: (color) => {
             const colorRegex = /^#[0-9A-Fa-f]{6}$/;
             const validColor = colorRegex.test(color);
             if(!validColor) return "Referencia hexadecimal no valida.";
         }
     },
-    "price": {
+    "basePrice": {
         label: "precio",
         type: Number,
         validate: (price) => {
