@@ -39,11 +39,6 @@ async function start() {
     try {
         await connect(DATABASE_URL);   
         console.log("Database connected sucessfully");
-
-        const users = await User.find()
-            .sort({ _id: -1 })
-            .limit(3);
-        console.log(users);
     }
     catch(error) {
         console.error("Database error");

@@ -1,7 +1,8 @@
-import { Color } from "#DocelServer";
+import { Color, uploader } from "#DocelServer";
 import { Router } from "express";
 
 import { Validators } from "#DocelServer";
+import { JSON_SERVER_ERROR } from "../../constants.js";
 
 const validator = Validators.colors;
 
@@ -11,7 +12,8 @@ function colorToJSON(color) {
     return {
         name: color.name,
         hexReference: color.hexReference,
-        basePrice: color.basePrice
+        basePrice: color.basePrice,
+        id: color._id
     };
 }
 
@@ -48,17 +50,19 @@ colors.get("/:id", async (req, res) => {
 });
 
 colors.post("/", async (req, res) => {
-    const errors = validator.validate(req.body);
+    const body = validator.parseBody(req.body);
+
+    const errors = validator.validate(body);
 
     if(errors.length > 0) {
         res.status(400).json({ errors });
         return;
     }
 
-    const empties = validator.empties(req.body, 
+    const empties = validator.empties(body, 
         "hexReference",
         "name",
-        "price"
+        "basePrice"
     );
 
     if(empties.length > 0) {
@@ -66,21 +70,53 @@ colors.post("/", async (req, res) => {
         return;
     }
 
-    const { hexReference, name, price } = req.body;
+    const { hexReference, name, basePrice } = body;
 
     try {
         const json = {
-            name: name.toLowerCase(),
+            name,
             hexReference,
-            price
+            basePrice,
         };
-        await Color.create(json);
-        res.status(200).json(json);
+        const color = new Color(json);
+        await color.save();
+        
+        res.status(200).json({
+            ...json,
+            id: color._id
+        });
     }
     catch(error) {
         res.status(400).json({ 
             errors: ["El color '" + hexReference + "' ya esta registrado."]
         });
+    }
+});
+
+colors.patch("/", async (req, res) => {
+    const body = validator.parseBody(req.body);
+    const id = req.body.id;
+
+    const errors = validator.validate(body);
+
+    if(errors.length > 0) {
+        res.status(400).json({ errors });
+        return;
+    }
+
+    try {
+        const color = await Color.findByIdAndUpdate(id, body);
+        color.save();
+
+        const json = {
+            id,
+            ...body
+        };
+
+        res.status(200).json(json);
+    }
+    catch (_) {
+        res.status(500).json(JSON_SERVER_ERROR);
     }
 });
 

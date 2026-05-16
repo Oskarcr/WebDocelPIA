@@ -1,18 +1,25 @@
 import { Components, FontSize, getAverageColor, Spacing, Theme } from "@/DocelClient";
-import axios from "axios";
+import axios, { formToJSON } from "axios";
 import { useEffect, useRef, useState } from "react";
 
 function ColorEdit({
     onCancel = () => {},
-    onAccept = () => {} 
+    onAccept = () => {},
+    colorJSON={
+        id: "",
+        hexReference: "#00000000",
+        name: "",
+        basePrice: ""
+    },
 }) {
+    /**@type {React.RefObject<HTMLFormElement>} */
+    const formRef = useRef(null);
     /**@type {import("react").RefObject<HTMLInputElement>} */
     const pickerRef = useRef(null);
-    
     /**@type {import("react").RefObject<HTMLInputElement>} */
     const colorRef = useRef(null);
-
     const overlayRef = useRef(null);
+    const [lastTarget, setLastTarget] = useState(null);
 
     const handleImage = () => {
         const file = pickerRef.current.files[0];
@@ -20,27 +27,50 @@ function ColorEdit({
         const reader = new FileReader();
         reader.onload = () => {
             const img = new Image();
-
             img.onload = () => {
                 const color = getAverageColor(img);
                 colorRef.current.value = color;
             };
-
             img.src = reader.result;
         };
         reader.readAsDataURL(file);
     }
 
-    /**
-     * @param {PointerEvent} evt 
-     */
-    const onc = (evt) => {
-       const target = evt.target;
-       if(target !== overlayRef.current) return;
-       onCancel();
+    const handleSubmit = async () => {
+        const data = new FormData(formRef.current);
+        data.set("id", colorJSON.id);
+        try {
+            const adding = !colorJSON.id;
+            if(adding) {
+                await axios.post("/api/colors/", formToJSON(data));
+            }
+            else {
+                await axios.patch("/api/colors/", formToJSON(data));
+            }
+            window.location.reload();
+        }
+        catch(error) {
+            console.log(error);
+            alert(JSON.stringify(error.response.data));
+        }
     }
 
-    return <div ref={overlayRef} className="modal-color-edit-overlay" onClick={onc}>
+    return <div 
+        ref={overlayRef} 
+        className="modal-color-edit-overlay" 
+        onMouseDown={(evt) => {
+            setLastTarget(evt.target);
+        }}
+        onMouseUp={(evt) => {
+            if(lastTarget == evt.target) {  
+                const target = evt.target;
+                if(target === overlayRef.current) {   
+                    onCancel();
+                }
+            }
+            setLastTarget(null);
+        }}
+    >
         <input 
             ref={pickerRef} 
             type="file" 
@@ -50,28 +80,28 @@ function ColorEdit({
                 display: "none"
             }}
         />
-        <div className="modal-color-edit-content">
+        <form ref={formRef} className="modal-color-edit-content">
             <Components.TextBox
                 content="ASIGNAR COLOR"
                 fontSize={FontSize.LG}
             />
-            <input type="text" placeholder="Nombre"/>
-            <input type="number" placeholder="Precio base"/>
+            <input name="name" type="text" placeholder="Nombre" defaultValue={colorJSON.name}/>
+            <input name="basePrice" type="number" placeholder="Precio base" defaultValue={colorJSON.basePrice}/>
             <Components.TextBox content="COLOR"/>
-            <input ref={colorRef} type="color" style={{
+            <input name="hexReference" ref={colorRef} type="color" style={{
                 width: "100%"
-            }}/>
-            <button onClick={() => pickerRef.current.click()}>CARGAR COLOR POR IMAGEN</button>
+            }} defaultValue={colorJSON.hexReference}/>
+            <button type="button" onClick={() => pickerRef.current.click()}>CARGAR COLOR POR IMAGEN</button>
             <Components.TextBox content="FINALIZAR"/>
-            <button onClick={onAccept}>ACEPTAR</button>
-            <button onClick={onCancel} >CANCELAR</button>
-        </div>
+            <button type="button" onClick={handleSubmit}>ACEPTAR</button>
+            <button type="button" onClick={onCancel} >CANCELAR</button>
+        </form>
     </div>
 }
 
 export default function ColorSwatches() {
     const [options, setOptions] = useState([]);
-    const [pickerOpen, setPickerOpen] = useState(false);
+    const [editingColorJSON, setEditingColorJSON] = useState(null);
 
     useEffect(() => {
         (async () => {
@@ -79,9 +109,10 @@ export default function ColorSwatches() {
                 const response = await axios.get("api/colors/all");
                 setOptions(response.data.map(json => {
                     return <Components.ColorItem
-                        onClick={() => setPickerOpen(true)}
-                        hexReference={json.hexReference}
-                        name={json.name}
+                        colorJSON={json}
+                        onClick={() => {
+                            setEditingColorJSON(json);
+                        }}
                     />
                 }));
             } 
@@ -90,18 +121,22 @@ export default function ColorSwatches() {
             }
         })();
     }, []);
-
+    
     const onPickerAccept = () => {
-        setPickerOpen(false);
+        setEditingColorJSON(null);
     }
 
     const onPickerCancel= () => {
-        setPickerOpen(false);
+        setEditingColorJSON(null);
     }
 
     return <>
-        {pickerOpen && (
-            <ColorEdit onAccept={onPickerAccept} onCancel={onPickerCancel}/>
+        {editingColorJSON && (
+            <ColorEdit 
+                colorJSON={editingColorJSON} 
+                onAccept={onPickerAccept} 
+                onCancel={onPickerCancel}
+            />
         )}
         <Components.Main horizontal inverted> 
             <Components.Column color={Theme.PRIMARY}/>
@@ -149,7 +184,7 @@ export default function ColorSwatches() {
                         overflow: "auto"
                     }}>
                         <Components.ColorItem 
-                            onClick={() => setPickerOpen(true)}
+                            onClick={() => setEditingColorJSON({})}
                             name="Agregar nuevo"
                         />
                         {options}

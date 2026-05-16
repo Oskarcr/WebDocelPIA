@@ -13,9 +13,7 @@ function ProductPage() {
     const onAccept = async () => {
         try {
             const formData = new FormData(refs.form.current);
-
             await axios.post("/api/furniture", formData);
-
             refs.form.current.reset();
         } 
         catch(error) {
