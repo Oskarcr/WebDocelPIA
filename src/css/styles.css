@@ -1,5 +1,5 @@
-@import url("mobile.css") screen and (max-width: 750px);
-@import url("desktop.css") screen and (min-width: 751px);
+@import url("mobile.css") screen and (max-width: 740px);
+@import url("desktop.css") screen and (min-width: 741px);
 
 @media (orientation: landscape) {
     *[data-orientation="landscape"] {
@@ -438,17 +438,41 @@ tr:active {
     align-items: center;
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
+    overflow: auto;
 }
 
 .modal-color-edit-content {
     background-color: var(--secondary-color);
-    width: 50%;
     display: flex;
     flex-direction: column;
     padding: var(--spacing-medium);
     box-sizing: border-box;
     gap: var(--spacing-medium);
+    margin-inline: auto;
+    margin-block: auto;
+}
+
+.colors-container {
+    padding: var(--spacing-long);
+    box-sizing: border-box;
+    max-width: 1000px;
+    margin-inline: auto;
+    width: 100%;
+    background-color: var(--secondary-color);
+    gap: var(--spacing-long);
+}
+
+.color-item {
+    display: flex;
     border-radius: 8px;
-    margin: auto;
-    margin-top: auto;
+    overflow: hidden;
+    background-color: var(--primary-color);
+    box-shadow: var(--box-shadow);
+    cursor: pointer;
+}
+
+.color-item-preview {
+    padding: var(--spacing-sm);
+    box-sizing: border-box;
+    aspect-ratio: 1 / 1;
 }

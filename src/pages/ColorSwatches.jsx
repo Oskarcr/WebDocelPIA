@@ -19,6 +19,9 @@ function ColorEdit({
     const colorRef = useRef(null);
     const overlayRef = useRef(null);
     const [lastTarget, setLastTarget] = useState(null);
+    const [message, setMessage] = useState(null);
+    
+    const adding = !colorJSON.id;
 
     const handleImage = () => {
         const file = pickerRef.current.files[0];
@@ -38,7 +41,6 @@ function ColorEdit({
     const handleSubmit = async () => {
         const data = new FormData(formRef.current);
         try {
-            const adding = !colorJSON.id;
             if(adding) {
                 await axios.post("/api/colors/", formToJSON(data));
             }
@@ -50,7 +52,18 @@ function ColorEdit({
         }
         catch(error) {
             console.log(error);
-            alert(JSON.stringify(error.response.data));
+            setMessage(error.response.data.errors.join("\\n"));
+        }
+    }
+
+    const onDelete = async () => {
+        try {
+            await axios.delete("/api/colors/" + colorJSON.id);
+            window.location.reload();
+        }
+        catch(error) {
+            console.error(error);
+            setMessage(error.response.data.errors.join("\\n"));
         }
     }
 
@@ -70,6 +83,13 @@ function ColorEdit({
             setLastTarget(null);
         }}
     >
+        {message && (
+            <Components.MessageBox 
+            title="Error" 
+            content={message} 
+            onClose={() => setMessage(null)} 
+            />
+        )}
         <input 
             ref={pickerRef} 
             type="file" 
@@ -81,19 +101,23 @@ function ColorEdit({
         />
         <form ref={formRef} className="modal-color-edit-content">
             <Components.TextBox
-                content="ASIGNAR COLOR"
+                content="PROPIEDADES DEL COLOR"
                 fontSize={FontSize.LG}
             />
             <input name="name" type="text" placeholder="Nombre" defaultValue={colorJSON.name}/>
             <input name="basePrice" type="number" placeholder="Precio base" defaultValue={colorJSON.basePrice}/>
-            <Components.TextBox content="COLOR"/>
             <input name="hexReference" ref={colorRef} type="color" style={{
                 width: "100%"
             }} defaultValue={colorJSON.hexReference}/>
             <button type="button" onClick={() => pickerRef.current.click()}>CARGAR COLOR POR IMAGEN</button>
             <Components.TextBox content="FINALIZAR"/>
             <button type="button" onClick={handleSubmit}>ACEPTAR</button>
-            <button type="button" onClick={onCancel} >CANCELAR</button>
+            <button type="button" onClick={onCancel}>CANCELAR</button>
+
+            {!adding && <>
+                <Components.TextBox content="ZONA PELIGROSA"/>
+                <button type="button" onClick={onDelete}>ELIMINAR</button>
+            </>}
         </form>
     </div>
 }
@@ -172,22 +196,17 @@ export default function ColorSwatches() {
                         </div>
                     </Components.DimmedImage>
                     <div style={{
-                        padding: Spacing.LG,
-                        boxSizing: "border-box",
                         flex: 1,
-                        backgroundColor: Theme.BACKGROUND.MAIN,
-                        gap: Spacing.LG,
-                        display: "grid",
-                        alignItems: "start",
-                        gridTemplateColumns: "repeat(auto-fill, minmax(200px, auto))",
                         overflow: "auto"
                     }}>
-                        <Components.ColorItem 
-                            onClick={() => setEditingColorJSON({})}
-                            name="Agregar nuevo"
-                        />
-                        {options}
-                    </div> 
+                        <div className="colors-container">
+                            <Components.ColorItem 
+                                onClick={() => setEditingColorJSON({})}
+                                name="Agregar nuevo"
+                            />
+                            {options}
+                        </div> 
+                    </div>
                 </Components.Flex>
             <Components.Column color={Theme.SECONDARY}/>
         </Components.Main>

@@ -23,8 +23,14 @@ const furnitureSchema = new Schema({
         required: true,
     },
     // Se dejan para despues
-    approximateTime: Number,
-    manufacturingTime: Number
+    active: {
+        type: Boolean,
+        default: true
+    },
+});
+
+furnitureSchema.pre(/^find/, function() {
+    this.populate("color", "-_id");
 })
 
 const Furniture = model("Furniture", furnitureSchema);

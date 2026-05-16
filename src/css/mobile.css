@@ -112,3 +112,26 @@ body {
     padding-inline: var(--spacing-long);
     aspect-ratio: 1/1;
 }
+
+.modal-color-edit-content {
+    border-radius: 0;
+    width: 100%; 
+    min-height: 100%;
+}
+
+.colors-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.color-item {   
+    flex-direction: row;
+    width: 100%;
+    height: 100px;
+}
+
+.color-item-preview {
+    width: 40%;
+    min-width: 200px;
+    margin-left: auto;
+}

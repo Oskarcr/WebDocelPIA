@@ -1,7 +1,7 @@
-import { Color, JSON_SERVER_ERROR } from "#DocelServer";
+import { Color, JSON_MISSING_ID, JSON_NOT_FOUND, JSON_OK, JSON_SERVER_ERROR, QUERY_ACTIVE_ONLY } from "#DocelServer";
 import { Router } from "express";
-
 import { Validators } from "#DocelServer";
+import { isValidObjectId } from "mongoose";
 
 const validator = Validators.colors;
 
@@ -16,38 +16,48 @@ function colorToJSON(color) {
     };
 }
 
+// Devuelve una lista de todos los colores.
 colors.get("/all", async (req, res) => {
     try {
-        const colors = await Color.find().sort({
-            name: -1
+        const colors = await Color.find(QUERY_ACTIVE_ONLY).sort({
+            name: 1
         });
 
         res.status(200).json(colors.map(a => colorToJSON(a)));
     } catch (error) {
-        res.status(500).json({
-            message: "Error del servidor",
-            error: error.message
-        });
+        res.status(500).json(JSON_SERVER_ERROR);
     }
 });
 
+
+// Obtiene un color en especifico mediante el id.
 colors.get("/:id", async (req, res) => {
+   const { id } = req.params;
+   
+    if(!id) {
+        res.status(400).json(JSON_MISSING_ID);
+        return;
+    }
+
+    if(!isValidObjectId(id)) {
+        res.status(404).json(JSON_NOT_FOUND);
+        return;
+    }
+
     try {
         const color = await Color.findById(req.params.id);
         if (!color) {
-            return res.status(404).json({
-                message: "Color no encontrado"
-            });
+            res.status(404).json(JSON_NOT_FOUND);
+            return;
         }
         res.json(colorToJSON(color));
-    } catch (error) {
-        res.status(500).json({
-            message: "Error del servidor",
-            error: error.message
-        });
+    } 
+    catch (_) {
+        res.status(500).json(JSON_SERVER_ERROR);
     }
 });
 
+// Agrega un nuevo color.
 colors.post("/", async (req, res) => {
     const body = validator.parseBody(req.body);
 
@@ -72,11 +82,22 @@ colors.post("/", async (req, res) => {
     const { hexReference, name, basePrice } = body;
 
     try {
+        if(await Color.exists({ 
+            hexReference,
+            ...QUERY_ACTIVE_ONLY
+        })) { 
+            res.status(400).json({ 
+                errors: ["Ya existe un color registrado con la misma tonalidad."]
+            });
+            return;
+        }
+
         const json = {
             name,
             hexReference,
             basePrice,
         };
+
         const color = new Color(json);
         await color.save();
         
@@ -86,19 +107,27 @@ colors.post("/", async (req, res) => {
         });
     }
     catch(error) {
-        res.status(400).json({ 
-            errors: ["El color '" + hexReference + "' ya esta registrado."]
-        });
+        res.status(500).json(JSON_SERVER_ERROR);
     }
 });
 
+// Modifica un color existente.
 colors.patch("/", async (req, res) => {
-    const body = validator.parseBody(req.body);
     const id = req.body.id;
 
-    const errors = validator.validate(body);
+    if(!id) {
+        res.status(400).json(JSON_MISSING_ID);
+        return;
+    }
 
-    if(!id) errors.push("La id no fue especificada");
+    if(!isValidObjectId(id)) {
+        res.status(404).json(JSON_NOT_FOUND);
+        return;
+    }
+
+    const body = validator.parseBody(req.body);
+    
+    const errors = validator.validate(body);
 
     if(errors.length > 0) {
         res.status(400).json({ errors });
@@ -106,8 +135,27 @@ colors.patch("/", async (req, res) => {
     }
 
     try {
-        const color = await Color.findByIdAndUpdate(id, body);
-        color.save();
+        if(body.hexReference) {
+            if(await Color.exists({ 
+                _id: { $ne: id },
+                hexReference: body.hexReference,
+                ...QUERY_ACTIVE_ONLY 
+            })) { 
+                res.status(400).json({ 
+                    errors: ["Ya existe un color registrado con la misma tonalidad."]
+                });
+                return;
+            }
+        }
+
+        const color = await Color.findByIdAndUpdate(id, body, {
+            returnDocument: "after"
+        });
+
+        if(!color) {
+            res.status(404).json(JSON_NOT_FOUND);
+            return;
+        }
 
         const json = {
             id,
@@ -119,6 +167,33 @@ colors.patch("/", async (req, res) => {
     catch (_) {
         res.status(500).json(JSON_SERVER_ERROR);
     }
+});
+
+// Marca como inactivo un color.
+colors.delete("/:id", async (req, res) => {
+    const { id } = req.params;
+    
+    if(!id) {
+        res.status(400).json(JSON_MISSING_ID);
+        return;
+    }
+
+    if(!isValidObjectId(id)) {
+        res.status(404).json(JSON_NOT_FOUND);
+        return;
+    }
+
+    const color = await Color.findById(id);
+
+    if(!color) {
+        res.status(404).json(JSON_NOT_FOUND);
+        return;
+    }
+
+    color.set("active", false);
+    await color.save();
+
+    res.status(200).json(JSON_OK);
 });
 
 export default colors;

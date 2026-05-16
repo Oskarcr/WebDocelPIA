@@ -1,4 +1,4 @@
-import { capitalize, Components, Spacing, Theme } from "@/DocelClient";
+import { capitalize, Components, FontSize, Spacing, Theme } from "@/DocelClient";
 
 export default function ColorItem({
     colorJSON={
@@ -8,30 +8,18 @@ export default function ColorItem({
     },
     onClick,
 }) {
-    return <div onClick={onClick} style={{
-        width: "180px",
-        display: "flex",
-        flexDirection: "column",
-        borderRadius: "8px",
-        backgroundColor: Theme.PRIMARY,
-        boxShadow: "var(--box-shadow)",
-        cursor: "pointer",
-        overflow: "hidden"
-    }}>
+    return <div onClick={onClick} className="color-item">
         <Components.TextBox
             alignment="center"
             color={Theme.TEXT.SECONDARY}
             content={capitalize(colorJSON.name)}
             style={{
-                height: "60px"
+                flexShrink: 0,
+                height: "60px",
+                margin: "auto"
             }}
         />
-        <div style={{
-            padding: Spacing.SM,
-            boxSizing: "border-box",
-            width: "100%",
-            aspectRatio: "1/1",
-            marginInline: "auto",
+        <div className="color-item-preview" style={{
             backgroundColor: colorJSON.hexReference
         }}>
 
