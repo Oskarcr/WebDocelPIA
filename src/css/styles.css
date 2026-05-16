@@ -376,7 +376,8 @@ tr:active {
     transition: 0.2s ease background-color;
 }
 
-.portal-item:active {
+/* Por si tiene input xd */
+.portal-item:active:not(:has(input:focus-within)) {
     background-color: var(--option-active-color);
 }
 

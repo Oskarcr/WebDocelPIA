@@ -2,6 +2,7 @@ import { Router } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { User, UserRole, Validators } from "#DocelServer";
+import { JSON_SERVER_ERROR } from "../../constants.js";
 const validator = Validators.user;
 
 const auth = Router();
@@ -29,7 +30,7 @@ auth.post("/signup", async (req, res) => {
             return;
         }
 
-        const { username, phone, address, password, email } = body;
+        const { email: username, phone, address, password, email } = body;
 
         const userExists = await User.findOne({ email });
 
@@ -59,11 +60,8 @@ auth.post("/signup", async (req, res) => {
     } catch (error) {
         console.log(error);
 
-        res.status(500).json({
-            message: "Error de servidor."
-        });
+        res.status(500).json(JSON_SERVER_ERROR);
     }
-
 });
 
 // Crea una sesion para el usuario
@@ -121,9 +119,7 @@ auth.post("/login", async (req, res) => {
     } catch (error) {
         console.log(error);
 
-        res.status(500).json({
-            message: "Error del servidor."
-        });
+        res.status(500).json(JSON_SERVER_ERROR);
     }
 });
 

@@ -1,8 +1,11 @@
 import { Components, FontSize, Spacing, Theme } from "@/DocelClient";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 export default function Profile() {
+    const { email } = useParams();
+
     const [title, setTitle] = useState("");
     const [message, setMessage] = useState("");
     const [showMessage, setShowMessage] = useState(false);
@@ -30,7 +33,7 @@ export default function Profile() {
             setMessage("Datos modificados con exito.");
             setShowMessage(true);
         } catch (error) {
-            const data = error.response.data;
+            const data = error.response?.data;
             if(data.error){
                 setMessage(data.message);
             }
@@ -49,7 +52,9 @@ export default function Profile() {
     useEffect(() => {
         async function loadUser() {
             try {
-                const response = await axios.get("/api/users/me", {
+                const endpoint = email ? "/api/users/" + email.trim().toLowerCase(): "/api/users/me";
+
+                const response = await axios.get(endpoint, {
                     withCredentials: true
                 });
 
@@ -57,7 +62,7 @@ export default function Profile() {
 
             } catch (error) {
                 console.log(error);
-                const data = error.response.data;
+                const data = error.response?.data;
 
                 if (data.message) {
                     setMessage(data.message);
@@ -74,7 +79,7 @@ export default function Profile() {
         }
 
         loadUser();
-    }, []);
+    }, [email]);
 
     return (
         <>

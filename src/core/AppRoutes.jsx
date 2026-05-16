@@ -18,6 +18,7 @@ export default function AppRoutes() {
             <Route path="/reports" element={<Pages.Reports/>}/>
             <Route path="/color_swatches" element={<Pages.ColorSwatches/>}/>
             
+            <Route path="/profile/:email" element={<Pages.Profile/>}/>
             <Route path="/product_manager/" element={<Pages.ProductManager/>}/>
             <Route path="/product_manager/:id" element={<Pages.ProductManager/>}/>
             

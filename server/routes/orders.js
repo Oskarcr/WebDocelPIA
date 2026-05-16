@@ -14,9 +14,7 @@ orders.get("/me", authMiddleware, async (req, res) => {
     }catch(error){
         console.log(error);
 
-        return res.status(500).json({
-            message: "Error del servidor."
-        });
+        return res.status(500).json(JSON_SERVER_ERROR);
     }
 });
 
