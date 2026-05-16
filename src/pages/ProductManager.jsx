@@ -1,9 +1,19 @@
-import { Components, FontSize, Spacing, Theme } from "@/DocelClient";
-import axios from "axios";
-import { useRef } from "react";
+import { Components, DELAY_FETCH, FontSize, Spacing, Theme } from "@/DocelClient";
+import axios, { formToJSON } from "axios";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 
-function ProductPage() {
+function ProductPage({
+    productJSON = {
+        id: "",
+        name: "",
+        imageUrl: "",
+        finishName: "",
+        price: "",
+        colorName: ""
+    },
+    onCancel
+}) {
     const refs = {
         image: useRef(null),
         /**@type {React.RefObject<HTMLFormElement>} */
@@ -11,10 +21,18 @@ function ProductPage() {
     };
 
     const onAccept = async () => {
+        const data = new FormData(refs.form.current);
+        const adding = !productJSON.id;
         try {
-            const formData = new FormData(refs.form.current);
-            await axios.post("/api/furniture", formData);
-            refs.form.current.reset();
+            if(adding) {
+                await axios.post("/api/furnitures", data);
+            }
+            else {
+                data.set("id", productJSON.id);
+                await axios.patch("/api/furnitures", data);
+            }
+            
+            window.location.reload();
         } 
         catch(error) {
             console.log(error);
@@ -54,15 +72,16 @@ function ProductPage() {
                     display: "none"
                 }}
             />
-            <input name="name" placeholder="Nombre"/>
-            <input name="finishName" placeholder="Tipo de acabado"/>
-            <input name="price" placeholder="Precio"/>
-            <input name="colorName" placeholder="Color"/>
+            <input name="name" placeholder="Nombre" defaultValue={productJSON.name}/>
+            <input name="finishName" placeholder="Tipo de acabado" defaultValue={productJSON.finishName}/>
+            <input name="price" placeholder="Precio" defaultValue={productJSON.price}/>
+            <input name="colorName" placeholder="Color" defaultValue={productJSON.colorName}/>
 
             <button type="button" onClick={() => {
                 refs.image.current.click();
             }}>SUBIR IMAGEN</button>
             <button type="button" onClick={onAccept}>ACEPTAR</button>
+            <button type="button" onClick={onCancel}>CANCELAR</button>
             <Components.TextBox
                 content="OTRAS OPCIONES"
             />
@@ -72,23 +91,46 @@ function ProductPage() {
 }
 
 export default function ProductManager() {
-    let child = null;
     const { id } = useParams();
+    const [options, setOptions] = useState([]);
+    const [editingProductJSON, setEditingProductJSON] = useState(null);
+    const didFetch = useRef(false);
+
+    useEffect(() => {
+        if (didFetch.current) return;
+        didFetch.current = true;
+        (async () => {
+            try {
+                const response = await axios.get("/api/furnitures/all");
+                setOptions(response.data);
+            }
+            catch(_) {
+                alert("Server error");
+            }
+        })();
+    }, []);
+
+    let child = [];
+
     if (!id) {
-        child = [];
-        for (let i = 0; i < 10; i++) {
+        child.push(
+            <button onClick={() => {
+                setEditingProductJSON({
+                    id: null
+                });
+            }}>AGREGAR NUEVO</button>
+        );
+        for (const option of options) {
             child.push(
                 <Components.ProductOption
-                    key={i}
-                    src="/furniture/closet.png"
-                    name="Hola"
-                    id={i + 1}
+                    onClick={() => {
+                        setEditingProductJSON(option);
+                    }}
+                    src={"attachments/" + option.imageUrl}
+                    name={option.name}
                 />
             );
         }
-    }
-    else {
-        child = <ProductPage name="Hola" finish="Barniz" price="500" />
     }
     return (<Components.Main horizontal>
         <Components.Column color={Theme.BLACK} />
@@ -105,7 +147,13 @@ export default function ProductManager() {
                     flexShrink: 0,
                     height: "15%"
                 }} />
-            {child}
+            {editingProductJSON ? 
+            <ProductPage 
+                onCancel={() => {
+                    setEditingProductJSON(null);
+                }}
+                productJSON={editingProductJSON}
+            /> : child}
         </Components.DimmedImage>
         <Components.Column color={Theme.ACCENT} />
     </Components.Main>);
