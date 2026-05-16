@@ -2,7 +2,8 @@ import { User, Validators } from "#DocelServer";
 import { Router } from "express";
 import bcrypt from "bcrypt";
 import authMiddleware from "../middlewares/auth.js";
-const Validator = Validators.user;
+import { JSON_SERVER_ERROR } from "../../constants.js";
+const validator = Validators.user;
 
 const users = Router();
 
@@ -20,15 +21,13 @@ users.get("/me", authMiddleware, async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        res.status(500).json({
-            message: "Error del servidor."
-        });
+        res.status(500).json(JSON_SERVER_ERROR);
     }
 });
 
 users.patch("/me", authMiddleware, async (req, res) => {
     try {
-        const empties = Validator.empties(req.body, "username", "email", "address", "phone");
+        const empties = validator.empties(req.body, "username", "email", "address", "phone");
 
         if(empties.length > 0){
             return res.status(400).json({
@@ -36,7 +35,7 @@ users.patch("/me", authMiddleware, async (req, res) => {
             });
         }
 
-        const errors = Validator.validate(req.body);
+        const errors = validator.validate(req.body);
 
         if(errors.length > 0){
             return res.status(400).json({
@@ -62,15 +61,31 @@ users.patch("/me", authMiddleware, async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        return res.status(500).json({
-            message: "Error del servidor."
-        })
+        return res.status(500).json(JSON_SERVER_ERROR);
     }
 });
 
-// Obtiene los datos de un usuario mediante el id.
-users.get("/:id", async (req, res) => {
-    const { id } = req.params;
+// Obtiene los datos de un usuario mediante el username.
+users.get("/:email", async (req, res) => {
+    try{
+        const param = validator.parseBody(req.params);
+
+        const email = param.email
+
+        const user = await User.findOne({
+            email: email
+        }).select("-password");
+
+        if(!user) return res.status(400).json({
+            message: "Este usuario no existe"
+        })
+
+        return res.status(200).json(user);
+
+    }catch(error){
+        console.log(error);
+        return res.status(500).json(JSON_SERVER_ERROR);
+    }
 });
 
 // Modifica datos de un usuario mediante el id.

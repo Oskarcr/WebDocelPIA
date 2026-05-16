@@ -1,6 +1,25 @@
 import { Components, FontSize, Spacing, Theme } from "@/DocelClient"
+import axios from "axios"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Portal() {
+const [email, setEmail] = useState("");
+
+const navigate = useNavigate();
+
+    async function searchUserHandler(){
+        if(!email.trim()) return;
+        try{
+            const response = await axios.get("/api/users/" + email.trim().toLocaleLowerCase());
+            console.log(response.data);
+
+            navigate("/profile/" + email.trim().toLowerCase());
+        }catch(error){
+            console.log(error.response.data);
+        }
+    }
+
     return (
         <Components.Main horizontal>
             <Components.DimmedImage orientation="portrait" src="/furniture/background_home.png" style={{
@@ -38,8 +57,10 @@ export default function Portal() {
                     borderRadius: "8px",
                     backgroundColor: Theme.BACKGROUND.MAIN
                 }}>
-                    <Components.PortalCard path="/profile" title="Buscar usuario" hasInput>
-                    <input placeholder="Usuario" style={{ width: "45%" }}></input>
+                    <Components.PortalCard title="Buscar usuario por correo" onClick={searchUserHandler} hasInput>
+                        <input placeholder="Usuario" value={email} onChange={(evt) => setEmail(evt.target.value)} style={{
+                                width: "45%"
+                            }}/>
                     </Components.PortalCard>
                     <Components.PortalCard path="/product_manager" title="Gestor de muebles"/>
                     <Components.PortalCard path="/reports" title="Reporte de ventas"/>
