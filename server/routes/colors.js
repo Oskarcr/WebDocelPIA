@@ -99,6 +99,8 @@ colors.patch("/", async (req, res) => {
 
     const errors = validator.validate(body);
 
+    if(!id) errors.push("La id no fue especificada");
+
     if(errors.length > 0) {
         res.status(400).json({ errors });
         return;

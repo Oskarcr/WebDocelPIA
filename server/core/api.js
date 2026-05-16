@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import auth from "../routes/auth.js";
-import furniture from "../routes/furniture.js";
+import furnitures from "../routes/furnitures.js";
 import orders from "../routes/orders.js";
 import sales from "../routes/sales.js";
 import users from "../routes/users.js";
@@ -15,7 +15,7 @@ api.get("/", (req, res) => {
 
 api.use("/auth", auth);
 
-api.use("/furniture", furniture);
+api.use("/furnitures", furnitures);
 
 api.use("/orders", orders);
 

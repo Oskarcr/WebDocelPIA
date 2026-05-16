@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 
 function ColorEdit({
     onCancel = () => {},
-    onAccept = () => {},
     colorJSON={
         id: "",
         hexReference: "#00000000",
@@ -38,13 +37,13 @@ function ColorEdit({
 
     const handleSubmit = async () => {
         const data = new FormData(formRef.current);
-        data.set("id", colorJSON.id);
         try {
             const adding = !colorJSON.id;
             if(adding) {
                 await axios.post("/api/colors/", formToJSON(data));
             }
-            else {
+            else {   
+                data.set("id", colorJSON.id);
                 await axios.patch("/api/colors/", formToJSON(data));
             }
             window.location.reload();
