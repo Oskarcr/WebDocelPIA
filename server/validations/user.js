@@ -4,10 +4,10 @@ const user = new RequestValidator({
     email: {
         label: "correo",
         type: String,
+        normalize: (a) => a.trim().toLowerCase(),
         validate: (email) => {
             const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            const normalizedEmail = email.trim().toLowerCase();
-            const validEmail = emailRegex.test(normalizedEmail);
+            const validEmail = emailRegex.test(email);
             
             if(!validEmail) return "Se debe proporcionar un correo valido.";
         }
@@ -45,6 +45,7 @@ const user = new RequestValidator({
     username: {
         label: "nombre",
         type: String,
+        normalize: (a) => a.trim().replace(/\s+/," "),
         validate: (name) => {
             const usernameRegex = /^[A-Za-z]{3,100}$/;
             const validUsername = usernameRegex.test(name);

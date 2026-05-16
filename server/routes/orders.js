@@ -1,6 +1,24 @@
 import { Router } from "express";
+import authMiddleware from "../middlewares/auth.js";
+import { Order } from "#DocelServer";
 
 const orders = Router();
+
+orders.get("/me", authMiddleware, async (req, res) => {
+    try{
+        const orders = await Order.find({
+            user: req.user.id
+        }).populate("furnitures").populate("user", "-password");
+
+        return res.status(200).json(orders);
+    }catch(error){
+        console.log(error);
+
+        return res.status(500).json({
+            message: "Error del servidor."
+        });
+    }
+});
 
 // Obtiene los datos de una orden en específico.
 orders.get("/:id", (req, res) => {

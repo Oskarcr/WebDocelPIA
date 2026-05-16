@@ -138,10 +138,10 @@ export default function Profile() {
                                 </div>
                             </Components.DimmedImage>
                             <form className="profile-inputs-container" onSubmit={submitHandler}>
-                                <input type="text" name="username" value={user.username} onChange={(e) => setUser({ ...user, username: e.target.value })} />
-                                <input type="email" name="email" value={user.email} onChange={(e) => setUser({ ...user, email: e.target.value })} />
-                                <input type="text" name="address" value={user.address} onChange={(e) => setUser({ ...user, address: e.target.value })} />
-                                <input type="text" name="phone" value={user.phone} onChange={(e) => setUser({ ...user, phone: e.target.value })} />
+                                <input type="text" value={user.username} onChange={(e) => setUser({ ...user, username: e.target.value })} />
+                                <input type="email" value={user.email} onChange={(e) => setUser({ ...user, email: e.target.value })} />
+                                <input type="text" value={user.address} onChange={(e) => setUser({ ...user, address: e.target.value })} />
+                                <input type="text" value={user.phone} onChange={(e) => setUser({ ...user, phone: e.target.value })} />
                                 <button type="button" onClick={() => setPasswordBox(true)}>CAMBIAR CONTRASEÑA</button>
                                 <button type="button">VER UBICACIÓN</button>
                                 <button type="button">CONTRATAR</button>

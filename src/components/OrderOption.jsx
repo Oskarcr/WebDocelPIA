@@ -1,6 +1,6 @@
 import { Theme } from "@/DocelClient";
 
-export default function OrderOption({status = -1, register = Date.now(), delivery = Date.now()}) {  
+export default function OrderOption({status = -1, register = Date.now(), delivery = Date.now(), onClick = () => {}}) {  
     const rdate = new Date(register);
     const ddate = new Date(delivery);
 
@@ -10,7 +10,7 @@ export default function OrderOption({status = -1, register = Date.now(), deliver
         delivery: ddate.getDay() + "/" + ddate.getMonth() + "/" + ddate.getFullYear()
     };
     
-    return (<div className="order-option" style={{
+    return (<div className="order-option" onClick={onClick} style={{
         borderColor: Theme.PRIMARY,
         color: Theme.PRIMARY
     }}>
