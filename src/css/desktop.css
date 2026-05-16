@@ -115,3 +115,27 @@ body {
 .item-card {
     aspect-ratio: 4/5;
 }
+
+.modal-color-edit-content{
+    border-radius: 8px;
+    width: 50%;
+    max-width: 700px;
+    min-width: 550px;
+}
+
+.colors-container {
+    justify-content: center;
+    align-items: start;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 200px);
+    grid-template-rows: repeat(auto-fill, 260px);
+}
+
+.color-item {   
+    flex-direction: column;
+    width: 180px;
+}
+
+.color-item-preview {
+    width: 100%;
+}

@@ -12,17 +12,19 @@ function ProductPage({
         price: "",
         colorName: ""
     },
-    onCancel
+    onCancel,
+    setMessage={setMessage}
 }) {
     const refs = {
         image: useRef(null),
         /**@type {React.RefObject<HTMLFormElement>} */
         form: useRef(null)
     };
+    
+    const adding = !productJSON.id;
 
     const onAccept = async () => {
         const data = new FormData(refs.form.current);
-        const adding = !productJSON.id;
         try {
             if(adding) {
                 await axios.post("/api/furnitures", data);
@@ -35,10 +37,21 @@ function ProductPage({
             window.location.reload();
         } 
         catch(error) {
-            console.log(error);
-            alert(JSON.stringify(error.response.data));
+            console.error(error);
+            setMessage(error.response.data.errors.join("\\n"));
         }
     };
+
+    const onDelete = async () => {
+        try {
+            await axios.delete("/api/furnitures/" + productJSON.id);   
+            window.location.reload();
+        }
+        catch(error) {
+            console.log(error);
+            setMessage(error.response.data.errors.join("\\n"));
+        }
+    }
 
     return (<div style={{
         display: "flex",
@@ -48,7 +61,6 @@ function ProductPage({
         height: "100%",
         flexShrink: 0
     }}>
-        
         <Components.Flex 
             ref={refs.form}
             form
@@ -82,10 +94,12 @@ function ProductPage({
             }}>SUBIR IMAGEN</button>
             <button type="button" onClick={onAccept}>ACEPTAR</button>
             <button type="button" onClick={onCancel}>CANCELAR</button>
-            <Components.TextBox
-                content="OTRAS OPCIONES"
-            />
-            <button type="button">ELIMINAR</button>
+            {!adding && <>
+                <Components.TextBox
+                    content="OTRAS OPCIONES"
+                />
+                <button type="button" onClick={onDelete}>ELIMINAR</button>
+            </>}
         </Components.Flex>
     </div>);
 }
@@ -95,6 +109,7 @@ export default function ProductManager() {
     const [options, setOptions] = useState([]);
     const [editingProductJSON, setEditingProductJSON] = useState(null);
     const didFetch = useRef(false);
+    const [message, setMessage] = useState(null);
 
     useEffect(() => {
         if (didFetch.current) return;
@@ -104,8 +119,8 @@ export default function ProductManager() {
                 const response = await axios.get("/api/furnitures/all");
                 setOptions(response.data);
             }
-            catch(_) {
-                alert("Server error");
+            catch(_) {  
+                setMessage("Error del servidor.");
             }
         })();
     }, []);
@@ -133,6 +148,13 @@ export default function ProductManager() {
         }
     }
     return (<Components.Main horizontal>
+        {message && (
+            <Components.MessageBox 
+            title="Error" 
+            content={message} 
+            onClose={() => setMessage(null)} 
+            />
+        )}
         <Components.Column color={Theme.BLACK} />
         <Components.DimmedImage src="/furniture/background_order.png" style={{
             flex: 1,
@@ -152,6 +174,7 @@ export default function ProductManager() {
                 onCancel={() => {
                     setEditingProductJSON(null);
                 }}
+                setMessage={setMessage}
                 productJSON={editingProductJSON}
             /> : child}
         </Components.DimmedImage>

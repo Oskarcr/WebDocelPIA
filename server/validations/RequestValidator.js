@@ -263,6 +263,15 @@ class RequestValidator {
         }
         return errors;
     }
+
+    /**
+     * Retorna `true` si `body` es un objeto vacio.
+     * @param {any} body 
+     */
+    isEmpty(body) {
+        const k = Object.keys(body);
+        return k.length <= 0;
+    }
 }
 
 export default RequestValidator;

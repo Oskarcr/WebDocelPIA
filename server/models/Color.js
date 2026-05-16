@@ -12,6 +12,10 @@ const colorSchema = new Schema({
     basePrice: {
         type: Number,
         default: 0,
+    },
+    active: {
+        type: Boolean,
+        default: true
     }
 });
 
