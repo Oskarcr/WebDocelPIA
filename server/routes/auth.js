@@ -9,9 +9,9 @@ const auth = Router();
 // Crea un nuevo usuario
 auth.post("/signup", async (req, res) => {
     try {
-        const { username, phone, address, password } = req.body;
+        const body = validator.parseBody(req.body);
 
-        const empties = validator.empties(req.body, "username", "phone", "address", "email", "password");
+        const empties = validator.empties(body, "username", "phone", "address", "email", "password");
 
         if (empties.length > 0) {
             res.status(400).json({
@@ -20,7 +20,7 @@ auth.post("/signup", async (req, res) => {
             return;
         }
 
-        const errors = validator.validate(req.body);
+        const errors = validator.validate(body);
 
         if (errors.length > 0) {
             res.status(400).json({
@@ -29,11 +29,9 @@ auth.post("/signup", async (req, res) => {
             return;
         }
 
-        const email = req.body.email.trim().toLowerCase();
+        const { username, phone, address, password, email } = body;
 
-        const userExists = await User.findOne({
-            email: email
-        })
+        const userExists = await User.findOne({ email });
 
         if (userExists) return res.status(400).json({
             message: "Este correo ya esta registrado."
@@ -71,9 +69,9 @@ auth.post("/signup", async (req, res) => {
 // Crea una sesion para el usuario
 auth.post("/login", async (req, res) => {
     try {
-        const { password } = req.body;
+        const body = validator.parseBody(req.body);
 
-        const empties = validator.empties(req.body, "email", "password");
+        const empties = validator.empties(body, "email", "password");
 
         if (empties.length > 0) {
             return res.status(400).json({
@@ -81,7 +79,7 @@ auth.post("/login", async (req, res) => {
             });
         }
 
-        const errors = validator.validate(req.body);
+        const errors = validator.validate(body);
 
         if (errors.length > 0) {
             return res.status(400).json({
@@ -89,11 +87,9 @@ auth.post("/login", async (req, res) => {
             });
         }
 
-        const email = req.body.email.trim().toLowerCase();
+        const { password, email } = body;
 
-        const user = await User.findOne({
-            email: email
-        });
+        const user = await User.findOne({ email });
 
         if (!user) return res.status(400).json({
             message: "Este usuario no existe."
