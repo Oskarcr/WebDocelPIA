@@ -1,7 +1,7 @@
-import { JSON_SERVER_ERROR, User, Validators } from "#DocelServer";
+import { JSON_SERVER_ERROR, User, UserRole, Validators } from "#DocelServer";
 import { Router } from "express";
 import bcrypt from "bcrypt";
-import authMiddleware from "../middlewares/auth.js";
+import { authMiddleware, requireRole } from "../middlewares/auth.js";
 const validator = Validators.user;
 
 const users = Router();
@@ -12,7 +12,7 @@ users.get("/employees", async (req, res) => {
 });
 
 // Obtiene los datos del usuario logueado actual
-users.get("/me", authMiddleware, async (req, res) => {
+users.get("/me", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select("-password");
 
@@ -24,7 +24,7 @@ users.get("/me", authMiddleware, async (req, res) => {
     }
 });
 
-users.patch("/me", authMiddleware, async (req, res) => {
+users.patch("/me", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
     try {
         const empties = validator.empties(req.body, "username", "email", "address", "phone");
 
@@ -65,7 +65,7 @@ users.patch("/me", authMiddleware, async (req, res) => {
 });
 
 // Obtiene los datos de un usuario mediante el username.
-users.get("/:email", async (req, res) => {
+users.get("/:email", authMiddleware, requireRole(UserRole.ADMINISTRATOR), async (req, res) => {
     try{
         const param = validator.parseBody(req.params);
 

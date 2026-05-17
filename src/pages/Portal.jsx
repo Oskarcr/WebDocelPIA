@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Portal() {
+
 const [email, setEmail] = useState("");
 
 const navigate = useNavigate();
