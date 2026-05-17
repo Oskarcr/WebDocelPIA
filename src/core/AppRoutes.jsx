@@ -27,6 +27,7 @@ export default function AppRoutes() {
                 <Route path="/orders" element={<Pages.Orders />} />
                 <Route path="/profile" element={<Pages.Profile />} />
                 <Route path="/product_details" element={<Pages.ProductDetails />} />
+                <Route path="/product_details/:id" element={<Pages.ProductDetails />} />
                 <Route path="/order_details" element={<Pages.OrderDetails />} />
             </Route>
 

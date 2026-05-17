@@ -1,20 +1,33 @@
 import { Components, Spacing, Theme } from "@/DocelClient";
 import "../css/styles.css";
-
-const shoppingItems = [
-    { path: "/product_details", name: "Aparador bonito", price: 1000, src: "furniture/sideboard.png" },
-    { path: "/product_details", name: "Aparador mediano", price: 1200, src: "furniture/sideboard2.png" },
-    { path: "/product_details", name: "Cajonera mediana", price: 2500, src: "furniture/chest.png" },
-    { path: "/product_details", name: "Armario mediano", price: 2800, src: "furniture/closet.png" },
-    { path: "/product_details", name: "Base de cama familiar", price: 4800, src: "furniture/bed_base.png" },
-    { path: "/product_details", name: "Silla bonita", price: 800, src: "furniture/chair.png" }
-];
-
-const children = shoppingItems.map((item) => {
-    return <Components.ShoppingItem ShoppingItem path={item.path} src={item.src} name={item.name} price={item.price} />
-});
+import { useEffect, useRef, useState } from "react";
+import axios from "axios";
 
 export default function Shopping() {
+    const [options, setOptions] = useState([]);
+    const didFetch = useRef(false);
+
+    useEffect(() => {
+        if (didFetch.current) return;
+        didFetch.current = true;
+        (async () => {
+            try {
+                const response = await axios.get("api/furnitures/all");
+                setOptions(response.data.map(json => {
+                    return <Components.ShoppingItem
+                        path={"/product_details/" + json.id}
+                        src={"/attachments/" + json.imageUrl}
+                        name={json.name}
+                        price={json.price}
+                    />
+                }));
+            } 
+            catch (error) {
+                console.error(error);
+            }
+        })();
+    }, []);
+
     return (<Components.Main horizontal>
         <Components.Column color={Theme.ACCENT}/>
         <div className="shopping-main-container" style={{
@@ -23,8 +36,12 @@ export default function Shopping() {
             <div style={{
                 backgroundColor: Theme.ACCENT,
                 outline: "2px solid " + Theme.ACCENT,
+                overflow: "scroll",
+            }}
+            onWheel={(evt) => {
+                evt.currentTarget.scrollLeft += evt.deltaY;
             }}>
-                {children}
+                {options}
             </div>
         </div>
         <Components.Column color={Theme.BLACK}/>

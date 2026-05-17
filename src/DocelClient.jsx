@@ -9,6 +9,3 @@ export { default as Spacing } from "./core/Spacing.js";
 export { default as AppRoutes } from "./core/AppRoutes.jsx";
 export { default as getAverageColor } from "./core/getAverageColor.js";
 export { default as capitalize } from "./core/capitalize.js";
-
-const DELAY_FETCH = 200;
-export { DELAY_FETCH };

@@ -413,7 +413,8 @@ tr:active {
     position: relative;
     flex: 1;
     height: 100%;
-    overflow-x: auto;
+    overflow-x: scroll;
+    overflow-x: scroll;
 }
 
 .shopping-main-container > div {
