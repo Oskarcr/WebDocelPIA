@@ -1,6 +1,6 @@
 import { Router } from "express";
-import authMiddleware from "../middlewares/auth.js";
 import { Order } from "#DocelServer";
+import { authMiddleware } from "../middlewares/auth.js";
 
 const orders = Router();
 

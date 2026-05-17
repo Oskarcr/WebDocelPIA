@@ -22,6 +22,7 @@ const [showMessage, setShowMessage] = useState(false);
 
             localStorage.setItem("email", res.data.email);
             localStorage.setItem("username", res.data.username);
+            localStorage.setItem("role", res.data.role)
 
             window.location.href = "/Shopping";
             console.log(res);
