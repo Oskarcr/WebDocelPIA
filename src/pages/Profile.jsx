@@ -116,14 +116,7 @@ export default function Profile() {
                                 padding: Spacing.SM,
                                 boxSizing: "border-box"
                             }} src="https://d38qrl83hrqn1t.cloudfront.net/media/catalog/product/cache/e5313a059d82e47a0dd0c73b13afb6be/m/u/mueble-tv-160cm-cairo-nogal-decorado-cto40669s1-1_principal.jpg">
-                                <div style={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    width: "60%",
-                                    minWidth: "500px",
-                                    height: "100%",
-                                    marginInline: "auto",
-                                }}>
+                                <div className="profile-dimmed-text">
                                     <Components.TextBox
                                         style={{
                                             marginTop: "auto",

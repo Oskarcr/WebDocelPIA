@@ -6,9 +6,27 @@ const validator = Validators.user;
 
 const users = Router();
 
-// Enlista todos los usuarios con rol mayor a cliente.
-users.get("/employees", async (req, res) => {
+function employeesToJSON(user) {
+    return {
+        username: user.name,
+        email: user.email,
+        phone: user.phone,
+        role: user.role
+    }
+}
 
+// Enlista todos los usuarios con rol mayor a cliente.
+users.get("/employees", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
+    try{
+        const user = await User.find({ role: 2 }).sort({username: 1}).select("-password");
+
+        console.log(user);
+
+        return res.status(200).json(user.map(a => employeesToJSON(a)));
+    }catch(error){
+        console.log(error);
+        return res.status(500).json(JSON_SERVER_ERROR);
+    }
 });
 
 // Obtiene los datos del usuario logueado actual

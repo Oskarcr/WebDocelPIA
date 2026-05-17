@@ -29,17 +29,10 @@ export default function OrderDetails() {
                         marginLeft: Spacing.LG
                     }}/>
                 </Components.DimmedImage>
-                <div style={{
-                    display: "flex",
-                    width: "100%",
-                    height: "75%",
+                <div className="product-details-wrapper" style={{
                     padding: Spacing.SM,
                     backgroundColor: Theme.BACKGROUND.SURFACE,
-                    flexDirection: "column",
-                    alignItems: "center",
                     gap: Spacing.LG,
-                    boxSizing: "border-box",
-                    overflowY: "auto"
                 }}>
                     {children}
                 </div>

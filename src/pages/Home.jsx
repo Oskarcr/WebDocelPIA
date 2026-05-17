@@ -40,11 +40,8 @@ export default function Home() {
                             content="TUS DISEÑOS FAVORITOS EN TU ESPACIO"
                         />
                     </Components.DimmedImage>
-                    <div style={{
-                        flex: 1,
-                        display: "flex",
+                    <div className="home-business-description" style={{
                         color: Theme.BLACK,
-                        overflow: "auto"
                     }}>
                         <Components.TextBox 
                             fontSize={FontSize.MD} 
