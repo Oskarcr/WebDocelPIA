@@ -1,4 +1,6 @@
 import { Components, FontSize, Theme } from "@/DocelClient";
+import axios from "axios";
+import { useEffect, useRef } from "react";
 
 const employees = [
     { id: 1, name: "Emiliano", email: "emi@mail.com", phone: "+52 000 000 0000", role: 1 },
@@ -18,25 +20,37 @@ const elements = employees.map((emp) => {
 });
 
 export default function Employees() {
+const didFetch = useRef(false);
+
+    useEffect(() => {
+        if(didFetch.current) return;
+        didFetch.current = true;
+        async function loadEmployees() {
+            try {
+                const response = await axios.get("/api/users/employees", {
+                    withCredentials: true
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        loadEmployees();
+    }, [])
+
+
     return (<Components.Main horizontal>
         <Components.Column color={Theme.BLACK} />
         <div style={{
             flex: 1
         }}>
-            <div className="employee-text-wrapper" style={{
-                display: "flex",
-                justifyContent: "center"
-            }}>
+            <div className="employee-text-wrapper">
                 <Components.TextBox 
                     alignment="bottom-left" fontSize={FontSize.LG} content="LISTA DE EMPLEADOS" style={{
                     width: "70%"
                 }} />
             </div>
-            <div style={{
-                display: "flex",
-                height: "60%",
-                justifyContent: "center"
-            }}>
+            <div className="employee-table-container">
                 <Components.Table className="employee-table"
                     head={["Nombre", "Correo", "Telefono", "Asignar rol"]}  
                     elements={elements}

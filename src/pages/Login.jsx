@@ -76,15 +76,8 @@ const [showMessage, setShowMessage] = useState(false);
                     <Components.Flex column style={{
                         backgroundColor: Theme.BACKGROUND.MAIN
                     }}>
-                        <div style={{
-                            display: "flex",
-                            flexDirection: "column",
+                        <div className="login-container" style={{
                             padding: Spacing.SM,
-                            width: "80%",
-                            maxWidth: "500px",
-                            marginBlock: "auto",
-                            marginInline: "auto",
-                            boxSizing: "border-box",
                             gap: Spacing.MD
                         }}>
                             <Components.TextBox

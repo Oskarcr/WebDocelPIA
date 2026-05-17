@@ -1,9 +1,11 @@
 import { Components, FontSize, Spacing, Theme } from "@/DocelClient";
 import axios from "axios";
 import { useState } from "react";
+import "../css/styles.css";
 
 export default function Signup() {
     const [message, setMessage] = useState("");
+    const [messageTitle, setMessageTitle] = useState("");
     const [showMessage, setShowMessage] = useState(false);
 
     async function handleSubmit(evt) {
@@ -20,10 +22,13 @@ export default function Signup() {
                 password: formData.get("password")
             });
 
+            setMessageTitle("Éxito");
             setMessage(response.data.message);
             setShowMessage(true);
         } catch (error) {
             console.log(error);
+            setMessageTitle("Error");
+
             const data = error.response.data;
 
             if(data.message){
@@ -45,7 +50,7 @@ export default function Signup() {
         <>
             {
                 showMessage && (
-                    <Components.MessageBox title="Error" content={message} onClose={() => setShowMessage(false)}/>
+                    <Components.MessageBox title={messageTitle} content={message} onClose={() => setShowMessage(false)}/>
                 )
             }
 
@@ -57,17 +62,9 @@ export default function Signup() {
                     <Components.Flex column style={{
                         backgroundColor: Theme.BACKGROUND.MAIN
                     }}>
-                        <div style={{
-                            display: "flex",
-                            flexDirection: "column",
+                        <div className="signup-container" style={{
                             padding: Spacing.SM,
-                            width: "80%",
-                            maxWidth: "500px",
-                            marginBlock: "auto",
-                            marginInline: "auto",
-                            boxSizing: "border-box",
                             gap: Spacing.MD,
-                            overflow: "auto"
                         }}>
                             <Components.TextBox
                                 fontSize={FontSize.MD}

@@ -53,14 +53,7 @@ function ProductPage({
         }
     }
 
-    return (<div style={{
-        display: "flex",
-        flexDirection: "column",
-        marginInline: "auto",
-        width: "100%",
-        height: "100%",
-        flexShrink: 0
-    }}>
+    return (<div className="product-manager-card">
         <Components.Flex 
             ref={refs.form}
             form

@@ -41,21 +41,12 @@ const navigate = useNavigate();
                     alignment="center-left"
                 />
             </Components.DimmedImage>
-            <div style={{
-                display: "flex",
-                flexDirection: "column",
-                flex: 1,
-                alignItems: "center",
+            <div className="portal-options-wrapper" style={{
                 padding: Spacing.SM,
                 backgroundColor: Theme.BACKGROUND.SURFACE
             }}>
-                <div style={{
-                    width: "85%",
+                <div className="portal-options-container" style={{
                     marginTop: Spacing.LG,
-                    marginBottom: "auto",
-                    overflow: "hidden",
-                    boxShadow: "var(--box-shadow)",
-                    borderRadius: "8px",
                     backgroundColor: Theme.BACKGROUND.MAIN
                 }}>
                     <Components.PortalCard title="Buscar usuario por correo" onClick={searchUserHandler} hasInput>
