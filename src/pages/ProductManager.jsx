@@ -1,5 +1,5 @@
-import { Components, DELAY_FETCH, FontSize, Spacing, Theme } from "@/DocelClient";
-import axios, { formToJSON } from "axios";
+import { Components, FontSize, Spacing, Theme } from "@/DocelClient";
+import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -101,8 +101,8 @@ export default function ProductManager() {
     const { id } = useParams();
     const [options, setOptions] = useState([]);
     const [editingProductJSON, setEditingProductJSON] = useState(null);
-    const didFetch = useRef(false);
     const [message, setMessage] = useState(null);
+    const didFetch = useRef(false);
 
     useEffect(() => {
         if (didFetch.current) return;

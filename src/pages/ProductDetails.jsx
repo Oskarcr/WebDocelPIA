@@ -1,5 +1,7 @@
-import { Components, FontSize, Spacing, Theme } from "@/DocelClient";
+import { capitalize, Components, FontSize, Spacing, Theme } from "@/DocelClient";
 import axios from "axios";
+import { useEffect, useRef, useState } from "react";
+import { Link, Route, useNavigate, useParams } from "react-router-dom";
 
 async function submitHandler(evt) {
     evt.preventDefault();
@@ -19,6 +21,48 @@ async function submitHandler(evt) {
 }
 
 export default function ProductDetails() {
+    const [furniture, setFurniture] = useState({
+        name: "Cargando...",
+        price: "Cargando...",
+        finishName: "Cargando...",
+        colorName: "Cargando...",
+        imageUrl: "",
+        error: true
+    });
+    const params = useParams();
+    const didFetch = useRef(false);
+    const { id } = params;
+
+    useEffect(() => {
+        if (didFetch.current) return;
+        didFetch.current = true;
+        (async () => {
+            try {
+                const response = await axios.get("/api/furnitures/" + id);
+                const d = response.data;
+                setFurniture({
+                    name: capitalize(d.name),
+                    colorName: capitalize(d.colorName),
+                    finishName: capitalize(d.finishName),
+                    price: d.price,
+                    imageUrl: "/attachments/" + d.imageUrl,
+                    error: false
+                });
+            } 
+            catch (error) {
+                console.error(error);
+                setFurniture({
+                    name: "No encontrado",
+                    price: "No especificado",
+                    colorName: "Ninguno",
+                    finishName: "Ninguno",
+                    imageUrl: "",
+                    error: true
+                });
+            }
+        })();
+    }, []);
+
     return (
         <Components.Main horizontal>
             <Components.Column color={Theme.ACCENT} />
@@ -46,19 +90,30 @@ export default function ProductDetails() {
                     <div className="product-details-card" style={{
                         backgroundColor: Theme.BACKGROUND.MAIN,
                     }}>
-                        <img src="/furniture/sideboard2.png"/>
+                        <img src={furniture.imageUrl}/>
                         <Components.Flex column style={{
                             padding: Spacing.MD,
                             boxSizing: "border-box",
                             gap: Spacing.SM
                         }}>
+                            <Components.TextBox
+                                fontSize={FontSize.LG}
+                                color={Theme.PRIMARY}
+                                content={furniture.name}
+                            />
                             <Components.TextBox 
-                                fontSize={FontSize.LG} 
+                                fontSize={FontSize.MD} 
                                 color={Theme.PRIMARY} 
-                                content="Mueble de madera bonito\nPrecio: 4500MXN\nAcabado: laca\nColor:"
+                                content={
+                                    "Precio: " + furniture.price + "MXN"+ 
+                                    "\\nAcabado: " + furniture.finishName + 
+                                    "\\nColor principal: " + furniture.colorName
+                                }
                             />
                             <Components.Flex/>
-                            <button id="product-details-button" onClick={submitHandler}>Agregar</button>
+                            {furniture.error === false &&
+                                <button id="product-details-button" onClick={submitHandler}>Agregar</button>
+                            }
                         </Components.Flex>
                     </div>
                 </Components.Flex> 
