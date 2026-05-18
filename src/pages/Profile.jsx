@@ -49,6 +49,14 @@ export default function Profile() {
         }
     }
 
+    async function loadLocation(){
+        if(!user.address) return;
+
+        const query = encodeURIComponent(user.address);
+
+        window.open("https://www.google.com/maps/search/?api=1&query=" + query, "_blank");
+    }
+
     useEffect(() => {
         async function loadUser() {
             try {
@@ -141,7 +149,7 @@ export default function Profile() {
                                 <input type="text" value={user.address} onChange={(e) => setUser({ ...user, address: e.target.value })} />
                                 <input type="text" value={user.phone} onChange={(e) => setUser({ ...user, phone: e.target.value })} />
                                 <button type="button" onClick={() => setPasswordBox(true)}>CAMBIAR CONTRASEÑA</button>
-                                <button type="button">VER UBICACIÓN</button>
+                                <button type="button" onClick={loadLocation}>VER UBICACIÓN</button>
                                 <button type="button">CONTRATAR</button>
                                 <button type="submit">CONFIRMAR CAMBIOS</button>
                             </form>

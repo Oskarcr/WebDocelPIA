@@ -1,11 +1,38 @@
-import { Components, FontSize, Spacing, Theme } from "@/DocelClient"
+import { Components, FontSize, Theme } from "@/DocelClient"
+import axios from "axios";
+import { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 
 export default function Sales() {
-    // Temporal
+    const [sales, setSales] = useState([]);
+    const {id} = useParams();
+    
+    useEffect(() => {
+        async function loadSales(){
+            if(!id) return;
+
+            try{
+                const response = await axios.get("/api/sales/report/" + id, {
+                    withCredentials: true
+                });
+
+                setSales(response.data);
+
+            }catch(error){
+                console.log(error);
+            }
+        }
+
+        loadSales();
+    }, [id])
+
+
+    /* Temporal
     const children = [];
     for(let i = 0; i < 12; i++) {
-        children.push(<Components.SaleOption/>);
+        children.push(<Components.SaleOption key={i}/>);
     }
+    */
 
     return (<Components.Main horizontal inverted> 
         <Components.Column color={Theme.PRIMARY}/>
@@ -40,7 +67,9 @@ export default function Sales() {
                 backgroundColor: Theme.ACCENT,
             }}>   
                 <div className="sales-list-container">
-                    {children}
+                    {sales.map((sale) => {
+                        return <Components.SaleOption key={sale.id} amount={sale.amount} username={sale.username} date={sale.date} total={sale.total}/>
+                    })}
                 </div>
             </Components.Flex>
         </Components.Flex>

@@ -75,7 +75,7 @@ const navigate = useNavigate();
         boxShadow: "var(--box-shadow)",
         "--tr-active-color": rowActiveColor,
         ...style
-    }} onClick={() => {navigate("/sales")}}>
+    }}>
         <table style={{
             borderCollapse: "collapse",
             backgroundColor: backgroundColor,

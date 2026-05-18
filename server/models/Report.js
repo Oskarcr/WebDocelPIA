@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 
 const reportSchema = new Schema({
     income: Number,
-    sale: [{
+    sales: [{
         type: Schema.Types.ObjectId,
         ref: "Sale"
     }]

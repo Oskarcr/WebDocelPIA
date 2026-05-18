@@ -14,7 +14,6 @@ async function submitHandler(evt) {
             color: color
         })
 
-        console.log(res.data);
     }catch(error){
         console.log(error.response.data);
     }

@@ -16,7 +16,6 @@ export default function PortalCard({ title = "", path = "", style = {}, hasInput
         if (evt.target !== evt.currentTarget) {
             if (evt.target.tagName === "INPUT") {
                 evt.preventDefault();
-                console.log(evt.target);
                 return;
             }
         }
