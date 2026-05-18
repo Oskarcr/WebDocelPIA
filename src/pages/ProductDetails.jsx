@@ -5,13 +5,10 @@ import { Link, Route, useNavigate, useParams } from "react-router-dom";
 
 async function submitHandler(evt) {
     evt.preventDefault();
-        
-    // PENDIENTE
-    try {
-        const color = document.getElementById("product-details-color").value;
 
-        const res = await axios.post("/api/orders/", {
-            color: color
+    try {
+        const response = await axios.post("/api/orders/",{},{
+            withCredentials: true
         })
 
     }catch(error){
