@@ -6,6 +6,7 @@ import orders from "../routes/orders.js";
 import sales from "../routes/sales.js";
 import users from "../routes/users.js";
 import colors from "../routes/colors.js";
+import reports from "../routes/reports.js";
 
 const api = Router();
 
@@ -24,5 +25,7 @@ api.use("/sales", sales);
 api.use("/users", users);
 
 api.use("/colors", colors);
+
+api.use("/reports", reports);
 
 export default api;

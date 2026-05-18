@@ -183,17 +183,22 @@ colors.delete("/:id", async (req, res) => {
         return;
     }
 
-    const color = await Color.findById(id);
+    try {
+        const color = await Color.findById(id);
 
-    if(!color) {
-        res.status(404).json(JSON_NOT_FOUND);
-        return;
+        if(!color) {
+            res.status(404).json(JSON_NOT_FOUND);
+            return;
+        }
+
+        color.set("active", false);
+        await color.save();
+
+        res.status(200).json(JSON_OK);
     }
-
-    color.set("active", false);
-    await color.save();
-
-    res.status(200).json(JSON_OK);
+    catch(_) {
+        res.status(500).json(JSON_SERVER_ERROR);
+    }
 });
 
 export default colors;
