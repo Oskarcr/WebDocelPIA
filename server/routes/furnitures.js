@@ -24,7 +24,6 @@ furnitures.get("/all", async (req, res) => {
         res.status(200).json(colors.map(a => furnitureToJSON(a)));
     } 
     catch (_) {
-        console.log(_);
         res.status(500).json(JSON_SERVER_ERROR);
     }
 });

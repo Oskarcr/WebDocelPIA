@@ -35,7 +35,7 @@ const Pages = {
     Portal,
     Reports,
     ProductManager,
-    ColorSwatches,
+    ColorSwatches
 };
 
 Object.freeze(Pages);

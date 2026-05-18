@@ -9,6 +9,7 @@ import Header from "../components/Header.jsx";
 import InputBox from "../components/InputBox.jsx";
 import Main from "../components/Main.jsx";
 import MessageBox from "../components/MessageBox.jsx";
+import OrderBox from "../components/OrderBox.jsx";
 import OrderDetailsBox from "../components/OrderDetailsBox.jsx";
 import OrderOption from "../components/OrderOption.jsx";
 import PortalCard from "../components/PortalCard.jsx";
@@ -38,7 +39,8 @@ const Components = {
     ColorItem,
     MessageBox,
     InputBox,
-    OrderDetailsBox
+    OrderDetailsBox,
+    OrderBox
 };
 
 Object.freeze(Components);

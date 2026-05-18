@@ -29,7 +29,7 @@ export default function AppRoutes() {
                 <Route path="/profile/:email" element={<Pages.Profile />} />
                 <Route path="/product_details" element={<Pages.ProductDetails />} />
                 <Route path="/product_details/:id" element={<Pages.ProductDetails />} />
-                <Route path="/order_details" element={<Pages.OrderDetails />} />
+                <Route path="/orders/:id" element={<Pages.OrderDetails />} />
             </Route>
 
             <Route element={<ProtectedRoute minRole={1} />}>
