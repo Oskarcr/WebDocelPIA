@@ -47,7 +47,6 @@ export default function AppRoutes() {
                 <Route path="/reports" element={<Pages.Reports />} />
             </Route>
 
-            <Route path="/test_page" element={<Pages.TestPage />} />
             {/* Cualquier pagina que no sea las de arriba */}
             <Route path="*" element={<Pages.NotFound />} />
         </Routes>

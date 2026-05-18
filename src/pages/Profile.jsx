@@ -6,6 +6,10 @@ import { useParams } from "react-router-dom";
 export default function Profile() {
     const { email } = useParams();
 
+    const loggedInUserRole = Number(localStorage.getItem("role"));
+
+    const isAdmin = loggedInUserRole === 3;
+
     const [title, setTitle] = useState("");
     const [message, setMessage] = useState("");
     const [showMessage, setShowMessage] = useState(false);
@@ -17,6 +21,34 @@ export default function Profile() {
         phone: 0,
         password: ""
     });
+
+        async function loadLocation(){
+        if(!user.address) return;
+
+        const query = encodeURIComponent(user.address);
+
+        window.open("https://www.google.com/maps/search/?api=1&query=" + query, "_blank");
+    }
+
+    async function hireUserHandler() {
+    if (!email) return;
+    try {
+        const response = await axios.patch("/api/users/" + email.trim().toLowerCase(), {
+            role: 2
+        }, { withCredentials: true });
+
+        setUser(prev => ({ ...prev, role: response.data.role }));
+
+        setTitle("Éxito");
+        setMessage(user.username + " ahora es miembro del personal!");
+        setShowMessage(true);
+    } catch (error) {
+        console.log(error);
+        setTitle("Error");
+        setMessage(error.response?.data?.message || "No se pudo contratar al usuario.");
+        setShowMessage(true);
+    }
+}
 
 
     async function submitHandler(evt) {
@@ -49,12 +81,9 @@ export default function Profile() {
         }
     }
 
-    async function loadLocation(){
-        if(!user.address) return;
-
-        const query = encodeURIComponent(user.address);
-
-        window.open("https://www.google.com/maps/search/?api=1&query=" + query, "_blank");
+    async function logoutHandler() {
+        localStorage.clear();
+        window.location.href = "/login";
     }
 
     useEffect(() => {
@@ -153,8 +182,15 @@ export default function Profile() {
                                 <input type="text" value={user.phone} onChange={(e) => setUser({ ...user, phone: e.target.value })} />
                                 <button type="button" onClick={() => setPasswordBox(true)}>CAMBIAR CONTRASEÑA</button>
                                 <button type="button" onClick={loadLocation}>VER UBICACIÓN</button>
-                                <button type="button">CONTRATAR</button>
+                                
+                                {
+                                    isAdmin && email && user.role === 1 && (
+                                        <button type="button" onClick={hireUserHandler}>CONTRATAR</button>
+                                    )
+                                }
+
                                 <button type="submit">CONFIRMAR CAMBIOS</button>
+                                <button type="button" onClick={logoutHandler}>CERRAR SESIÓN</button>
                             </form>
                         </Components.Flex>
                     </Components.Flex>
