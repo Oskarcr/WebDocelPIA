@@ -12,8 +12,7 @@ const navigate = useNavigate();
     async function searchUserHandler(){
         if(!email.trim()) return;
         try{
-            const response = await axios.get("/api/users/" + email.trim().toLocaleLowerCase());
-            console.log(response.data);
+            await axios.get("/api/users/" + email.trim().toLocaleLowerCase());
 
             navigate("/profile/" + email.trim().toLowerCase());
         }catch(error){
@@ -57,6 +56,7 @@ const navigate = useNavigate();
                     <Components.PortalCard path="/product_manager" title="Gestor de muebles"/>
                     <Components.PortalCard path="/reports" title="Reporte de ventas"/>
                     <Components.PortalCard path="/color_swatches" title="Muestras de color"/>
+                    <Components.PortalCard path="/employees" title="Empleados"/>
                 </div>
             </div>
             <Components.Column color={Theme.BLACK} />

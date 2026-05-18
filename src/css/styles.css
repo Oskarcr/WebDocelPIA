@@ -281,6 +281,13 @@ tr:active {
     justify-content: center;
 }
 
+.employee-selected-role {
+    width: 100%;
+    border-radius: 8px;
+    outline: none;
+    cursor: pointer;
+}
+
 /* Detalles del producto */
 .product-image {
     display: flex;

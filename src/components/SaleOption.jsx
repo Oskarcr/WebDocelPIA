@@ -19,7 +19,7 @@ export default function SaleOption({amount = 1, username = "Oscar", date = Date.
     }}>
         <div>{"Cantidad"} <br/> {amount}</div>
         <div>{"Usuario"} <br/> {username}</div>
-        <div>{"Fecha"} <br/> {ddate.getDay() + "/" + ddate.getMonth() + "/" + ddate.getFullYear()}</div>
+        <div>{"Fecha"} <br/> {ddate.getDate() + "/" + (ddate.getMonth() + 1) + "/" + ddate.getFullYear()}</div>
         <div>{"Total"} <br/> {total + "MXN"}</div>
     </div>);
 }

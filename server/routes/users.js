@@ -8,7 +8,7 @@ const users = Router();
 
 function employeesToJSON(user) {
     return {
-        username: user.name,
+        username: user.username,
         email: user.email,
         phone: user.phone,
         role: user.role
@@ -18,9 +18,7 @@ function employeesToJSON(user) {
 // Enlista todos los usuarios con rol mayor a cliente.
 users.get("/employees", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
     try{
-        const user = await User.find({ role: 2 }).sort({username: 1}).select("-password");
-
-        console.log(user);
+        const user = await User.find({ role: {$gt: UserRole.CLIENT} }).sort({username: 1}).select("-password");
 
         return res.status(200).json(user.map(a => employeesToJSON(a)));
     }catch(error){
@@ -82,8 +80,8 @@ users.patch("/me", authMiddleware, requireRole(UserRole.CLIENT), async (req, res
     }
 });
 
-// Obtiene los datos de un usuario mediante el username.
-users.get("/:email", authMiddleware, requireRole(UserRole.ADMINISTRATOR), async (req, res) => {
+// Obtiene los datos de un usuario mediante el email.
+users.get("/:email", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
     try{
         const param = validator.parseBody(req.params);
 
@@ -101,6 +99,33 @@ users.get("/:email", authMiddleware, requireRole(UserRole.ADMINISTRATOR), async 
 
     }catch(error){
         console.log(error);
+        return res.status(500).json(JSON_SERVER_ERROR);
+    }
+});
+
+// Modifica el rol del usuario mediante la pagina de empleados.
+users.patch("/:email", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
+    const email = req.params.email;
+    const role = req.body.role;
+
+    if(!role) return res.status(400).json({message: "Rol no definido."});
+
+    try{
+        const user = await User.findOneAndUpdate(
+            { email: email },
+            { role: role },
+            { returnDocument: "after" }
+        ).select("-password");
+    
+        
+
+        if(!user) return res.status(400).json({message: "Usuario no encontrado."});
+    
+        return res.status(200).json(user)
+
+    }catch(error){
+        console.log(error);
+
         return res.status(500).json(JSON_SERVER_ERROR);
     }
 });
