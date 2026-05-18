@@ -1,6 +1,17 @@
 import { Router } from "express";
-import { JSON_SERVER_ERROR, Order, User, UserRole } from "#DocelServer";
+import { JSON_SERVER_ERROR, Order, OrderStatus, User, UserRole } from "#DocelServer";
 import { authMiddleware, requireRole } from "../middlewares/auth.js";
+
+function orderToJSON(order) {
+    return {
+        status: order.status,
+        statusName: OrderStatus.toLabel(order.status),
+        furnitures: order.furnitures,
+        comment: order.comment,
+        createdAt: order.createdAt,
+        updatedAt: order.updatedAt
+    };
+}
 
 const orders = Router();
 
@@ -10,10 +21,9 @@ orders.get("/me", authMiddleware, async (req, res) => {
             user: req.user.id
         }).populate("furnitures").populate("user", "-password");
 
-        return res.status(200).json(orders);
+        return res.status(200).json(orders.map(a => orderToJSON(a)));
     }catch(error){
         console.log(error);
-
         return res.status(500).json(JSON_SERVER_ERROR);
     }
 });
@@ -22,11 +32,8 @@ orders.get("/me", authMiddleware, async (req, res) => {
 orders.get("/all", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
     try{
         const orders = await Order.find().populate("furnitures").populate("user", "-password")
-
-        return res.status(200).json(orders);
-    }catch(error){
-        console.log(error)
-
+        return res.status(200).json(orders.map(a => orderToJSON(a)));
+    }catch(_){
         return res.status(500).json(JSON_SERVER_ERROR);
     }
 });
@@ -48,12 +55,8 @@ orders.get("/:email", authMiddleware, requireRole(UserRole.CLIENT), async (req, 
         const orders = await Order.find({
             user: user._id
         }).sort({deliveredAt: -1})
-
-        return res.status(200).json(orders);
-
-    }catch(error){
-        console.log(error);
-
+        return res.status(200).json(orders.map(a => orderToJSON(a)));
+    }catch(_){
         return res.status(500).json(JSON_SERVER_ERROR);
     }
 });

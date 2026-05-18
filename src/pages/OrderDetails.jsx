@@ -1,5 +1,6 @@
 import { Components, FontSize, Spacing, Theme } from "@/DocelClient";
 import OrderItem from "../components/OrderItem";
+import { useState } from "react";
 
 const orderItems = [
     { src:"/furniture/closet.png", name: "Armarios", color: "Marron", price: "12600" },
@@ -13,9 +14,19 @@ const children = orderItems.map(item => {
 })
 
 export default function OrderDetails() {
+    const [open, setOpen] = useState(false);
+
     return (
         <Components.Main horizontal>
             <Components.Column color={Theme.BLACK} />
+            {open && <Components.OrderBox onConcluded={() => {
+                setOpen(false);
+            }}
+            
+            onCancel={() => {
+                setOpen(false);
+            }}
+            />}
             <div style={{
                 width: "100%"
             }}>
@@ -34,6 +45,9 @@ export default function OrderDetails() {
                     backgroundColor: Theme.BACKGROUND.SURFACE,
                     gap: Spacing.LG,
                 }}>
+                    <button onClick={() => {
+                        setOpen(true);
+                    }}>ADMINISTRAR</button>
                     {children}
                 </div>
             </div>
