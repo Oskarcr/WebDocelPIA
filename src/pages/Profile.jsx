@@ -90,7 +90,10 @@ export default function Profile() {
             }
             {
                 passwordBox && (
-                    <Components.InputBox title="Cambiar contraseña" placeholder="Nueva contraseña" onClose={() => setPasswordBox(false)}
+                    <Components.InputBox 
+                        title="CAMBIAR CONTRASEÑA" 
+                        placeholder="Nueva contraseña" 
+                        onClose={() => setPasswordBox(false)}
                         onConfirm={(value) => {
                             setUser({
                                 ...user,

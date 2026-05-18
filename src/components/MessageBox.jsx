@@ -1,44 +1,31 @@
 import { Components, FontSize, Spacing, Theme } from "@/DocelClient"
 
 export default function MessageBox({ title = "", content = "", onClose}) {
-
-
     return (
-        <div onClick={onClose} style={{
-                position: "fixed",
-                inset: 0,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "rgba(0,0,0,0.2)",
-                zIndex: 999
-            }}
-        >
-            <div style={{
-                    width: "80%",
-                    maxWidth: "500px",
-                    minWidth: "300px",
-                    padding: Spacing.LG,
-                    borderRadius: "8px",
-                    backgroundColor: Theme.BACKGROUND.MAIN
-                }}
-            >
-                <div>
-                    <Components.TextBox content={title} fontSize={FontSize.LG} bold alignment="center" style={{
+        <div onClick={onClose} className="message-box">
+            <div className="message-box-content">
+                <Components.TextBox 
+                    content={title} 
+                    fontSize={FontSize.LG} 
+                    bold 
+                    alignment="center" 
+                    style={{
                         color: Theme.PRIMARY
-                    }}/>
-                    <Components.TextBox content={content} fontSize={FontSize.SM} style={{
+                    }}
+                />
+                <Components.TextBox 
+                    content={content}
+                    alignment="center-left"
+                    fontSize={FontSize.SM}
+                    style={{
+                        minHeight: "90px",
                         color: Theme.PRIMARY
-                    }}/>
-
-                    <button onClick={onClose} style={{
-                        display: "flex",
-                        marginInline: "auto",
-                        color: Theme.BACKGROUND.MAIN
-                    }}>
-                        Confirmar
-                    </button>
-                </div>
+                    }}
+                />
+                <button onClick={onClose}>
+                    ACEPTAR
+                </button>
+                
             </div>
         </div>
     )

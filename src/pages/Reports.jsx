@@ -1,4 +1,6 @@
-import { Components, FontSize, Spacing, Theme } from "@/DocelClient";
+import { capitalize, Components, FontSize, Spacing, Theme } from "@/DocelClient";
+import axios from "axios";
+import { useEffect, useRef, useState } from "react";
 
 const tmp = [
     {folio: 1, date: Date.now(), income : 10000},
@@ -18,7 +20,35 @@ const elements = tmp.map(a => {
     return [a.folio, date, income];
 });
 
-export default function Reports() {
+export default function Reports() {    
+    const [reports, setReports] = useState([[]]);
+    const didFetch = useRef(false);
+
+    useEffect(() => {
+        if (didFetch.current) return;
+        didFetch.current = true;
+        (async () => {
+            try {
+                const response = await axios.get("/api/reports/all");
+                const d = response.data;
+                setReports(d.map(a => [
+                    a.folio,
+                    capitalize(
+                        (new Date(a.period).toLocaleDateString("es-MX", { 
+                            timeZone: "UTC", 
+                            month: "long", 
+                            year: "numeric"
+                        }))
+                    ), 
+                    "$" + a.income + " MXN"
+                ]));
+            } 
+            catch (error) {
+                console.error(error);
+            }
+        })();
+    }, []);
+
     return (<Components.Main horizontal>
         <Components.Column/>
             <Components.Flex column>
@@ -53,7 +83,7 @@ export default function Reports() {
                     <Components.Flex row>
                         <Components.Table 
                             head={["Folio", "Fecha", "Ingresos"]}
-                            elements={elements}
+                            elements={reports}
                         />
                     </Components.Flex>
                 </div>

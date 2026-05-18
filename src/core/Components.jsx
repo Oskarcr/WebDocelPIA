@@ -17,7 +17,6 @@ import SaleOption from "../components/SaleOption.jsx";
 import ShoppingItem from "../components/ShoppingItem.jsx";
 import Table from "../components/Table.jsx";
 import TextBox from "../components/TextBox.jsx";
-import OrderDetails from "../pages/OrderDetails.jsx";
 
 /**
  * Es un objeto que contiene todos los componentes.
