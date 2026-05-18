@@ -135,3 +135,12 @@ body {
     min-width: 200px;
     margin-left: auto;
 }
+
+.message-box-content {
+    width: min(480px, 100%);
+}
+
+.message-box-content > button {
+    width: min(240px, 100%);
+    margin-inline: auto;
+}

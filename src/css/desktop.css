@@ -139,3 +139,14 @@ body {
 .color-item-preview {
     width: 100%;
 }
+
+.message-box-content {
+    width: 50%;
+    max-width: 80px;
+    min-width: 480px;
+}
+
+.message-box-content > button {
+    width: 50%;
+    margin-inline: auto;
+}

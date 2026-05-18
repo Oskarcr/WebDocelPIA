@@ -43,14 +43,19 @@ furnitures.get("/:id", async (req, res) => {
         return;
     }
 
-    const furniture = await Furniture.findById(id);
+    try {
+        const furniture = await Furniture.findById(id);
 
-    if(!furniture) {
-        res.status(404).json(JSON_NOT_FOUND);
-        return;
+        if(!furniture) {
+            res.status(404).json(JSON_NOT_FOUND);
+            return;
+        }
+
+        res.status(200).json(furnitureToJSON(furniture));
     }
-
-    res.status(200).json(furnitureToJSON(furniture));
+    catch(_) {
+        res.status(500).json(JSON_SERVER_ERROR);
+    }
 });
 
 // Agrega un nuevo mueble a la base de datos.
@@ -190,17 +195,22 @@ furnitures.delete("/:id", async (req, res) => {
         return;
     }
 
-    const furniture = await Furniture.findById(id);
+    try {
+        const furniture = await Furniture.findById(id);
 
-    if(!furniture) {
-        res.status(404).json(JSON_NOT_FOUND);
-        return;
+        if(!furniture) {
+            res.status(404).json(JSON_NOT_FOUND);
+            return;
+        }
+
+        furniture.set("active", false);
+        await furniture.save();
+
+        res.status(200).json(JSON_OK);
     }
-
-    furniture.set("active", false);
-    await furniture.save();
-
-    res.status(200).json(JSON_OK);
+    catch(_) {
+        res.status(500).json(JSON_SERVER_ERROR);
+    }
 });
 
 export default furnitures;
