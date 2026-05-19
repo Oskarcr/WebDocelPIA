@@ -48,10 +48,25 @@ auth.post("/signup", async (req, res) => {
             role: UserRole.CLIENT
         });
 
+        const token = jwt.sign({
+            id: user._id,
+            role: user.role
+        }, process.env.JWT_SECRET, {
+            expiresIn: "1d"
+        });
+
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax",
+            maxAge: 1000 * 60 * 60 * 24
+        });
+
         res.status(201).json({
             user: {
                 username: user.username,
                 email: user.email,
+                role: user.role
             },
             message: "Usuario creado con éxito."
         });

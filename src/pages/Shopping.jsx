@@ -1,13 +1,17 @@
-import { Components, Spacing, Theme } from "@/DocelClient";
+import { Components, Theme } from "@/DocelClient";
 import "../css/styles.css";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Shopping() {
+    const navigate = useNavigate();
     const [options, setOptions] = useState([]);
     const didFetch = useRef(false);
 
     useEffect(() => {
+        const userRole = localStorage.getItem("role");
+
         if (didFetch.current) return;
         didFetch.current = true;
         (async () => {
