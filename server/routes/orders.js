@@ -3,6 +3,7 @@ import { canChangeOrderStatus, Furniture, JSON_NOT_FOUND, JSON_OK, JSON_SERVER_E
 import { authMiddleware, requireRole } from "../middlewares/auth.js";
 import requireId from "../middlewares/requireId.js";
 import { furnitureToJSON } from "./furnitures.js";
+import sameUser from "../middlewares/sameUser.js";
 
 function orderToJSON(order) {
     const format = (date) => {
@@ -65,7 +66,7 @@ orders.get("/pending", authMiddleware, requireRole(UserRole.EMPLOYEE), async (re
 });
 
 // Obtiene las ordenes de un usuario en específico mediante el id.
-orders.get("user/:id", authMiddleware, requireRole(UserRole.EMPLOYEE), requireId, async (req, res) => {
+orders.get("user/:id", authMiddleware, requireId, async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -366,7 +367,7 @@ orders.patch("/:id/review", authMiddleware, requireRole(UserRole.EMPLOYEE), requ
 });
 
 // Obtiene los muebles correspondientes a un pedido.
-orders.get("/:id/furnitures", authMiddleware, requireRole(UserRole.EMPLOYEE), requireId, async (req, res) => {
+orders.get("/:id/furnitures", requireId, async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -387,7 +388,7 @@ orders.get("/:id/furnitures", authMiddleware, requireRole(UserRole.EMPLOYEE), re
 
 
 // Obtiene un pedido mediante la id.
-orders.get("/:id", authMiddleware, requireRole(UserRole.EMPLOYEE), requireId, async (req, res) => {
+orders.get("/:id", authMiddleware, requireId, async (req, res) => {
     const { id } = req.params;
 
     try {
