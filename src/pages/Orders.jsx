@@ -33,6 +33,12 @@ export default function Orders() {
         })();
     }, []);
 
+    const from =
+    location.state?.from ||
+    (location.pathname.includes("pending")
+        ? "/orders/pending"
+        : "/orders");
+
     return (
         <>
             <Components.Main horizontal>
@@ -76,7 +82,11 @@ export default function Orders() {
                                     statusName={order.statusName} 
                                     delivered={order.deliveredAt}
                                     register={order.createdAt}
-                                    onClick={() => navigate("/orders/" + order.id)}
+                                    onClick={() => navigate("/orders/" + order.id, {
+                                        state: {
+                                            from: location.pathname
+                                        }
+                                    })}
                                 />);
                             })
                         }

@@ -36,6 +36,8 @@ export default function OrderBox({
             try {
                 await axios.patch(BASE_ROUTE + "/status", {
                     statusName: "concluido"
+                }, {
+                    withCredentials: true
                 });
                 navigate("/orders/pending");
             }

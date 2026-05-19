@@ -230,6 +230,14 @@ orders.patch("/:id/send", authMiddleware, requireRole(UserRole.CLIENT), requireI
             });
             return;
         }
+
+        const currentStatus = order.get("status");
+        if(currentStatus !== OrderStatus.PENDING) {
+            res.status(400).json({
+                errors: ["No es posible enviar una orden que no tiene el estado 'pendiente'."]
+            });
+            return;
+        }
         order.set("sent", true);
         await order.save();
         res.status(200).json(JSON_OK);
@@ -263,6 +271,21 @@ orders.patch("/:id/status", authMiddleware, requireRole(UserRole.CLIENT), requir
 
     const { statusName } = body;
     const status = OrderStatus.fromLabel(statusName);
+    const role = req.user.role;
+
+    if(status === OrderStatus.CONCLUDED && role < UserRole.EMPLOYEE) {
+        res.status(403).json({
+            errors: ["No puede realizar esta accion."]
+        });
+        return;
+    }
+
+    if(status === OrderStatus.REJECTED || status === OrderStatus.RETURNED) {
+        res.status(403).json({
+            errors: ["No puede realizar esta accion aqui."]
+        });
+        return;
+    }
 
     try {
         const order = await Order.findById(id).populate({
@@ -288,10 +311,20 @@ orders.patch("/:id/status", authMiddleware, requireRole(UserRole.CLIENT), requir
             return;
         }
 
-        if(status === OrderStatus.CONCLUDED) order.set("deliveredAt", Date.now());
+        if(currentStatus == OrderStatus.PENDING && status == OrderStatus.CANCELED) {
+            await Order.deleteOne({ _id: order._id });    
+            res.status(200).json(JSON_OK);
+            return;
+        }
+
+        if(status === OrderStatus.CONCLUDED) {
+            order.set("deliveredAt", Date.now());
+        }
+
         order.set("status", status);
         await order.save();
 
+        // Crear la venta si es concluida.
         if(status === OrderStatus.ACCEPTED) {
             let total = 0;
             const furnitures = order.get("furnitures");
