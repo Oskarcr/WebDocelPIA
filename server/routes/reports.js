@@ -17,7 +17,7 @@ function reportToJSON(report) {
 
 const reports = Router();
 
-reports.get("/all", authMiddleware, requireRole(UserRole.ADMINISTRATOR),async (req, res) => {
+reports.get("/all", authMiddleware, requireRole(UserRole.ADMINISTRATOR), async (req, res) => {
     try {
         const cache = await ReportsManager.getCache();
         const map = cache.map(a => reportToJSON(a));

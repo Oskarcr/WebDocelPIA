@@ -135,6 +135,16 @@ users.patch("/:email", authMiddleware, requireRole(UserRole.ADMINISTRATOR), asyn
     }
 });
 
+users.post("/logout", (req, res) => {
+    res.clearCookie("token", {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax" 
+    });
+    
+    return res.status(200).json({ message: "Sesión cerrada correctamente." });
+});
+
 // Modifica datos de un usuario mediante el id.
 users.patch("/id/:id", async (req, res) => {
     const { id } = req.params;
