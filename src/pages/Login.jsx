@@ -39,7 +39,7 @@ const [showMessage, setShowMessage] = useState(false);
             }
 
             else if (data.empties) {
-                setMessage(" Faltan los campos:\\n" + data.empties.join(", \\n"));
+                setMessage(" Faltan los campos:\\n" + data.empties.join("\\n"));
             }
             setShowMessage(true);
         }

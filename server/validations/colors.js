@@ -26,7 +26,7 @@ const colors = new RequestValidator({
         type: Number,
         validate: (price) => {
             if(price <= 0) return "El precio no puede ser 0 o negativo.";
-            if(price > 5000) return "El precio no puede ser mayor a 5000";
+            if(price > 5000) return "El precio no puede ser mayor a $5000MXN.";
         }
     }
 });
