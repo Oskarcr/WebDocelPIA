@@ -1,11 +1,11 @@
-import { Theme } from "@/DocelClient";
+import { capitalize, Theme } from "@/DocelClient";
 
-export default function OrderOption({status = -1, register = Date.now(), delivery = Date.now(), onClick = () => {}}) {  
+export default function OrderOption({statusName = "loading...", register = Date.now(), delivery = Date.now(), onClick = () => {}}) {  
     const rdate = new Date(register);
     const ddate = new Date(delivery);
 
     const data = {
-        status: "true",
+        statusName: statusName,
         register: rdate.getDay() + "/" + rdate.getMonth() + "/" + rdate.getFullYear(),
         delivery: ddate.getDay() + "/" + ddate.getMonth() + "/" + ddate.getFullYear()
     };
@@ -14,7 +14,7 @@ export default function OrderOption({status = -1, register = Date.now(), deliver
         borderColor: Theme.PRIMARY,
         color: Theme.PRIMARY
     }}>
-        <div>Estado: <br/> {data.status}</div>
+        <div>Estado: <br/> {capitalize(data.statusName)}</div>
         <div>Registro: <br/> {data.register}</div>
         <div>Entrega: <br/> {data.delivery}</div>
     </div>);

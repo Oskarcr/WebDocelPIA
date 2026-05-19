@@ -4,7 +4,7 @@ import { isValidObjectId } from "mongoose";
 
 const validator = Validators.furniture;
 
-function furnitureToJSON(furniture) {
+export function furnitureToJSON(furniture) {
     return {
         id: furniture._id,
         colorName: furniture.color?.name,
