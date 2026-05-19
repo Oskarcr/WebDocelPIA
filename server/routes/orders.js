@@ -239,7 +239,7 @@ orders.patch("/:id/send", authMiddleware, requireRole(UserRole.CLIENT), requireI
 });
 
 // Cambia el estado del pedido asignando su fecha y costo real
-orders.patch("/:id/status", authMiddleware, requireRole(UserRole.EMPLOYEE), requireId, async (req, res) => {
+orders.patch("/:id/status", authMiddleware, requireRole(UserRole.CLIENT), requireId, async (req, res) => {
     const { id } = req.params;
     
     const body = validator.parseBody({
@@ -366,7 +366,7 @@ orders.patch("/:id/review", authMiddleware, requireRole(UserRole.EMPLOYEE), requ
 });
 
 // Obtiene los muebles correspondientes a un pedido.
-orders.get("/:id/furnitures", authMiddleware, requireRole(UserRole.EMPLOYEE), requireId, async (req, res) => {
+orders.get("/:id/furnitures", authMiddleware, requireRole(UserRole.CLIENT), requireId, async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -387,7 +387,7 @@ orders.get("/:id/furnitures", authMiddleware, requireRole(UserRole.EMPLOYEE), re
 
 
 // Obtiene un pedido mediante la id.
-orders.get("/:id", authMiddleware, requireRole(UserRole.EMPLOYEE), requireId, async (req, res) => {
+orders.get("/:id", authMiddleware, requireRole(UserRole.CLIENT), requireId, async (req, res) => {
     const { id } = req.params;
 
     try {

@@ -5,6 +5,10 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 
 export default function OrderDetails() {
+    const loggedInUserRole = Number(localStorage.getItem("role"));
+
+    const isClient = loggedInUserRole === 1;
+
     const params = useParams();
     const [open, setOpen] = useState(false);
     const [statusName, setStatusName] = useState(null);
@@ -131,7 +135,7 @@ export default function OrderDetails() {
                             <button onClick={handlerCancel}>CANCELAR</button>}
                             {(statusName == "devuelto") &&
                             <button onClick={handlerPay}>PAGAR</button>}
-                            {(statusName == "pendiente" || statusName == "aceptado") && 
+                            {(statusName == "pendiente" || statusName == "aceptado") && !isClient &&
                             <button onClick={handlerManage}>ADMINISTRAR</button>}
                         </div>
                         
