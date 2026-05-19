@@ -31,6 +31,7 @@ const orderSchema = new Schema({
 });
 
 orderSchema.index({ user: 1 });
+orderSchema.index({ sent: 1 });
 
 const Order = model("Order", orderSchema);
 

@@ -74,6 +74,8 @@ export default function Orders() {
                                 return (<Components.OrderOption 
                                     key={order.id} 
                                     statusName={order.statusName} 
+                                    delivered={order.deliveredAt}
+                                    register={order.createdAt}
                                     onClick={() => navigate("/orders/" + order.id)}
                                 />);
                             })
