@@ -43,7 +43,7 @@ async function start() {
     catch(error) {
         console.error("Database error");
         console.error(error);
-        process.exit(0);
+        throw new Error("Database error");
     }
     endl();
 
@@ -52,9 +52,13 @@ async function start() {
 
     app.use("/attachments", express.static(Path.join(__dirname, "attachments")));
 
+    /*
     app.listen(SERVER_PORT, () => {
         console.log("App listeting on http://localhost:" + SERVER_PORT);
     });
+    */
 }
 
 start();
+
+export default app;
