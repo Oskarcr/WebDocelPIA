@@ -1,20 +1,7 @@
 import { capitalize, Components, FontSize, Spacing, Theme } from "@/DocelClient";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import { Link, Route, useNavigate, useParams } from "react-router-dom";
-
-async function submitHandler(evt) {
-    evt.preventDefault();
-
-    try {
-        const response = await axios.post("/api/orders/",{},{
-            withCredentials: true
-        })
-
-    }catch(error){
-        console.log(error.response.data);
-    }
-}
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function ProductDetails() {
     const [furniture, setFurniture] = useState({
@@ -25,7 +12,9 @@ export default function ProductDetails() {
         imageUrl: "",
         error: true
     });
+    const [message, setMessage] = useState(null);
     const params = useParams();
+    const navigate = useNavigate();
     const didFetch = useRef(false);
     const { id } = params;
 
@@ -58,6 +47,43 @@ export default function ProductDetails() {
             }
         })();
     }, []);
+
+    const handlerAdd = async () => {
+        try {
+            await axios.post("/api/orders/active",{},{
+                withCredentials: true
+            });
+
+            await axios.patch("/api/orders/active/add/" + id);
+            navigate(-1);
+        }
+        catch(error){
+            showErrors(error);
+        }
+    }
+
+    const handlerRemove = async () => {
+        try {
+            await axios.post("/api/orders/active",{},{
+                withCredentials: true
+            });
+            
+            await axios.patch("/api/orders/active/remove/" + id);
+            navigate(-1);
+        }
+        catch(error){
+            showErrors(error);
+        }
+    }
+
+    const showErrors = (error) => {
+        const data = error.response?.data;
+        if(!data || !Array.isArray(data.errors)) return;
+        setMessage({
+            title: "ERROR",
+            content: data.errors.join("\\n")
+        });
+    }
 
     return (
         <Components.Main horizontal>
@@ -107,14 +133,20 @@ export default function ProductDetails() {
                                 }
                             />
                             <Components.Flex/>
-                            {furniture.error === false &&
-                                <button id="product-details-button" onClick={submitHandler}>Agregar</button>
-                            }
+                            {furniture.error === false && <>
+                                <button type="button" onClick={handlerRemove}>Eliminar del carrito</button>
+                                <button type="button" onClick={handlerAdd}>Agregar al carrito</button>
+                            </>}
                         </Components.Flex>
                     </div>
                 </Components.Flex> 
             </div>
             <Components.Column color={Theme.BLACK} />
+            { message && <Components.MessageBox
+                title={message.title}
+                content={message.content}
+                onClose={() => setMessage(null)}
+            />}
         </Components.Main>
     )
 }

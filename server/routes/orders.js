@@ -1,18 +1,29 @@
 import { Router } from "express";
-import { canChangeOrderStatus, Furniture, JSON_NOT_FOUND, JSON_OK, JSON_SERVER_ERROR, Order, OrderStatus, UserRole, Validators } from "#DocelServer";
+import { canChangeOrderStatus, Furniture, JSON_NOT_FOUND, JSON_OK, JSON_SERVER_ERROR, Order, OrderStatus, Sale, UserRole, Validators } from "#DocelServer";
 import { authMiddleware, requireRole } from "../middlewares/auth.js";
 import requireId from "../middlewares/requireId.js";
 import { furnitureToJSON } from "./furnitures.js";
 
 function orderToJSON(order) {
+    const format = (date) => {
+        if(!date) return "???";
+        return new Date(date).toLocaleDateString("es-MX", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric"
+        });
+    }
+
     return {
         id: order._id,
         status: order.status,
         statusName: OrderStatus.toLabel(order.status),
         furnitures: order.furnitures,
         comment: order.comment,
-        createdAt: order.createdAt,
-        updatedAt: order.updatedAt
+        sent: order.sent,
+        deliveredAt: format(order.deliveredAt),
+        createdAt: format(order.createdAt),
+        updatedAt: format(order.updatedAt)
     };
 }
 
@@ -25,7 +36,7 @@ orders.get("/me", authMiddleware, requireRole(UserRole.CLIENT), async (req, res)
     try{
         const orders = await Order.find({
             user: req.user.id
-        }).populate("furnitures").populate("user", "-password");
+        });
         res.status(200).json(orders.map(a => orderToJSON(a)));
         return;
     }
@@ -39,6 +50,7 @@ orders.get("/me", authMiddleware, requireRole(UserRole.CLIENT), async (req, res)
 orders.get("/pending", authMiddleware, requireRole(UserRole.EMPLOYEE), async (req, res) => {
     try{
         const orders = await Order.find({
+            sent: true,
             status: {
                 $in: [OrderStatus.PENDING, OrderStatus.ACCEPTED]
             }
@@ -71,45 +83,22 @@ orders.get("user/:id", authMiddleware, requireRole(UserRole.EMPLOYEE), requireId
 });
 
 // Crea un pedido mediante la estructura indicada
-orders.post("/", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
-    const body = validator.parseBody(req.body);
-
-    const errors = validator.validate(body);
-
-    if(errors.length > 0) {
-        res.status(400).json({ errors });
-        return;
-    }
-
-    const empties = validator.empties(body,
-        "furnituresIds",
-        "userId"
-    );
-
-    if(empties.length > 0) {
-        res.status(400).json({ errors: empties });
-        return;
-    }
-
-    const { furnituresIds, userId } = body;
+orders.post("/active", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
+    const userId = req.user.id;
 
     try {
-        const furnitures = await Furniture.find({
-            active: true,
-            _id: { $in: furnituresIds }
+        let order = await Order.findOne({
+            user: userId,
+            sent: false
         });
-
-        if(furnitures.length !== furnituresIds.length) {
-            return res.status(404).json({
-                errors: ["Algunos muebles no existen o no se encuentran disponibles."]
+        if(!order) {
+            order = await Order.create({
+                user: userId,
+                furnitures: [],
+                sent: false,
+                status: OrderStatus.PENDING
             });
         }
-
-        const order = await Order.create({
-            furnitures: furnituresIds,
-            user: userId,
-            status: OrderStatus.PENDING
-        });
 
         res.status(200).json(orderToJSON(order));
     }
@@ -117,6 +106,103 @@ orders.post("/", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) 
         res.status(500).json(JSON_SERVER_ERROR);
     }
 });
+
+// Agrega un mueble al pedido activo.
+orders.patch("/active/add/:id", authMiddleware, requireId, async (req, res) => {
+    const { id } = req.params;
+    const userId = req.user.id;
+
+    try {
+        const order = await Order.findOne({
+            user: userId,
+            sent: false
+        });
+
+        if(!order) {
+            res.status(404).json(JSON_NOT_FOUND);
+            return;
+        }
+
+        if(order.furnitures.length >= 4) {
+            res.status(400).json({
+                errors: ["No se puede agregar mas de 4 muebles al pedido."]
+            });
+            return;
+        }
+
+        const furniture = await Furniture.findById(id, {
+            active: true
+        });
+
+        if(!furniture) {
+            res.status(404).json({
+                errors: ["No se encontro el mueble con el id especificado"]
+            });
+            return;
+        }
+
+        order.furnitures.push(furniture._id);
+        await order.save();
+        res.status(200).json(orderToJSON(order));
+    }
+    catch(_) {
+        res.status(500).json(JSON_SERVER_ERROR);
+    }
+});
+
+// Remueve un mueble de la lista activa de muebles.
+orders.patch("/active/remove/:id", authMiddleware, requireId, async (req, res) => {
+    const { id } = req.params;
+    const userId = req.user.id;
+
+    try {
+        const order = await Order.findOne({
+            user: userId,
+            sent: false
+        });
+
+        if(!order) {
+            res.status(404).json(JSON_NOT_FOUND);
+            return;
+        }
+
+        if(order.furnitures.length <= 0) {
+            res.status(400).json({
+                errors: ["No cuenta con este elemento en la lista."]
+            });
+            return;
+        }
+
+        const furniture = await Furniture.findById(id, {
+            active: true
+        });
+
+        if(!furniture) {
+            res.status(404).json({
+                errors: ["No se encontro el mueble con el id especificado"]
+            });
+            return;
+        }
+
+        const index = order.furnitures.findIndex(x => x.equals(furniture._id));
+
+        if(index < 0) {
+            res.status(400).json({
+                errors: ["No cuenta con este elemento en la lista."]
+            });
+            return;
+        }
+
+        order.furnitures.splice(index, 1);
+
+        await order.save();
+        res.status(200).json(orderToJSON(order));
+    }
+    catch(_) {
+        res.status(500).json(JSON_SERVER_ERROR);
+    }
+});
+
 
 // Envia el pedido para revision
 orders.patch("/:id/send", authMiddleware, requireRole(UserRole.CLIENT), requireId, async(req, res) => {
@@ -128,6 +214,14 @@ orders.patch("/:id/send", authMiddleware, requireRole(UserRole.CLIENT), requireI
             res.status(404).json(JSON_NOT_FOUND);
             return;
         }
+
+        if(order.furnitures.length <= 0) {
+            res.status(400).json({
+                errors: ["No es posible enviar a revision porque no hay muebles en el pedido."]
+            });
+            return;
+        }
+
         const sent = order.get("sent");
         if(sent) {
             res.status(400).json({
@@ -170,7 +264,14 @@ orders.patch("/:id/status", authMiddleware, requireRole(UserRole.EMPLOYEE), requ
     const status = OrderStatus.fromLabel(statusName);
 
     try {
-        const order = await Order.findById(id);
+        const order = await Order.findById(id).populate({
+            path: "furnitures",
+            select: "_id price color",
+            populate: {
+                path: "color",
+                select: "basePrice"
+            }
+        });
         if(!order) {
             res.status(404).json(JSON_NOT_FOUND);
             return;
@@ -189,6 +290,20 @@ orders.patch("/:id/status", authMiddleware, requireRole(UserRole.EMPLOYEE), requ
         if(status === OrderStatus.CONCLUDED) order.set("deliveredAt", Date.now());
         order.set("status", status);
         await order.save();
+
+        if(status === OrderStatus.ACCEPTED) {
+            let total = 0;
+            const furnitures = order.get("furnitures");
+            for(const furniture of furnitures){
+                total += furniture.price;
+                total += furniture.color.basePrice;
+            }
+
+            await Sale.create({
+                order: order._id,
+                total
+            });
+        }
 
         res.status(200).json(JSON_OK);
     }

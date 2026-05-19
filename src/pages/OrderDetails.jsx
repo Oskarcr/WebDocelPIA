@@ -26,7 +26,7 @@ export default function OrderDetails() {
                 setStatusName(data.statusName);
             }
             catch(error) {
-                showErrors(errors);
+                showErrors(error);
             }
         })();
     }, []);
@@ -138,7 +138,7 @@ export default function OrderDetails() {
                         {
                             furnitures.map(item => <OrderItem 
                                 path={"/product_details/" + item.id} 
-                                src={"attachments/" + item.imageUrl} 
+                                src={"/attachments/" + item.imageUrl} 
                                 name={item.name} 
                                 price={item.price}
                             />)

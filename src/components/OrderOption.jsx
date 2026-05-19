@@ -1,13 +1,15 @@
 import { capitalize, Theme } from "@/DocelClient";
 
-export default function OrderOption({statusName = "loading...", register = Date.now(), delivery = Date.now(), onClick = () => {}}) {  
-    const rdate = new Date(register);
-    const ddate = new Date(delivery);
-
+export default function OrderOption({
+    statusName = "Desconocido", 
+    register = "???", 
+    delivered = "???",
+    onClick = () => {}
+}) {  
     const data = {
-        statusName: statusName,
-        register: rdate.getDay() + "/" + rdate.getMonth() + "/" + rdate.getFullYear(),
-        delivery: ddate.getDay() + "/" + ddate.getMonth() + "/" + ddate.getFullYear()
+        statusName,
+        register,
+        delivered
     };
     
     return (<div className="order-option" onClick={onClick} style={{
@@ -16,6 +18,6 @@ export default function OrderOption({statusName = "loading...", register = Date.
     }}>
         <div>Estado: <br/> {capitalize(data.statusName)}</div>
         <div>Registro: <br/> {data.register}</div>
-        <div>Entrega: <br/> {data.delivery}</div>
+        <div>Entrega: <br/> {data.delivered}</div>
     </div>);
 }
