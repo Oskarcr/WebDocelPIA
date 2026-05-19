@@ -4,6 +4,7 @@ import { Types } from "mongoose";
 export * from "../constants.js";
 export { default as saveAttachment } from "./core/saveAttachment.js";
 export { default as deleteAttachment } from "./core/deleteAttachment.js";
+export { default as canChangeOrderStatus } from "./core/canChangeOrderStatus.js";
 
 // Uploader
 export { default as uploader } from "./core/uploader.js";

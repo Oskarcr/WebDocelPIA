@@ -1,9 +1,12 @@
 import { Router } from "express";
-import { JSON_SERVER_ERROR, Order, OrderStatus, User, UserRole } from "#DocelServer";
+import { canChangeOrderStatus, Furniture, JSON_NOT_FOUND, JSON_OK, JSON_SERVER_ERROR, Order, OrderStatus, UserRole, Validators } from "#DocelServer";
 import { authMiddleware, requireRole } from "../middlewares/auth.js";
+import requireId from "../middlewares/requireId.js";
+import { furnitureToJSON } from "./furnitures.js";
 
 function orderToJSON(order) {
     return {
+        id: order._id,
         status: order.status,
         statusName: OrderStatus.toLabel(order.status),
         furnitures: order.furnitures,
@@ -15,69 +18,298 @@ function orderToJSON(order) {
 
 const orders = Router();
 
+const validator = Validators.order;
+
+// Obtiene la lista de los pedidos del usuario actual.
 orders.get("/me", authMiddleware, async (req, res) => {
     try{
         const orders = await Order.find({
             user: req.user.id
         }).populate("furnitures").populate("user", "-password");
-
-        return res.status(200).json(orders.map(a => orderToJSON(a)));
-    }catch(error){
-        console.log(error);
-        return res.status(500).json(JSON_SERVER_ERROR);
+        res.status(200).json(orders.map(a => orderToJSON(a)));
+        return;
+    }
+    catch(_) {
+        res.status(500).json(JSON_SERVER_ERROR);
+        return;
     }
 });
 
-// Obtiene todos los pedidos de todos los usuarios.
-orders.get("/all", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
+// Obtiene todos los pedidos pendientes de revision o de fabricacion.
+orders.get("/pending", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
     try{
-        const orders = await Order.find().populate("furnitures").populate("user", "-password")
-        return res.status(200).json(orders.map(a => orderToJSON(a)));
-    }catch(_){
-        return res.status(500).json(JSON_SERVER_ERROR);
-    }
-});
-
-// Obtiene las ordenes de un usuario en específico mediante el email.
-orders.get("/:email", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
-    const { email } = req.params;
-
-    if(!email) return res.status(400).json({message: "No se encontró el email."});
-
-    try{
-
-        const user = await User.findOne({
-            email: email
-        })
-
-        if(!user) return res.status(400).json({message: "Usuario no encontrado."});
-
         const orders = await Order.find({
-            user: user._id
-        }).sort({deliveredAt: -1})
-        return res.status(200).json(orders.map(a => orderToJSON(a)));
-    }catch(_){
-        return res.status(500).json(JSON_SERVER_ERROR);
+            status: {
+                $in: [OrderStatus.PENDING, OrderStatus.ACCEPTED]
+            }
+        }).populate("furnitures").populate("user", "-password");
+        res.status(200).json(orders.map(a => orderToJSON(a)));
+        return;
+    }
+    catch(_) {
+        res.status(500).json(JSON_SERVER_ERROR);
+        return;
     }
 });
 
-// Enlista los pedidos de un cliente en especifico
-orders.get("/by/:userId", async (req, res) => {
-    const { userId } = req.params;
+// Obtiene las ordenes de un usuario en específico mediante el id.
+orders.get("user/:id", authMiddleware, requireRole(UserRole.CLIENT), requireId, async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const orders = await Order.find({
+            user: id
+        }).sort({ 
+            deliveredAt: -1 
+        });
+
+        res.status(200).json(orders.map(a => orderToJSON(a)));
+    }
+    catch(_) {
+        res.status(500).json(JSON_SERVER_ERROR);
+    }
 });
 
 // Crea un pedido mediante la estructura indicada
 orders.post("/", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
+    const body = validator.parseBody(req.body);
+
+    const errors = validator.validate(body);
+
+    if(errors.length > 0) {
+        res.status(400).json({ errors });
+        return;
+    }
+
+    const empties = validator.empties(body,
+        "furnituresIds",
+        "userId"
+    );
+
+    if(empties.length > 0) {
+        res.status(400).json({ errors: empties });
+        return;
+    }
+
+    const { furnituresIds, userId } = body;
+
+    try {
+        const furnitures = await Furniture.find({
+            active: true,
+            _id: { $in: furnituresIds }
+        });
+
+        if(furnitures.length !== furnituresIds.length) {
+            return res.status(404).json({
+                errors: ["Algunos muebles no existen o no se encuentran disponibles."]
+            });
+        }
+
+        const order = await Order.create({
+            furnitures: furnituresIds,
+            user: userId,
+            status: OrderStatus.PENDING
+        });
+
+        res.status(200).json(orderToJSON(order));
+    }
+    catch(_) {
+        res.status(500).json(JSON_SERVER_ERROR);
+    }
+});
+
+// Envia el pedido para revision
+orders.patch("/:id/send", requireId, async(req, res) => {
+    const { id } = req.params;
+
+    try {
+        const order = await Order.findById(id);
+        if(!order) {
+            res.status(404).json(JSON_NOT_FOUND);
+            return;
+        }
+        const sent = order.get("sent");
+        if(sent) {
+            res.status(400).json({
+                errors: ["No es posible enviar una orden que ya se envió."]
+            });
+            return;
+        }
+        order.set("sent", true);
+        await order.save();
+        res.status(200).json(JSON_OK);
+    }
+    catch(_) {
+        res.status(500).json(JSON_SERVER_ERROR);
+    }
 });
 
 // Cambia el estado del pedido asignando su fecha y costo real
-orders.patch("/:id/status", (req, res) => {
+orders.patch("/:id/status", requireId, async (req, res) => {
     const { id } = req.params;
+    
+    const body = validator.parseBody({
+        statusName: req.body.statusName
+    });
+
+    const errors = validator.validate(body);
+
+    if(errors.length > 0) {
+        res.status(400).json({ errors });
+        return;
+    }
+
+    const empties = validator.empties(body, "statusName");
+
+    if(empties.length > 0) {
+        res.status(400).json({ errors: empties });
+        return;
+    }
+
+    const { statusName } = body;
+    const status = OrderStatus.fromLabel(statusName);
+
+    try {
+        const order = await Order.findById(id);
+        if(!order) {
+            res.status(404).json(JSON_NOT_FOUND);
+            return;
+        }
+
+        const currentStatus = order.get("status");
+
+        if(!canChangeOrderStatus(currentStatus, status)) {
+            const currentStatusName = OrderStatus.toLabel(currentStatus);
+            res.status(409).json({
+                errors: ["No se puede realizar la accion en el estado actual del pedido ('" + currentStatusName + "')."]
+            });
+            return;
+        }
+
+        if(status === OrderStatus.CONCLUDED) order.set("deliveredAt", Date.now());
+        order.set("status", status);
+        await order.save();
+
+        res.status(200).json(JSON_OK);
+    }
+    catch(_) {
+        res.status(500).json(JSON_SERVER_ERROR);
+    }
+});
+
+orders.patch("/:id/review", requireId, async (req, res) => {
+    const body = validator.parseBody(req.body);
+
+    const errors = validator.validate(body);
+    if(errors.length > 0) {
+        res.status(400).json({ errors });
+        return;
+    }
+
+    const empties = validator.empties(body, "comment");
+    if(empties.length > 0) {
+        res.status(400).json({ errors: empties });
+        return;
+    }
+
+    const { id } = req.params;
+    const status = OrderStatus.fromLabel(body.statusName);
+    const { comment } = body;
+
+    try {
+        const order = await Order.findById(id);
+        if(!order) {
+            res.status(404).json(JSON_NOT_FOUND);
+            return;
+        }
+
+        const currentStatus = order.get("status");
+        if(currentStatus !== OrderStatus.PENDING) {
+            res.status(409).json({
+                errors: ["No se puede cambiar el estado de un pedido que no esta pendiente."]
+            });
+            return;
+        }
+
+        if(!canChangeOrderStatus(currentStatus, status)) {
+            const currentStatusName = OrderStatus.toLabel(currentStatus);
+            res.status(409).json({
+                errors: ["El estado no puede pasar de ser '" + currentStatusName + "' a '" + body.statusName + "'."]
+            });
+            return;
+        }
+
+        order.set("status", status)
+        if(comment) order.set("comment", comment);
+        await order.save();
+        res.status(200).json(JSON_OK);
+    }
+    catch(_) {
+        res.status(500).json(JSON_SERVER_ERROR);
+    }
+});
+
+orders.get("/:id/furnitures", requireId, async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const order = await Order.findById(id).populate("furnitures");
+
+        if(!order) {
+            res.status(404).json(JSON_NOT_FOUND);
+            return;
+        }
+
+        const furnitures = order.furnitures.map(a => furnitureToJSON(a));
+        res.status(200).json(furnitures);
+    }
+    catch(_) {
+        res.status(500).json(JSON_SERVER_ERROR);
+    }
+});
+
+orders.get("/:id", requireId, async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const order = await Order.findById(id);
+        if(!order) {
+            res.status(404).json(JSON_NOT_FOUND);
+            return;
+        }
+
+        res.status(200).json(orderToJSON(order));
+    }
+    catch(_) {
+        res.status(500).json(JSON_SERVER_ERROR);
+    }
 });
 
 // Cambia el estado de la orden de la orden a cancelado en caso de ser posible.
-orders.delete("/:id", (req, res) => {
+orders.delete("/:id", requireId, async (req, res) => {
     const { id } = req.params;
+
+    try {
+        const order = await Order.findById(id);
+        if(!order) {
+            res.status(404).json(JSON_NOT_FOUND);
+            return;
+        }
+        const currentStatus = order.get("status");
+        if(!canChangeOrderStatus(currentStatus, OrderStatus.CANCELED)) {
+            res.status(409).json({
+                errors: ["No se puede cancelar el pedido cuando esta en el estado actual."]
+            });
+            return;
+        }
+
+        order.set("status", OrderStatus.CANCELED);
+        await order.save();
+        res.status(200).json(JSON_OK);
+    }
+    catch(_) {
+        res.status(500).json(JSON_SERVER_ERROR);
+    }
 });
 
 export default orders;

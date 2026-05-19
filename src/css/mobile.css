@@ -50,12 +50,12 @@ body {
     flex-shrink: unset !important;
 }
 
-.order-item-card{
+.order-details-content {
     width: 100%;
+    height: 120px;
 }
 
 .order-item-card {
-    width: 100%;
     height: 120px;
 }
 
