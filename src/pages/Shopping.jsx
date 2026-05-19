@@ -12,6 +12,11 @@ export default function Shopping() {
     useEffect(() => {
         const userRole = localStorage.getItem("role");
 
+        if (userRole === "3" || userRole === "2" || userRole === "ADMIN" || userRole === "EMPLOYEE") {
+            navigate("/orders/pending");
+            return;
+        }
+
         if (didFetch.current) return;
         didFetch.current = true;
         (async () => {
