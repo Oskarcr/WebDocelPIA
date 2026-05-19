@@ -86,7 +86,7 @@ users.patch("/me", authMiddleware, requireRole(UserRole.CLIENT), async (req, res
 });
 
 // Obtiene los datos de un usuario mediante el email.
-users.get("/:email", authMiddleware, requireRole(UserRole.ADMINISTRATOR), async (req, res) => {
+users.get("/:email", authMiddleware, requireRole(UserRole.EMPLOYEE), async (req, res) => {
     try{
         const param = validator.parseBody(req.params);
 
@@ -136,7 +136,7 @@ users.patch("/:email", authMiddleware, requireRole(UserRole.ADMINISTRATOR), asyn
 });
 
 // Modifica datos de un usuario mediante el id.
-users.patch("/:id", async (req, res) => {
+users.patch("/id/:id", async (req, res) => {
     const { id } = req.params;
 });
 

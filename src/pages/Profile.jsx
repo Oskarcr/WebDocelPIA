@@ -24,8 +24,8 @@ export default function Profile() {
         password: ""
     });
 
-        async function loadLocation(){
-        if(!user.address) return;
+    async function loadLocation() {
+        if (!user.address) return;
 
         const query = encodeURIComponent(user.address);
 
@@ -33,34 +33,36 @@ export default function Profile() {
     }
 
     async function hireUserHandler() {
-    if (!email) return;
-    try {
-        const response = await axios.patch("/api/users/" + email.trim().toLowerCase(), {
-            role: 2
-        }, { withCredentials: true });
+        if (!email) return;
+        try {
+            const response = await axios.patch("/api/users/" + email.trim().toLowerCase(), {
+                role: 2
+            }, { withCredentials: true });
 
-        setUser(prev => ({ ...prev, role: response.data.role }));
+            setUser(prev => ({ ...prev, role: response.data.role }));
 
-        setTitle("Éxito");
-        setMessage(user.username + " ahora es miembro del personal!");
-        setShowMessage(true);
-    } catch (error) {
-        console.log(error);
-        setTitle("Error");
-        setMessage(error.response?.data?.message || "No se pudo contratar al usuario.");
-        setShowMessage(true);
+            setTitle("Éxito");
+            setMessage(user.username + " ahora es miembro del personal!");
+            setShowMessage(true);
+        } catch (error) {
+            console.log(error);
+            setTitle("Error");
+            setMessage(error.response?.data?.message || "No se pudo contratar al usuario.");
+            setShowMessage(true);
+        }
     }
-}
 
 
     async function submitHandler(evt) {
         evt.preventDefault();
         try {
+            if (email) return;
+
             const data = new FormData(formRef.current);
 
             const json = formToJSON(data);
 
-            if(user.password){
+            if (user.password) {
                 json.password = user.password;
             }
 
@@ -74,7 +76,7 @@ export default function Profile() {
 
             setTitle("Error");
 
-            if(data.error){
+            if (data.error) {
                 setMessage(data.message);
             }
 
@@ -95,11 +97,11 @@ export default function Profile() {
     }
 
     useEffect(() => {
-        if(didFetch.current) return;
+        if (didFetch.current) return;
         didFetch.current = true;
         (async () => {
             try {
-                const endpoint = email ? "/api/users/" + email.trim().toLowerCase(): "/api/users/me";
+                const endpoint = email ? "/api/users/" + email.trim().toLowerCase() : "/api/users/me";
 
                 const response = await axios.get(endpoint, {
                     withCredentials: true
@@ -129,8 +131,6 @@ export default function Profile() {
 
     }, [email]);
 
-
-    console.log(user.phone);
     return (
         <>
             {
@@ -140,9 +140,9 @@ export default function Profile() {
             }
             {
                 passwordBox && (
-                    <Components.InputBox 
-                        title="CAMBIAR CONTRASEÑA" 
-                        placeholder="Nueva contraseña" 
+                    <Components.InputBox
+                        title="CAMBIAR CONTRASEÑA"
+                        placeholder="Nueva contraseña"
                         isPassword
                         onClose={() => setPasswordBox(false)}
                         onConfirm={(value) => {
@@ -150,7 +150,7 @@ export default function Profile() {
                                 ...user,
                                 password: value
                             });
-                            
+
                             setPasswordBox(false);
                         }}
                     />
@@ -190,21 +190,30 @@ export default function Profile() {
                                 </div>
                             </Components.DimmedImage>
                             <form ref={formRef} className="profile-inputs-container" onSubmit={submitHandler}>
-                                <input type="text" defaultValue={user.username} name="username" />
-                                <input type="email" defaultValue={user.email} name="email" />
-                                <input type="text" defaultValue={user.address} name="address" />
-                                <input type="number" defaultValue={user.phone} name="phone" />
-                                <button type="button" onClick={() => setPasswordBox(true)}>CAMBIAR CONTRASEÑA</button>
+                                <input type="text" defaultValue={user.username} name="username" disabled={!!email} />
+                                <input type="email" defaultValue={user.email} name="email" disabled={!!email} />
+                                <input type="text" defaultValue={user.address} name="address" disabled={!!email} />
+                                <input type="number" defaultValue={user.phone} name="phone" disabled={!!email} />
+
+                                {!email && (
+                                    <button type="button" onClick={() => setPasswordBox(true)}>CAMBIAR CONTRASEÑA</button>
+                                )}
+
                                 <button type="button" onClick={loadLocation}>VER UBICACIÓN</button>
-                                
+
                                 {
                                     isAdmin && email && user.role === 1 && (
                                         <button type="button" onClick={hireUserHandler}>CONTRATAR</button>
                                     )
                                 }
 
-                                <button type="submit">CONFIRMAR CAMBIOS</button>
-                                <button type="button" onClick={logoutHandler}>CERRAR SESIÓN</button>
+                                {!email && (
+                                    <button type="submit">CONFIRMAR CAMBIOS</button>
+                                )}
+
+                                {!email && (
+                                    <button type="button" onClick={logoutHandler}>CERRAR SESIÓN</button>
+                                )}
                             </form>
                         </Components.Flex>
                     </Components.Flex>
