@@ -2,18 +2,20 @@ import { Components, FontSize, Spacing, Theme } from "@/DocelClient";
 import OrderItem from "../components/OrderItem";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 export default function OrderDetails() {
     const loggedInUserRole = Number(localStorage.getItem("role"));
 
     const isClient = loggedInUserRole === 1;
 
+    const location = useLocation();
     const params = useParams();
     const [open, setOpen] = useState(false);
     const [statusName, setStatusName] = useState(null);
     const [furnitures, setFurnitures] = useState([]);
     const [message, setMessage] = useState(null);
+    const navigate = useNavigate();
     const didFetch = useRef(false);
     const { id } = params;
     const BASE_ROUTE = "/api/orders/" + id;
@@ -45,7 +47,7 @@ export default function OrderDetails() {
         });
     }
 
-    const onOkMsg = () => window.location.reload();
+    const onOkMsg = () => navigate(location.state?.from || -1);
 
     // Al cancelar el pedido.
     const handlerCancel = async () => {
