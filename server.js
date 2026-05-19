@@ -1,4 +1,4 @@
-import { app, User } from "#DocelServer";
+import { app } from "#DocelServer";
 import { connect } from "mongoose";
 import express from "express";
 import fs from "fs";
@@ -37,8 +37,7 @@ async function start() {
     // Intentar conectar a la base de datos
     logtitle("DATABASE");
     try {
-        await connect(DATABASE_URL);   
-        console.log(await User.find());
+        await connect(DATABASE_URL);
         console.log("Database connected sucessfully");
     }
     catch(error) {

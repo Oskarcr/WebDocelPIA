@@ -92,6 +92,11 @@ export default function Profile() {
     }
 
     async function logoutHandler() {
+        try {
+            await axios.post("/api/users/logout", {}, { withCredentials: true });
+        } catch (error) {
+            console.error("Error al cerrar sesión en el servidor:", error);
+        }
         localStorage.clear();
         window.location.href = "/login";
     }
