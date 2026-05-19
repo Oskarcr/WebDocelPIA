@@ -141,7 +141,7 @@ export default function OrderDetails() {
                         
                         {
                             furnitures.map(item => <OrderItem 
-                                path={"/product_details/" + item.id} 
+                                path={"/product/" + item.id} 
                                 src={"/attachments/" + item.imageUrl} 
                                 name={item.name} 
                                 price={item.price}

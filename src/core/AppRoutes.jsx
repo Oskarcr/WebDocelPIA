@@ -18,37 +18,49 @@ function ProtectedRoute({ minRole }) {
 export default function AppRoutes() {
     return (<BrowserRouter>
         <Routes>
+            {/* RUTAS ESTATICAS */}
+
             <Route path="/" element={<Pages.Home />} />
-            <Route path="/signup" element={<Pages.Signup />} />
-            <Route path="/login" element={<Pages.Login />} />
+            <Route path="/signup" element={<Pages.Signup/>} />
+            <Route path="/login" element={<Pages.Login/>} />
             <Route path="/shopping" element={<Pages.Shopping />} />
 
-            <Route element={<ProtectedRoute minRole={1} />}>
-                <Route path="/orders" element={<Pages.Orders />} />
+            <Route element={<ProtectedRoute minRole={1}/>}>
                 <Route path="/profile" element={<Pages.Profile />} />
-                <Route path="/profile/:email" element={<Pages.Profile />} />
-                <Route path="/product_details" element={<Pages.ProductDetails />} />
-                <Route path="/product_details/:id" element={<Pages.ProductDetails />} />
                 <Route path="/orders" element={<Pages.Orders />} />
-                <Route path="/orders/pending" element={<Pages.Orders />} />
-                <Route path="/orders/:id" element={<Pages.OrderDetails />} />
             </Route>
 
-            <Route element={<ProtectedRoute minRole={2} />}>
+            <Route element={<ProtectedRoute minRole={2}/>}>
+                <Route path="/orders/pending" element={<Pages.Orders />} />
                 <Route path="/portal" element={<Pages.Portal />} />
                 <Route path="/product_manager/" element={<Pages.ProductManager />} />
-                <Route path="/product_manager/:id" element={<Pages.ProductManager />} />
                 <Route path="/color_swatches" element={<Pages.ColorSwatches />} />
             </Route>
 
-            <Route element={<ProtectedRoute minRole={3} />}>
+            <Route element={<ProtectedRoute minRole={3}/>}>
                 <Route path="/employees" element={<Pages.Employees />} />
                 <Route path="/sales" element={<Pages.Sales />} />
-                <Route path="/sales/:id" element={<Pages.Sales />} />
                 <Route path="/reports" element={<Pages.Reports />} />
             </Route>
 
-            {/* Cualquier pagina que no sea las de arriba */}
+            {/* RUTAS DINAMICAS */}
+
+            <Route element={<ProtectedRoute minRole={1}/>}>
+                <Route path="/profile/:email" element={<Pages.Profile />} />
+                <Route path="/product/:id" element={<Pages.ProductDetails />} />
+                <Route path="/orders/:id" element={<Pages.OrderDetails />} />
+            </Route>
+            
+            <Route element={<ProtectedRoute minRole={2}/>}>
+                <Route path="/product_manager/:id" element={<Pages.ProductManager />} />
+            </Route>
+            
+            <Route element={<ProtectedRoute minRole={3} />}>
+                <Route path="/sales/:id" element={<Pages.Sales />} />
+            </Route>
+
+            {/* UNA RUTA QUE NO SE ENCONTRO */}
+
             <Route path="*" element={<Pages.NotFound />} />
         </Routes>
     </BrowserRouter>);
