@@ -2,6 +2,7 @@ import { Color, deleteAttachment, FinishType, Furniture, JSON_MISSING_ID, JSON_N
 import { Router } from "express";
 import { isValidObjectId } from "mongoose";
 import { authMiddleware, requireRole } from "../middlewares/auth.js";
+import requireId from "../middlewares/requireId.js";
 
 const validator = Validators.furniture;
 
@@ -30,18 +31,8 @@ furnitures.get("/all", async (req, res) => {
 });
 
 // Obtiene los detalles de un mueble especifico
-furnitures.get("/:id", async (req, res) => {
+furnitures.get("/:id", requireId, async (req, res) => {
     const { id } = req.params;
-
-    if(!id) {
-        res.status(400).json(JSON_MISSING_ID);
-        return;
-    }
-
-    if(!isValidObjectId(id)) {
-        res.status(404).json(JSON_NOT_FOUND);
-        return;
-    }
 
     try {
         const furniture = await Furniture.findById(id);
@@ -182,18 +173,8 @@ furnitures.patch("/", authMiddleware, requireRole(UserRole.EMPLOYEE), uploader.s
 });
 
 // Marca como inactivo un mueble
-furnitures.delete("/:id", authMiddleware, requireRole(UserRole.EMPLOYEE), async (req, res) => {
+furnitures.delete("/:id", authMiddleware, requireRole(UserRole.EMPLOYEE), requireId, async (req, res) => {
     const { id } = req.params;
-
-    if(!id) {
-        res.status(400).json(JSON_MISSING_ID);
-        return;
-    }
-
-    if(!isValidObjectId(id)) {
-        res.status(404).json(JSON_NOT_FOUND);
-        return;
-    }
 
     try {
         const furniture = await Furniture.findById(id);

@@ -3,6 +3,7 @@ import { Router } from "express";
 import { Validators } from "#DocelServer";
 import { isValidObjectId } from "mongoose";
 import { authMiddleware, requireRole } from "../middlewares/auth.js";
+import requireId from "../middlewares/requireId.js";
 
 const validator = Validators.colors;
 
@@ -32,21 +33,11 @@ colors.get("/all", authMiddleware, requireRole(UserRole.EMPLOYEE), async (req, r
 
 
 // Obtiene un color en especifico mediante el id.
-colors.get("/:id", authMiddleware, requireRole(UserRole.EMPLOYEE), async (req, res) => {
+colors.get("/:id", authMiddleware, requireRole(UserRole.EMPLOYEE), requireId, async (req, res) => {
    const { id } = req.params;
-   
-    if(!id) {
-        res.status(400).json(JSON_MISSING_ID);
-        return;
-    }
-
-    if(!isValidObjectId(id)) {
-        res.status(404).json(JSON_NOT_FOUND);
-        return;
-    }
 
     try {
-        const color = await Color.findById(req.params.id);
+        const color = await Color.findById(id);
         if (!color) {
             res.status(404).json(JSON_NOT_FOUND);
             return;
@@ -171,19 +162,9 @@ colors.patch("/", authMiddleware, requireRole(UserRole.EMPLOYEE), async (req, re
 });
 
 // Marca como inactivo un color.
-colors.delete("/:id", authMiddleware, requireRole(UserRole.EMPLOYEE), async (req, res) => {
+colors.delete("/:id", authMiddleware, requireRole(UserRole.EMPLOYEE), requireId, async (req, res) => {
     const { id } = req.params;
     
-    if(!id) {
-        res.status(400).json(JSON_MISSING_ID);
-        return;
-    }
-
-    if(!isValidObjectId(id)) {
-        res.status(404).json(JSON_NOT_FOUND);
-        return;
-    }
-
     try {
         const color = await Color.findById(id);
 

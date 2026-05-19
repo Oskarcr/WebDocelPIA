@@ -2,6 +2,7 @@ import { JSON_MISSING_ID, JSON_NOT_FOUND, JSON_SERVER_ERROR, Report, ReportsMana
 import { Router } from "express";
 import { isValidObjectId } from "mongoose";
 import { authMiddleware, requireRole } from "../middlewares/auth.js";
+import requireId from "../middlewares/requireId.js";
 
 function reportToJSON(report) {
     return {
@@ -27,18 +28,8 @@ reports.get("/all", authMiddleware, requireRole(UserRole.ADMINISTRATOR),async (r
     }
 });
 
-reports.get("/:id", authMiddleware, requireRole(UserRole.ADMINISTRATOR), async (req, res) => {
+reports.get("/:id", authMiddleware, requireRole(UserRole.ADMINISTRATOR), requireId, async (req, res) => {
     const { id } = req.params;
-
-    if(!id) {
-        res.status(400).json(JSON_MISSING_ID);
-        return;
-    }
-
-    if(!isValidObjectId(id)) {
-        res.status(404).json(JSON_NOT_FOUND);
-        return;
-    }
 
     try {
         const report = await Report.findById(id);

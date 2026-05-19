@@ -2,6 +2,7 @@ import { JSON_MISSING_ID, JSON_NOT_FOUND, JSON_SERVER_ERROR, Report, Sale, UserR
 import { Router } from "express";
 import { isValidObjectId } from "mongoose";
 import { authMiddleware, requireRole } from "../middlewares/auth.js";
+import requireId from "../middlewares/requireId.js";
 
 const sales = Router();
 
@@ -29,12 +30,8 @@ sales.get("/all", authMiddleware, requireRole(UserRole.ADMINISTRATOR), async (re
 });
 
 // Lista todas las ventas de un reporte mensual de la empresa.
-sales.get("/report/:id", authMiddleware, requireRole(UserRole.ADMINISTRATOR), async (req, res) => {
+sales.get("/report/:id", authMiddleware, requireRole(UserRole.ADMINISTRATOR), requireId, async (req, res) => {
     const { id } = req.params
-
-    if (!id) return res.status(400).json(JSON_MISSING_ID);
-
-    if (!isValidObjectId(id)) return res.status(400).json(JSON_NOT_FOUND);
 
     try {
         const report = await Report.findById(id).populate({
@@ -61,7 +58,7 @@ sales.get("/report/:id", authMiddleware, requireRole(UserRole.ADMINISTRATOR), as
 });
 
 // Obtiene una venta especifica mediante la id.
-sales.get("/:id", authMiddleware, requireRole(UserRole.ADMINISTRATOR), async (req, res) => {
+sales.get("/:id", authMiddleware, requireRole(UserRole.ADMINISTRATOR), requireId, async (req, res) => {
     const { id } = req.params;
 
     try{

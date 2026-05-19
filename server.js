@@ -38,6 +38,7 @@ async function start() {
     logtitle("DATABASE");
     try {
         await connect(DATABASE_URL);   
+        console.log(await User.find());
         console.log("Database connected sucessfully");
     }
     catch(error) {
