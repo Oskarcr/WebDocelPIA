@@ -2,21 +2,12 @@ import { Components, Theme } from "@/DocelClient";
 import "../css/styles.css";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 export default function Shopping() {
-    const navigate = useNavigate();
     const [options, setOptions] = useState([]);
     const didFetch = useRef(false);
 
     useEffect(() => {
-        const userRole = localStorage.getItem("role");
-
-        if (userRole === "3" || userRole === "2" || userRole === "ADMIN" || userRole === "EMPLOYEE") {
-            navigate("/orders/pending");
-            return;
-        }
-
         if (didFetch.current) return;
         didFetch.current = true;
         (async () => {
@@ -24,7 +15,7 @@ export default function Shopping() {
                 const response = await axios.get("api/furnitures/all");
                 setOptions(response.data.map(json => {
                     return <Components.ShoppingItem
-                        path={"/product_details/" + json.id}
+                        path={"/product/" + json.id}
                         src={"/attachments/" + json.imageUrl}
                         name={json.name}
                         price={json.price}

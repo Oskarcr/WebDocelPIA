@@ -24,6 +24,8 @@ function ButtonLink({desktop = false, path = "/", name="ANY"}) {
 }
 
 export default function Header({ inverted = false }) {
+    const relativeUserRole = Number(localStorage.getItem("role"));
+    
     const navigate = useNavigate();
     const [menuVisible, setMenuVisible] = useState(false);
     const headerVars = (!inverted ? {} : {
@@ -31,9 +33,9 @@ export default function Header({ inverted = false }) {
         "--text-color-secondary": Theme.PRIMARY
     });
 
-    const onPortal = () => {
-        navigate("/portal");
-    }
+    const onPortal = () => navigate("/portal");
+
+    const path = relativeUserRole <= 1 ? "/orders" : "/orders/pending";
 
     return (<div className="header-wrapper" style={headerVars}>
         <div className="title-wrapper" style={{
@@ -43,7 +45,7 @@ export default function Header({ inverted = false }) {
         </div>
         <div className="buttons-wrapper">
             <ButtonLink path="/" name="INICIO" desktop/>
-            <ButtonLink path="/orders" name="PEDIDOS" desktop/>
+            <ButtonLink path={path} name="PEDIDOS" desktop/>
             <ButtonLink path="/shopping" name="MUEBLES" desktop/>
             <ButtonLink path="/profile" name="PERFIL" desktop/>
 
@@ -57,7 +59,10 @@ export default function Header({ inverted = false }) {
                     paddingInline: menuVisible ? Spacing.MD : 0
                 }}>
                     <ButtonLink path="/" name="INICIO"/>
-                    <ButtonLink path="/orders" name="PEDIDOS"/>
+                    <ButtonLink 
+                        path={path} 
+                        name="PEDIDOS"
+                    />
                     <ButtonLink path="/shopping" name="MUEBLES"/>
                     <ButtonLink path="/profile" name="PERFIL"/>
                 </div>

@@ -4,12 +4,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Portal() {
+    const relativeUserRole = Number(localStorage.getItem("role"));
 
-const [email, setEmail] = useState("");
+    const [email, setEmail] = useState("");
+    const navigate = useNavigate();
 
-const navigate = useNavigate();
-
-    async function searchUserHandler(){
+    const searchUserHandler = async () => {
         if(!email.trim()) return;
         try{
             await axios.get("/api/users/" + email.trim().toLocaleLowerCase());
@@ -48,15 +48,21 @@ const navigate = useNavigate();
                     marginTop: Spacing.LG,
                     backgroundColor: Theme.BACKGROUND.MAIN
                 }}>
-                    <Components.PortalCard title="Buscar usuario por correo" onClick={searchUserHandler} hasInput>
-                        <input placeholder="Usuario" value={email} onChange={(evt) => setEmail(evt.target.value)} style={{
+                    {(relativeUserRole > 1) &&<>
+                        <Components.PortalCard title="Buscar usuario por correo" onClick={searchUserHandler} hasInput>
+                        <input placeholder="Usuario" 
+                            value={email} onChange={(evt) => setEmail(evt.target.value)} style={{
                                 width: "45%"
                             }}/>
-                    </Components.PortalCard>
-                    <Components.PortalCard path="/product_manager" title="Gestor de muebles"/>
-                    <Components.PortalCard path="/reports" title="Reporte de ventas"/>
-                    <Components.PortalCard path="/color_swatches" title="Muestras de color"/>
-                    <Components.PortalCard path="/employees" title="Empleados"/>
+                        </Components.PortalCard>
+                        <Components.PortalCard path="/product_manager" title="Gestor de muebles"/>
+                        <Components.PortalCard path="/color_swatches" title="Muestras de color"/>
+                    </>}
+
+                    {(relativeUserRole > 2) &&<>
+                        <Components.PortalCard path="/reports" title="Reporte de ventas"/>
+                        <Components.PortalCard path="/employees" title="Empleados"/>
+                    </>}
                 </div>
             </div>
             <Components.Column color={Theme.BLACK} />
