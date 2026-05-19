@@ -25,8 +25,6 @@ export function authMiddleware(req, res, next){
 export function requireRole(requiredRole){
     return (req, res, next) => {
         try {
-            console.log(req.user);
-            console.log(requiredRole);
             if (!req.user || req.user.role < requiredRole) return res.status(403).json({ message: "Acceso denegado." });
 
             next();

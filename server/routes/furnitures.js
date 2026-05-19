@@ -1,6 +1,7 @@
-import { Color, deleteAttachment, FinishType, Furniture, JSON_MISSING_ID, JSON_NOT_FOUND, JSON_OK, JSON_SERVER_ERROR, QUERY_ACTIVE_ONLY, saveAttachment, uploader, Validators } from "#DocelServer";
+import { Color, deleteAttachment, FinishType, Furniture, JSON_MISSING_ID, JSON_NOT_FOUND, JSON_OK, JSON_SERVER_ERROR, QUERY_ACTIVE_ONLY, saveAttachment, uploader, UserRole, Validators } from "#DocelServer";
 import { Router } from "express";
 import { isValidObjectId } from "mongoose";
+import { authMiddleware, requireRole } from "../middlewares/auth.js";
 
 const validator = Validators.furniture;
 
@@ -58,7 +59,7 @@ furnitures.get("/:id", async (req, res) => {
 });
 
 // Agrega un nuevo mueble a la base de datos.
-furnitures.post("/", uploader.single("img"), async (req, res) => {
+furnitures.post("/", authMiddleware, requireRole(UserRole.EMPLOYEE), uploader.single("img"), async (req, res) => {
     const file = req.file;
 
     if(!file) {
@@ -120,7 +121,7 @@ furnitures.post("/", uploader.single("img"), async (req, res) => {
 });
 
 // Modifica un mueble.
-furnitures.patch("/", uploader.single("img"), async (req, res) => {
+furnitures.patch("/", authMiddleware, requireRole(UserRole.EMPLOYEE), uploader.single("img"), async (req, res) => {
     const file = req.file;
 
     const id = req.body.id;
@@ -181,7 +182,7 @@ furnitures.patch("/", uploader.single("img"), async (req, res) => {
 });
 
 // Marca como inactivo un mueble
-furnitures.delete("/:id", async (req, res) => {
+furnitures.delete("/:id", authMiddleware, requireRole(UserRole.EMPLOYEE), async (req, res) => {
     const { id } = req.params;
 
     if(!id) {

@@ -1,6 +1,7 @@
-import { JSON_MISSING_ID, JSON_NOT_FOUND, JSON_SERVER_ERROR, Report, ReportsManager } from "#DocelServer";
+import { JSON_MISSING_ID, JSON_NOT_FOUND, JSON_SERVER_ERROR, Report, ReportsManager, UserRole } from "#DocelServer";
 import { Router } from "express";
 import { isValidObjectId } from "mongoose";
+import { authMiddleware, requireRole } from "../middlewares/auth.js";
 
 function reportToJSON(report) {
     return {
@@ -15,7 +16,7 @@ function reportToJSON(report) {
 
 const reports = Router();
 
-reports.get("/all", async (req, res) => {
+reports.get("/all", authMiddleware, requireRole(UserRole.ADMINISTRATOR),async (req, res) => {
     try {
         const cache = await ReportsManager.getCache();
         const map = cache.map(a => reportToJSON(a));
@@ -26,7 +27,7 @@ reports.get("/all", async (req, res) => {
     }
 });
 
-reports.get("/:id", async (req, res) => {
+reports.get("/:id", authMiddleware, requireRole(UserRole.ADMINISTRATOR), async (req, res) => {
     const { id } = req.params;
 
     if(!id) {

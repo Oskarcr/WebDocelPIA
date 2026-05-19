@@ -15,10 +15,12 @@ function employeesToJSON(user) {
     }
 }
 
-// Enlista todos los usuarios con rol mayor a cliente.
-users.get("/employees", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
+// Lista todos los usuarios con rol mayor a cliente.
+users.get("/employees", authMiddleware, requireRole(UserRole.ADMINISTRATOR), async (req, res) => {
     try{
         const user = await User.find({ role: {$gt: UserRole.CLIENT} }).sort({username: 1}).select("-password");
+
+        if(!user) return res.status(400).json({message: "Usuario no encontrado."});
 
         return res.status(200).json(user.map(a => employeesToJSON(a)));
     }catch(error){
@@ -27,10 +29,12 @@ users.get("/employees", authMiddleware, requireRole(UserRole.CLIENT), async (req
     }
 });
 
-// Obtiene los datos del usuario logueado actual
+// Obtiene los datos del usuario logueado actual.
 users.get("/me", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select("-password");
+
+        if(!user) return res.status(400).json({message: "Usuario no encontrado."});
 
         res.json(user);
 
@@ -40,9 +44,12 @@ users.get("/me", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) 
     }
 });
 
+// Modifica los datos del usuario logueado buscando internamente el id del usuario.
 users.patch("/me", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
     try {
-        const empties = validator.empties(req.body, "username", "email", "address", "phone");
+        const body = validator.parseBody(req.body);
+
+        const empties = validator.empties(body, "username", "email", "address", "phone");
 
         if(empties.length > 0){
             return res.status(400).json({
@@ -50,7 +57,7 @@ users.patch("/me", authMiddleware, requireRole(UserRole.CLIENT), async (req, res
             });
         }
 
-        const errors = validator.validate(req.body);
+        const errors = validator.validate(body);
 
         if(errors.length > 0){
             return res.status(400).json({
@@ -58,19 +65,17 @@ users.patch("/me", authMiddleware, requireRole(UserRole.CLIENT), async (req, res
             })
         }
 
-        if(req.body.password){
-            req.body.password = await bcrypt.hash(req.body.password, 10);
+        if(body.password){
+            body.password = await bcrypt.hash(body.password, 10);
         }
 
         const user = await User.findByIdAndUpdate(
             req.user.id,
-            req.body,
+            body,
             {
                 returnDocument: "after"
             }
         ).select("-password");
-
-        res.status
 
         return res.status(200).json(user);
 
@@ -103,8 +108,8 @@ users.get("/:email", authMiddleware, requireRole(UserRole.ADMINISTRATOR), async 
     }
 });
 
-// Modifica el rol del usuario mediante la pagina de empleados.
-users.patch("/:email", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
+// Modifica el rol del usuario mediante la pagina de empleados para su contratación.
+users.patch("/:email", authMiddleware, requireRole(UserRole.ADMINISTRATOR), async (req, res) => {
     const email = req.params.email;
     const role = req.body.role;
 

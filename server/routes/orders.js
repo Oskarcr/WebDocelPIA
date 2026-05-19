@@ -21,7 +21,7 @@ const orders = Router();
 const validator = Validators.order;
 
 // Obtiene la lista de los pedidos del usuario actual.
-orders.get("/me", authMiddleware, async (req, res) => {
+orders.get("/me", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
     try{
         const orders = await Order.find({
             user: req.user.id
@@ -36,7 +36,7 @@ orders.get("/me", authMiddleware, async (req, res) => {
 });
 
 // Obtiene todos los pedidos pendientes de revision o de fabricacion.
-orders.get("/pending", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
+orders.get("/pending", authMiddleware, requireRole(UserRole.EMPLOYEE), async (req, res) => {
     try{
         const orders = await Order.find({
             status: {
@@ -53,7 +53,7 @@ orders.get("/pending", authMiddleware, requireRole(UserRole.CLIENT), async (req,
 });
 
 // Obtiene las ordenes de un usuario en específico mediante el id.
-orders.get("user/:id", authMiddleware, requireRole(UserRole.CLIENT), requireId, async (req, res) => {
+orders.get("user/:id", authMiddleware, requireRole(UserRole.EMPLOYEE), requireId, async (req, res) => {
     const { id } = req.params;
 
     try {

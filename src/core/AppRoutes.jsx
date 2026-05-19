@@ -34,14 +34,14 @@ export default function AppRoutes() {
                 <Route path="/orders/:id" element={<Pages.OrderDetails />} />
             </Route>
 
-            <Route element={<ProtectedRoute minRole={1} />}>
+            <Route element={<ProtectedRoute minRole={2} />}>
                 <Route path="/portal" element={<Pages.Portal />} />
                 <Route path="/product_manager/" element={<Pages.ProductManager />} />
                 <Route path="/product_manager/:id" element={<Pages.ProductManager />} />
                 <Route path="/color_swatches" element={<Pages.ColorSwatches />} />
             </Route>
 
-            <Route element={<ProtectedRoute minRole={1} />}>
+            <Route element={<ProtectedRoute minRole={3} />}>
                 <Route path="/employees" element={<Pages.Employees />} />
                 <Route path="/sales" element={<Pages.Sales />} />
                 <Route path="/sales/:id" element={<Pages.Sales />} />

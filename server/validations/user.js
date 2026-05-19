@@ -47,7 +47,7 @@ const user = new RequestValidator({
         type: String,
         normalize: (a) => a.trim().replace(/\s+/," "),
         validate: (name) => {
-            const usernameRegex = /^[A-Za-z]{3,100}$/;
+            const usernameRegex = /^[\sA-Za-z]{3,100}$/;
             const validUsername = usernameRegex.test(name);
 
             if(!validUsername) return "El usuario debe contener al menos 3 caracteres, no debe contener numeros, ni simbolos.";
