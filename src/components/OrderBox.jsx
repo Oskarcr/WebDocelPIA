@@ -1,32 +1,71 @@
 import { Components, FontSize, Spacing } from "@/DocelClient";
-import { useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import axios from "axios";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function OrderBox({
-    onConcluded,
-    onCancel
+    onCancel,
+    onShowError
 }) {
     const params = useParams();
+    const [statusName, setStatusName] = useState("loading");
     const formRef = useRef(null);
     const didFetch = useRef(false);
+    const navigate = useNavigate();
     const { id } = params;
+
+    const BASE_ROUTE = "/api/orders/" + id;
 
     useEffect(() => {
         if (didFetch.current) return;
         didFetch.current = true;
-        alert(id);
+        (async () => {
+            try {
+                const { data } = await axios.get(BASE_ROUTE);
+                setStatusName(data.statusName);
+            }
+            catch(error) {
+                console.log(error);
+                onShowError(error);
+            }
+        })();
     }, []);
 
     const handleConcluded = () => {
-        if(onConcluded) onConcluded();
+        (async () => {
+            try {
+                await axios.patch(BASE_ROUTE + "/status", {
+                    statusName: "concluido"
+                });
+                navigate("/orders/pending");
+            }
+            catch(error) {
+                onShowError(error);
+            }
+        })();
     }
 
-    const handleReturned = () => {
-
-    }
-
-    const handleReject = () => {
-
+    /**
+     * @param {PointerEvent} evt 
+     */
+    const handleReview = (evt) => {
+        const currentTarget = evt.currentTarget;
+        if(currentTarget instanceof HTMLButtonElement === false) return;
+        const nextStatusName = (currentTarget.hasAttribute("data-reject") ? "rechazado" : "devuelto");
+        (async () => {
+            const data = new FormData(formRef.current);
+            try {
+                await axios.patch(BASE_ROUTE + "/review", {
+                    statusName: nextStatusName,
+                    comment: data.get("comment")
+                });
+                navigate("/orders/pending");
+            }
+            catch(error) {
+                console.log(error);
+                onShowError(error);
+            }
+        })();
     }
 
     return (<div className="message-box">
@@ -41,36 +80,25 @@ export default function OrderBox({
                     fontSize={FontSize.LG}
                     content="REVISAR ORDEN"
                 />
-                <Components.TextBox
-                    style={{padding: 0}}
-                    alignment="bottom-left"
-                    fontSize={FontSize.SM}
-                    content="PASO 1. RECHACE O DEVUELVA EL PEDIDO"
-                />
-                <input type="text" placeholder="Comentario"/>
-                <input type="number" placeholder="Adelanto"/>
-                <input type="text" placeholder="Fecha estimada dia/mes/año"/>
-                <Components.Flex row style={{
-                    gap: Spacing.MD
-                }}>
-                    <button type="button" onClick={handleReject} style={{flex: 1}}>RECHAZAR</button>
-                    <button type="button" onClick={handleReturned} style={{flex: 1}}>DEVOLVER</button>
-                </Components.Flex>
-                
-                <Components.TextBox
-                    style={{padding: 0}}
-                    alignment="bottom-left"
-                    fontSize={FontSize.SM}
-                    content="PASO 2. CONCLUYA EL PEDIDO"
-                />
-                <button type="button" onClick={handleConcluded}>CONCLUIR</button>
-                <Components.TextBox
-                    style={{padding: 0}}
-                    alignment="bottom-left"
-                    fontSize={FontSize.SM}
-                    content="CANCELE SI LO DESEA"
-                />
-                <button type="button" onClick={onCancel}>VOLVER</button>
+                {(() => {
+                    switch(statusName) {
+                        case "pendiente": 
+                        return <>
+                            <input name="comment" type="text" placeholder="Comentario"/>
+                            <Components.Flex row style={{
+                                gap: Spacing.MD
+                            }}>
+                                <button type="button" data-reject onClick={handleReview} style={{flex: 1}}>RECHAZAR</button>
+                                <button type="button" data-return onClick={handleReview} style={{flex: 1}}>DEVOLVER</button>
+                            </Components.Flex>
+                        </>;
+                        case "aceptado":
+                        return <button type="button" onClick={handleConcluded}>
+                            CONCLUIR
+                        </button>;
+                    }
+                })()}
+                <button type="button" onClick={onCancel}>CANCELAR</button>
             </form>
         </div>
     </div>);

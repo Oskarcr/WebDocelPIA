@@ -228,6 +228,7 @@ tr:active {
 
 /* Pedidos */
 .order-option {
+    cursor: pointer;
     background-color: var(--option-color);
     padding-inline: var(--spacing-medium);
     padding-block: var(--spacing-small);
@@ -413,12 +414,14 @@ tr:active {
     overflow-y: auto;
 }
 
-
 /* Orders */
 .order-item-card {
     display: flex;
+    width: 100%;
     flex-direction: row;
-    border: 3px solid;
+    border: 2px solid;
+    box-sizing: border-box;
+    overflow: hidden;
     border-radius: 8px;
     flex-shrink: 0;
     background-color: var(--option-color);
@@ -570,7 +573,7 @@ tr:active {
 }
 
 .color-item-preview {
-    padding: var(--spacing-sm);
+    padding: var(--spacing-small);
     box-sizing: border-box;
     aspect-ratio: 1 / 1;
 }
@@ -603,4 +606,21 @@ tr:active {
     border-radius: 8px;
     background-color: var(--secondary-color);
     animation: appear 0.2s ease;
+}
+
+.order-details-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-long);
+}
+
+.box-buttons-handler {
+    display: flex;
+    flex-direction: row;
+    gap: var(--spacing-medium);
+}
+
+.box-buttons-handler > * {
+    flex: 1;
 }

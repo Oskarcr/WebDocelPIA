@@ -1,45 +1,40 @@
 import { Components, FontSize, Theme } from "@/DocelClient";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 export default function Orders() {
+    const location = useLocation();
+    const path = location.pathname.split("/").filter(Boolean).pop();
     const [orders, setOrders] = useState([]);
-    const [selectedOrder, setSelectedOrder] = useState(null);
+    const didFetch = useRef(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        async function loadOrders() {
+        if(didFetch.current) return;
+        didFetch.current = true;
+        (async () => {
             try {
-                const response = await axios.get("/api/orders/me", {
-                    withCredentials: true
-                });
-                setOrders(response.data);
+                let response = null;
 
+                if(path == "pending") {
+                    response = await axios.get("/api/orders/pending");
+                }
+                else {
+                    response = await axios.get("/api/orders/me", {
+                        withCredentials: true
+                    });
+                }
+                
+                if(response) setOrders(response.data);
             } catch (error) {
                 console.log(error);
             }
-        }
-
-        loadOrders();
+        })();
     }, []);
-
-    /*
-        const children = [];
-        for(let i = 0; i < 4; i++) {
-            children.push(<Components.OrderOption status={1 + Math.round(Math.random() * 5)}/>);
-        }
-    */
 
     return (
         <>
-            {
-                selectedOrder && (
-                    <Components.OrderDetailsBox
-                        order={selectedOrder}
-                        onClose={() => setSelectedOrder(null)}
-                    />
-                )
-            }
-
             <Components.Main horizontal>
                 <Components.Column color={Theme.BLACK} />
                 <div style={{
@@ -70,12 +65,17 @@ export default function Orders() {
                             }}
                         />
                     </Components.DimmedImage>
+
                     <div className="orders-list-container" style={{
                         backgroundColor: Theme.ACCENT,
                     }}>
                         {
                             orders.map((order) => {
-                                return (<Components.OrderOption key={order._id} status={order.status} onClick={() => setSelectedOrder(order)}/>);
+                                return (<Components.OrderOption 
+                                    key={order.id} 
+                                    statusName={order.statusName} 
+                                    onClick={() => navigate("/orders/" + order.id)}
+                                />);
                             })
                         }
                     </div>

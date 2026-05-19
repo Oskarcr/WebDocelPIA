@@ -40,10 +40,14 @@ body {
     grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
+.order-details-content {
+    max-width: 800px;
+    min-width: 600px;
+    width: 60%;
+}
+
 .order-item-card {
-    max-width: 1000px;
-    width: 70%;
-    height: 150px;
+    height: 140px;
 }
 
 .portal-item {
