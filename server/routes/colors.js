@@ -1,7 +1,8 @@
-import { Color, JSON_MISSING_ID, JSON_NOT_FOUND, JSON_OK, JSON_SERVER_ERROR, QUERY_ACTIVE_ONLY } from "#DocelServer";
+import { Color, JSON_MISSING_ID, JSON_NOT_FOUND, JSON_OK, JSON_SERVER_ERROR, QUERY_ACTIVE_ONLY, UserRole } from "#DocelServer";
 import { Router } from "express";
 import { Validators } from "#DocelServer";
 import { isValidObjectId } from "mongoose";
+import { authMiddleware, requireRole } from "../middlewares/auth.js";
 
 const validator = Validators.colors;
 
@@ -17,7 +18,7 @@ function colorToJSON(color) {
 }
 
 // Devuelve una lista de todos los colores.
-colors.get("/all", async (req, res) => {
+colors.get("/all", authMiddleware, requireRole(UserRole.EMPLOYEE), async (req, res) => {
     try {
         const colors = await Color.find(QUERY_ACTIVE_ONLY).sort({
             name: 1
@@ -31,7 +32,7 @@ colors.get("/all", async (req, res) => {
 
 
 // Obtiene un color en especifico mediante el id.
-colors.get("/:id", async (req, res) => {
+colors.get("/:id", authMiddleware, requireRole(UserRole.EMPLOYEE), async (req, res) => {
    const { id } = req.params;
    
     if(!id) {
@@ -58,7 +59,7 @@ colors.get("/:id", async (req, res) => {
 });
 
 // Agrega un nuevo color.
-colors.post("/", async (req, res) => {
+colors.post("/", authMiddleware, requireRole(UserRole.EMPLOYEE), async (req, res) => {
     const body = validator.parseBody(req.body);
 
     const errors = validator.validate(body);
@@ -112,7 +113,7 @@ colors.post("/", async (req, res) => {
 });
 
 // Modifica un color existente.
-colors.patch("/", async (req, res) => {
+colors.patch("/", authMiddleware, requireRole(UserRole.EMPLOYEE), async (req, res) => {
     const id = req.body.id;
 
     if(!id) {
@@ -170,7 +171,7 @@ colors.patch("/", async (req, res) => {
 });
 
 // Marca como inactivo un color.
-colors.delete("/:id", async (req, res) => {
+colors.delete("/:id", authMiddleware, requireRole(UserRole.EMPLOYEE), async (req, res) => {
     const { id } = req.params;
     
     if(!id) {

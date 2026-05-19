@@ -29,7 +29,7 @@ auth.post("/signup", async (req, res) => {
             return;
         }
 
-        const { email: username, phone, address, password, email } = body;
+        const { username, phone, address, password, email } = body;
 
         const userExists = await User.findOne({ email });
 

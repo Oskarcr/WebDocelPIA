@@ -15,7 +15,8 @@ function orderToJSON(order) {
 
 const orders = Router();
 
-orders.get("/me", authMiddleware, async (req, res) => {
+// Obtiene los pedidos del usuario actual.
+orders.get("/me", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
     try{
         const orders = await Order.find({
             user: req.user.id
@@ -29,7 +30,7 @@ orders.get("/me", authMiddleware, async (req, res) => {
 });
 
 // Obtiene todos los pedidos de todos los usuarios.
-orders.get("/all", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
+orders.get("/all", authMiddleware, requireRole(UserRole.EMPLOYEE), async (req, res) => {
     try{
         const orders = await Order.find().populate("furnitures").populate("user", "-password")
         return res.status(200).json(orders.map(a => orderToJSON(a)));
@@ -39,7 +40,7 @@ orders.get("/all", authMiddleware, requireRole(UserRole.CLIENT), async (req, res
 });
 
 // Obtiene las ordenes de un usuario en específico mediante el email.
-orders.get("/:email", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
+orders.get("/:email", authMiddleware, requireRole(UserRole.EMPLOYEE), async (req, res) => {
     const { email } = req.params;
 
     if(!email) return res.status(400).json({message: "No se encontró el email."});
@@ -67,7 +68,7 @@ orders.get("/by/:userId", async (req, res) => {
 });
 
 // Crea un pedido mediante la estructura indicada
-orders.post("/", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
+orders.post("/", async (req, res) => {
 });
 
 // Cambia el estado del pedido asignando su fecha y costo real

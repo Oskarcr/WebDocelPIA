@@ -1,6 +1,6 @@
 import { Components, FontSize, Spacing, Theme } from "@/DocelClient";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import axios, { formToJSON } from "axios";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 
 export default function Profile() {
@@ -9,6 +9,8 @@ export default function Profile() {
     const loggedInUserRole = Number(localStorage.getItem("role"));
 
     const isAdmin = loggedInUserRole === 3;
+    const formRef = useRef(null);
+    const didFetch = useRef(false);
 
     const [title, setTitle] = useState("");
     const [message, setMessage] = useState("");
@@ -18,7 +20,7 @@ export default function Profile() {
         username: "",
         email: "",
         address: "",
-        phone: 0,
+        phone: "",
         password: ""
     });
 
@@ -53,19 +55,25 @@ export default function Profile() {
 
     async function submitHandler(evt) {
         evt.preventDefault();
-
         try {
-            const response = await axios.patch("/api/users/me", user, {
+            const data = new FormData(formRef.current);
+
+            const json = formToJSON(data);
+
+            if(user.password){
+                json.password = user.password;
+            }
+
+            await axios.patch("/api/users/me", json, {
                 withCredentials: true
-            })
+            });
 
-            setUser({...response.data, password: ""});
-
-            setTitle("Éxito");
-            setMessage("Datos modificados con exito.");
-            setShowMessage(true);
+            window.location.reload();
         } catch (error) {
             const data = error.response?.data;
+
+            setTitle("Error");
+
             if(data.error){
                 setMessage(data.message);
             }
@@ -87,7 +95,9 @@ export default function Profile() {
     }
 
     useEffect(() => {
-        async function loadUser() {
+        if(didFetch.current) return;
+        didFetch.current = true;
+        (async () => {
             try {
                 const endpoint = email ? "/api/users/" + email.trim().toLowerCase(): "/api/users/me";
 
@@ -112,12 +122,15 @@ export default function Profile() {
                 else if (data.empties) {
                     setMessage(" Faltan los campos:\\n" + data.empties.join(", \\n"));
                 }
-            }
-        }
 
-        loadUser();
+                setShowMessage(true);
+            }
+        })();
+
     }, [email]);
 
+
+    console.log(user.phone);
     return (
         <>
             {
@@ -130,6 +143,7 @@ export default function Profile() {
                     <Components.InputBox 
                         title="CAMBIAR CONTRASEÑA" 
                         placeholder="Nueva contraseña" 
+                        isPassword
                         onClose={() => setPasswordBox(false)}
                         onConfirm={(value) => {
                             setUser({
@@ -171,15 +185,15 @@ export default function Profile() {
                                         }}
                                         fontSize={FontSize.XL2}
                                         color={Theme.TEXT.SECONDARY}
-                                        content="Hola, Oscar"
+                                        content={"Hola, " + user.username}
                                     />
                                 </div>
                             </Components.DimmedImage>
-                            <form className="profile-inputs-container" onSubmit={submitHandler}>
-                                <input type="text" value={user.username} onChange={(e) => setUser({ ...user, username: e.target.value })} />
-                                <input type="email" value={user.email} onChange={(e) => setUser({ ...user, email: e.target.value })} />
-                                <input type="text" value={user.address} onChange={(e) => setUser({ ...user, address: e.target.value })} />
-                                <input type="text" value={user.phone} onChange={(e) => setUser({ ...user, phone: e.target.value })} />
+                            <form ref={formRef} className="profile-inputs-container" onSubmit={submitHandler}>
+                                <input type="text" defaultValue={user.username} name="username" />
+                                <input type="email" defaultValue={user.email} name="email" />
+                                <input type="text" defaultValue={user.address} name="address" />
+                                <input type="number" defaultValue={user.phone} name="phone" />
                                 <button type="button" onClick={() => setPasswordBox(true)}>CAMBIAR CONTRASEÑA</button>
                                 <button type="button" onClick={loadLocation}>VER UBICACIÓN</button>
                                 

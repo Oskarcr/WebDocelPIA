@@ -1,7 +1,7 @@
 import { Components, FontSize, Spacing, Theme } from "@/DocelClient"
 import { useState } from "react"
 
-export default function InputBox({ title = "", placeholder = "", onClose = () => { }, onConfirm = () => { } }) {
+export default function InputBox({ title = "", placeholder = "", isPassword = false, onClose = () => { }, onConfirm = () => { } }) {
 const [value, setValue] = useState("");
 
     return <div className="message-box">
@@ -14,7 +14,7 @@ const [value, setValue] = useState("");
                 <Components.TextBox content={title} fontSize={FontSize.LG} bold alignment="center" style={{
                     color: Theme.PRIMARY
                 }} />
-                <input placeholder={placeholder} fontSize={FontSize.SM} value={value} onChange={(e) => setValue(e.target.value)} style={{
+                <input type={isPassword ? "password" : "text"} placeholder={placeholder} fontSize={FontSize.SM} value={value} onChange={(e) => setValue(e.target.value)} style={{
                     color: Theme.PRIMARY
                 }} />
 

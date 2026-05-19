@@ -16,7 +16,7 @@ function salesToJSON(sale) {
 }
 
 // Obtiene todas las ventas existentes.
-sales.get("/all", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
+sales.get("/all", authMiddleware, requireRole(UserRole.ADMINISTRATOR), async (req, res) => {
     try{
         const sales = await Sale.find();
 
@@ -28,8 +28,8 @@ sales.get("/all", authMiddleware, requireRole(UserRole.CLIENT), async (req, res)
     }
 });
 
-// Enlista todas las ventas de un reporte mensual de la empresa.
-sales.get("/report/:id", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
+// Lista todas las ventas de un reporte mensual de la empresa.
+sales.get("/report/:id", authMiddleware, requireRole(UserRole.ADMINISTRATOR), async (req, res) => {
     const { id } = req.params
 
     if (!id) return res.status(400).json(JSON_MISSING_ID);
@@ -60,8 +60,8 @@ sales.get("/report/:id", authMiddleware, requireRole(UserRole.CLIENT), async (re
     }
 });
 
-// Obtiene una venta especifica.
-sales.get("/:id", authMiddleware, requireRole(UserRole.CLIENT), async (req, res) => {
+// Obtiene una venta especifica mediante la id.
+sales.get("/:id", authMiddleware, requireRole(UserRole.ADMINISTRATOR), async (req, res) => {
     const { id } = req.params;
 
     try{
