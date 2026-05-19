@@ -2,8 +2,11 @@ import { Components, FontSize, Spacing, Theme } from "@/DocelClient";
 import axios from "axios";
 import { useState } from "react";
 import "../css/styles.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
+    const navigate = useNavigate();
+
     const [message, setMessage] = useState("");
     const [messageTitle, setMessageTitle] = useState("");
     const [showMessage, setShowMessage] = useState(false);
@@ -22,9 +25,14 @@ export default function Signup() {
                 password: formData.get("password")
             });
 
-            setMessageTitle("Éxito");
-            setMessage(response.data.message);
-            setShowMessage(true);
+            if (response.data) {
+                localStorage.setItem("username", response.data.user.username.toString());
+                localStorage.setItem("email", response.data.user.email.toString());
+                localStorage.setItem("role", response.data.user.role.toString());
+            }
+
+            navigate("/shopping");
+
         } catch (error) {
             console.log(error);
             setMessageTitle("Error");
