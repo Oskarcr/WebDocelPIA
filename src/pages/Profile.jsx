@@ -85,7 +85,7 @@ export default function Profile() {
             }
 
             else if (data.empties) {
-                setMessage(" Faltan los campos:\\n" + data.empties.join(", \\n"));
+                setMessage(" Faltan los campos:\\n" + data.empties.join("\\n"));
             }
             setShowMessage(true);
         }
@@ -122,7 +122,7 @@ export default function Profile() {
                 }
 
                 else if (data.empties) {
-                    setMessage(" Faltan los campos:\\n" + data.empties.join(", \\n"));
+                    setMessage(" Faltan los campos:\\n" + data.empties.join("\\n"));
                 }
 
                 setShowMessage(true);
