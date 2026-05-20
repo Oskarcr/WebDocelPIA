@@ -14,26 +14,6 @@ const logtitle = (t = "") => console.log("////////\t" + t.toUpperCase() + "\t///
 const endl = () => console.log("");
 
 async function start() {
-    // Crear la carpeta attachments/ si no la encuentra
-    logtitle("ATTACHMENTS");
-    try {
-        const ATTACHMENTS_PATH = Path.join(".", "attachments");
-        if(!fs.existsSync(ATTACHMENTS_PATH)) {
-            console.log("The dir 'attachments/' not found");
-            fs.mkdirSync(ATTACHMENTS_PATH);
-            console.log("Dir 'attachments/' created");
-        }
-        else {
-            console.log("Dir 'attachments/' already exists");
-        }
-    }
-    catch(error) {
-        console.error("File stream error");
-        console.error(error);
-        process.exit(0);
-    }
-    endl();
-
     // Intentar conectar a la base de datos
     logtitle("DATABASE");
     try {
