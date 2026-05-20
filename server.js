@@ -37,7 +37,7 @@ async function start() {
     // Intentar conectar a la base de datos
     logtitle("DATABASE");
     try {
-        await connect(DATABASE_URL);
+        await connect("ALGO INVALDIO");
         console.log("Database connected sucessfully");
     }
     catch(error) {
